@@ -4,6 +4,9 @@ import org.nd4j.linalg.api.buffer.DataType;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.factory.ops.NDMath;
 
+import java.util.Random;
+import java.util.stream.IntStream;
+
 public class Utils {
     public static double epsilon4 = 1e-4;
     public static double epsilon8 = 1e-8;
@@ -21,6 +24,18 @@ public class Utils {
         INDArray max_mask = X.gt(max_val).castTo(DataType.FLOAT).muli(max_val);
         X.mul(X.lt(max_val).castTo(DataType.FLOAT)).muli(X.gt(min_val).castTo(DataType.FLOAT)).addi(min_mask).addi(max_mask);
         return X;
+    }
+    public static int[] random_permutation(int n){
+        int [] permutation = new int[n];
+        IntStream.range(0, n).forEach(i -> permutation[i] = i);
+        Random rand = new Random();
+        for (int i = n - 1; i > 0; --i) {
+            int j = rand.nextInt(i + 1);
+            int temp = permutation[i];
+            permutation[i] = permutation[j];
+            permutation[j] = temp;
+        }
+        return permutation;
     }
     private static final NDMath math = new NDMath();
     public static NDMath get(){

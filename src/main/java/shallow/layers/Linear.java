@@ -13,47 +13,40 @@ public class Linear extends WeightedLayer {
         this.config = config;
         initWeights();
     }
-
+    // Instantiates Weight of shape [input_size, output_size] and Bias of shape [1, output_size]
     @Override // ToDo make separate builder for weight init
     protected void initWeights() {
         if (config.weight_initializer.equals("XavierNormal")) {
-            weight.values = Nd4j.randn(config.output_size, config.input_size).muli
+            weight.values = Nd4j.randn(config.input_size, config.output_size).muli
                     (Math.sqrt(2 / ((double) (config.input_size + config.output_size))));
         } else if (config.weight_initializer.equals("HeNormal")) {
-            weight.values = Nd4j.randn(config.output_size, config.input_size).muli
+            weight.values = Nd4j.randn(config.input_size, config.output_size).muli
                     (Math.sqrt(2 / ((double) config.input_size)));
         }
         weight.grads = Nd4j.zerosLike(weight.values);
-        bias.values = Nd4j.zeros(config.output_size, 1);
+        bias.values = Nd4j.zeros(1, config.output_size);
         bias.grads = Nd4j.zerosLike(bias.values);
     }
 
-    // computes linear function Z = dot(W,X) + b, where X.shape() = [input_size, m], Z.shape() = [output_size, m]
+    // computes linear function Z = dot(W,X) + b,
+    // where X.shape() = [batch_size, input_size], Z.shape() = [batch_size, output_size]
     @Override
     public INDArray forward(INDArray input) {
         // TODO check shape of input
         input = input.castTo(DataType.FLOAT);
         cache.put("X", input);
-        INDArray temp = weight.values.mmul(input).addi(bias.values);
-        if(temp.isNaN().getDouble() == 1){
-            System.out.println("there");
-        }
-        return weight.values.mmul(input).addi(bias.values);
+        return input.mmul(weight.values).addi(bias.values);
     }
 
-    // computes partial derivatives chained with derivatives[0], derivatives[0].shape() = [out_size, m]
+    // computes partial derivatives chained with derivatives[0], derivatives[0].shape() = [batch_size, output_size]
     @Override
-    public INDArray backward(INDArray derivatives) {
+    public INDArray backward(INDArray dZ) {
         // TODO check shape of input
-        derivatives = derivatives.castTo(DataType.FLOAT);
-        INDArray dZ = derivatives;
-        long m = dZ.shape()[1];
-        weight.grads = Utils.get().mul(dZ.mmul(cache.get("X").transpose()), (1 / (double)m));
-        bias.grads = dZ.sum(true,1).muli(1 / (double)m);
-        if(weight.grads.isNaN().getDouble() == 1){
-            System.out.println("back");
-        }
-        return weight.values.transpose().mmul(dZ);
+        dZ = dZ.castTo(DataType.FLOAT);
+        long batch_size = dZ.shape()[0];
+        weight.grads = cache.get("X").transpose().mmul(dZ).mul(1 / (double) batch_size);
+        bias.grads = dZ.sum(true,0).muli(1 / (double)batch_size);
+        return dZ.mmul(weight.values.transpose());
     }
 
 }
