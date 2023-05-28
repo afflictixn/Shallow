@@ -1,6 +1,8 @@
 package shallow.layers;
 
 import org.nd4j.linalg.api.ndarray.INDArray;
+import shallow.layers.configs.WeightedLayerConfig;
+import shallow.layers.weight_init.WeightInitializer;
 
 class Weight {
     public INDArray values;
@@ -31,17 +33,20 @@ class Bias {
 public abstract class WeightedLayer extends BaseLayer{
     Weight weight = new Weight();
     Bias bias = new Bias();
-    int input_size, output_size;
-    public WeightedLayer(int input_size, int output_size) {
-        this.input_size = input_size;
-        this.output_size = output_size;
+    WeightInitializer weightInitializer;
+    WeightInitializer biasInitializer;
+    int inputSize, outputSize;
+    public WeightedLayer(WeightedLayerConfig config) {
+        this.inputSize = config.inputSize;
+        this.outputSize = config.outputSize;
+        this.weightInitializer = config.weightInitializer.getWeightInitializer();
+        this.biasInitializer = config.biasInitializer.getWeightInitializer();
     }
-    protected abstract void initWeights();
     public int getInputSize(){
-        return input_size;
+        return inputSize;
     }
     public int getOutputSize(){
-        return output_size;
+        return outputSize;
     }
 
     public INDArray getWeightValues() {
@@ -55,5 +60,11 @@ public abstract class WeightedLayer extends BaseLayer{
     }
     public INDArray getBiasGrads() {
         return bias.grads;
+    }
+    public void setInputSize(int input_size) {
+        this.inputSize = input_size;
+    }
+    public void setOutputSize(int output_size) {
+        this.outputSize = output_size;
     }
 }

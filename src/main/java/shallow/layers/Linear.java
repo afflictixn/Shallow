@@ -4,27 +4,16 @@ import org.nd4j.linalg.api.buffer.DataType;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.factory.Nd4j;
 import shallow.layers.configs.LinearLayerConfig;
-import shallow.utils.Utils;
 
 public class Linear extends WeightedLayer {
-    LinearLayerConfig config;
     public Linear(LinearLayerConfig config) {
-        super(config.input_size, config.output_size);
-        this.config = config;
-        initWeights();
-    }
-    // Instantiates Weight of shape [input_size, output_size] and Bias of shape [1, output_size]
-    @Override // ToDo make separate builder for weight init
-    protected void initWeights() {
-        if (config.weight_initializer.equals("XavierNormal")) {
-            weight.values = Nd4j.randn(config.input_size, config.output_size).muli
-                    (Math.sqrt(2 / ((double) (config.input_size + config.output_size))));
-        } else if (config.weight_initializer.equals("HeNormal")) {
-            weight.values = Nd4j.randn(config.input_size, config.output_size).muli
-                    (Math.sqrt(2 / ((double) config.input_size)));
-        }
+        super(config);
+        // Instantiates Weight of shape [input_size, output_size] and Bias of shape [1, output_size]
+        weight.values = Nd4j.create(DataType.FLOAT,inputSize, outputSize);
+        weightInitializer.init(inputSize, outputSize, weight.values);
+        bias.values = Nd4j.create(DataType.FLOAT, 1, outputSize);
+        biasInitializer.init(inputSize, outputSize, bias.values);
         weight.grads = Nd4j.zerosLike(weight.values);
-        bias.values = Nd4j.zeros(1, config.output_size);
         bias.grads = Nd4j.zerosLike(bias.values);
     }
 

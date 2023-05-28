@@ -1,10 +1,32 @@
 package shallow.layers.configs;
 
+import shallow.layers.weight_init.WeightInitEnum;
+
 public class WeightedLayerConfig {
-    public int input_size;
-    public int output_size;
-    public WeightedLayerConfig(int input_size, int output_size){
-        this.input_size = input_size;
-        this.output_size = output_size;
+    public int inputSize;
+    public int outputSize;
+    public WeightInitEnum weightInitializer;
+    public WeightInitEnum biasInitializer = WeightInitEnum.ZERO;
+    public WeightedLayerConfig(){
+    }
+
+    public WeightedLayerConfig inputSize(int inputSize) {
+        this.inputSize = inputSize;
+        return this;
+    }
+
+    public WeightedLayerConfig outputSize(int outputSize) {
+        this.outputSize = outputSize;
+        return this;
+    }
+
+    public WeightedLayerConfig weightInitializer(WeightInitEnum weightInit) {
+        this.weightInitializer = weightInit;
+        return this;
+    }
+
+    public WeightedLayerConfig biasInitializer(WeightInitEnum biasInit) {
+        this.weightInitializer = biasInit;
+        return this;
     }
 }

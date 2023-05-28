@@ -26,7 +26,8 @@ class MiniBatch {
 public class Model {
     List<BaseLayer> layers;
     BaseLoss loss;
-    int last_layer_size;
+    BaseOptimizer optimizer;
+    private int last_layer_size;
     public Model() {
         layers = new ArrayList<>();
     }
@@ -37,9 +38,10 @@ public class Model {
         }
         layers.add(layer);
     }
-    public void addLoss(BaseLoss loss) {
+    public void setLoss(BaseLoss loss) {
         this.loss = loss;
     }
+    public void setOptimizer(BaseOptimizer optimizer){this.optimizer = optimizer;}
 
     // sequential forward pass of a model
     public INDArray forwardPass(INDArray X) {
@@ -70,7 +72,7 @@ public class Model {
     }
     // 0-th dimension of X and Y is a number of samples
     public void fit(INDArray X, INDArray Y, double learning_rate, int batch_size, int num_epochs) {
-        BaseOptimizer  optimizer = new Adam(layers);
+        optimizer.init(layers);
         INDArray result = null;
         long num_samples = X.shape()[0];
         List<MiniBatch> mini_batches = randomMiniBatches(X, Y, batch_size);

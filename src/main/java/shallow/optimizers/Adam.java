@@ -14,7 +14,8 @@ public class Adam extends BaseOptimizer {
     double beta2 = 0.999; // Exponential decay hyperparameter for the second moment estimates
     List<List<INDArray>> wa_grads; // stores exponentially weighted average of past gradients of every layer
     List<List<INDArray>> wa_sq_grads; // stores exponentially weighted average of the squares of the past gradients of every layer
-    public Adam(List<BaseLayer> layers) {
+    @Override
+    public void init(List<BaseLayer> layers) {
         this.layers = layers;
         wa_grads = new ArrayList<>();
         wa_sq_grads = new ArrayList<>();
@@ -29,9 +30,9 @@ public class Adam extends BaseOptimizer {
             }
         }
     }
-
-    public Adam(List<BaseLayer> layers, double beta1, double beta2) {
-        this(layers);
+    public Adam() {
+    }
+    public Adam(double beta1, double beta2) {
         this.beta1 = beta1;
         this.beta2 = beta2;
     }
@@ -59,4 +60,5 @@ public class Adam extends BaseOptimizer {
             }
         }
     }
+
 }
