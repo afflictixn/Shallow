@@ -8,7 +8,7 @@ import shallow.layers.WeightedLayer;
 import shallow.losses.BaseLoss;
 import shallow.losses.BinaryCrossEntropyLoss;
 import shallow.losses.CategoricalCrossEntropyLoss;
-import shallow.optimizers.Adam;
+import shallow.lr_scheduler.LearningRateScheduler;
 import shallow.optimizers.BaseOptimizer;
 import shallow.utils.Utils;
 
@@ -28,7 +28,8 @@ public class Model {
     List<BaseLayer> layers;
     BaseLoss loss;
     BaseOptimizer optimizer;
-    private int last_layer_size;
+    LearningRateScheduler scheduler;
+    private int lastLayerSize;
 
     public Model() {
         layers = new ArrayList<>();
@@ -48,7 +49,9 @@ public class Model {
     public void setOptimizer(BaseOptimizer optimizer) {
         this.optimizer = optimizer;
     }
-
+    public void setScheduler(LearningRateScheduler scheduler) {
+        this.scheduler = scheduler;
+    }
     // sequential forward pass of a model
     public INDArray forwardPass(INDArray X) {
         for (BaseLayer layer : layers) {
@@ -82,54 +85,56 @@ public class Model {
     public void fit(INDArray X, INDArray Y, double learning_rate, int batch_size, int num_epochs) {
         optimizer.init(layers);
         INDArray result = null;
-        long num_samples = X.shape()[0];
-        List<MiniBatch> mini_batches = (X.shape().length == 2) ?
+        long numSamples = X.shape()[0];
+        List<MiniBatch> miniBatches = (X.shape().length == 2) ?
                 randomMiniBatches(X, Y, batch_size) : getMiniBatches(X, Y, batch_size);
         for (int i = 1; i <= num_epochs; ++i) {
-            double total_cost = 0.0;
-            for (MiniBatch mini_batch : mini_batches) {
-                result = forwardPass(mini_batch.X);
-                total_cost += computeLoss(result, mini_batch.Y);
+            double totalCost = 0.0;
+            double cur_lr = scheduler.getCurrentLearningRate(learning_rate, i);
+            for (MiniBatch miniBatch : miniBatches) {
+                result = forwardPass(miniBatch.X);
+                totalCost += computeLoss(result, miniBatch.Y);
                 backwardPass();
-                optimizer.updateWeights(learning_rate, i);
+                optimizer.updateWeights(cur_lr, i);
             }
-            total_cost /= -num_samples;
-            if (i % 50 == 1 || i == num_epochs) {
-                System.out.println(total_cost);
+            totalCost /= -numSamples;
+            if (i % 25 == 1 || i == num_epochs) {
+                System.out.println("Current loss: " + totalCost);
+                System.out.println("Curren learning rate: " + cur_lr);
             }
         }
     }
 
     private boolean validLayerCheck(BaseLayer layer) {
         boolean ok = true;
-        if (layer instanceof WeightedLayer weighted) {
-            ok = (last_layer_size == 0) || last_layer_size == weighted.getInputSize();
-            last_layer_size = weighted.getOutputSize();
-        }
+//        if (layer instanceof WeightedLayer weighted) {
+//            ok = (last_layer_size == 0) || last_layer_size == weighted.getInputSize();
+//            last_layer_size = weighted.getOutputSize();
+//        }
         return ok;
     }
 
     private static List<MiniBatch> randomMiniBatches(INDArray X, INDArray Y, int batch_size) {
         int num_samples = (int) X.shape()[0];
-        int[] permutation = Utils.random_permutation(num_samples);
+        int[] permutation = Utils.randomPermutation(num_samples);
         INDArray X_shuffle = X.getRows(permutation);
         INDArray Y_shuffle = Y.getRows(permutation);
         return getMiniBatches(X_shuffle, Y_shuffle, batch_size);
     }
 
-    private static List<MiniBatch> getMiniBatches(INDArray X, INDArray Y, int batch_size) {
-        int num_samples = (int) X.shape()[0];
-        int num_complete_batches = num_samples / batch_size;
-        List<MiniBatch> mini_batches = new LinkedList<>();
+    private static List<MiniBatch> getMiniBatches(INDArray X, INDArray Y, int batchSize) {
+        int numSamples = (int) X.shape()[0];
+        int numCompleteBatches = numSamples / batchSize;
+        List<MiniBatch> miniBatches = new LinkedList<>();
         long[] X_shape = X.shape().clone();
-        X_shape[0] = batch_size;
+        X_shape[0] = batchSize;
         long[] Y_shape = Y.shape().clone();
-        Y_shape[0] = batch_size;
+        Y_shape[0] = batchSize;
         int cnt = 0;
-        for (int i = 0; i < num_complete_batches; ++i) {
+        for (int i = 0; i < numCompleteBatches; ++i) {
             INDArray X_mini = Nd4j.create(X_shape);
             INDArray Y_mini = Nd4j.create(Y_shape);
-            for (int j = 0; j < batch_size; ++j) {
+            for (int j = 0; j < batchSize; ++j) {
                 X_mini.putSlice(j, X.slice(cnt));
                 INDArray slice = X.slice(0, 0);
                 if (Y_mini.isVector()) {
@@ -138,12 +143,12 @@ public class Model {
                     Y_mini.putSlice(j, Y.slice(cnt++));
                 }
             }
-            mini_batches.add(new MiniBatch(X_mini, Y_mini));
+            miniBatches.add(new MiniBatch(X_mini, Y_mini));
         }
-        int left = num_samples - num_complete_batches * batch_size;
+        int left = numSamples - numCompleteBatches * batchSize;
         X_shape[0] = left;
         Y_shape[0] = left;
-        if (num_samples % batch_size != 0) {
+        if (numSamples % batchSize != 0) {
             INDArray X_mini = Nd4j.create(X_shape);
             INDArray Y_mini = Nd4j.create(Y_shape);
             for (int j = 0; j < left; ++j) {
@@ -155,6 +160,6 @@ public class Model {
                 }
             }
         }
-        return mini_batches;
+        return miniBatches;
     }
 }

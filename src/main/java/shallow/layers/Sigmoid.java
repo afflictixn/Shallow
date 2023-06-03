@@ -11,8 +11,8 @@ public class Sigmoid extends BaseLayer{
     @Override
     public INDArray forward(INDArray input) {
         INDArray activation = Nd4j.onesLike(input).divi(Utils.get().exp(input.neg()).addi(1));
-        INDArray local_grad = activation.mul(Nd4j.ones(activation.shape()).subi(activation));
-        cache.put("ldX", local_grad);
+        INDArray localGrad = activation.mul(Nd4j.ones(activation.shape()).subi(activation));
+        cache.put("ldX", localGrad);
         return activation;
     }
     @Override

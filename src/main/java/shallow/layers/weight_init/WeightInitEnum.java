@@ -1,7 +1,8 @@
 package shallow.layers.weight_init;
 
 public enum WeightInitEnum {
-    ZERO,
+    ZEROS,
+    ONES,
     HeNormal,
     HeUniform,
     XavierNormal,
@@ -9,8 +10,11 @@ public enum WeightInitEnum {
 
     public WeightInitializer getWeightInitializer() throws UnsupportedOperationException {
         switch (this) {
-            case ZERO -> {
+            case ZEROS -> {
                 return new ConstInit(0.0);
+            }
+            case ONES -> {
+                return new ConstInit(1.0);
             }
             case HeNormal -> {
                 return new HeNormalInit();

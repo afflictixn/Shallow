@@ -8,7 +8,7 @@ public class ConstInit implements WeightInitializer {
         value = val;
     }
     @Override
-    public void init(int in_size, int out_size, INDArray params) {
+    public void init(int inSize, int outSize, INDArray params) {
         params.assign(value);
     }
 }
