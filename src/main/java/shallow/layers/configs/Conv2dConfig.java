@@ -3,8 +3,8 @@ package shallow.layers.configs;
 import shallow.layers.weight_init.WeightInitEnum;
 
 public class Conv2dConfig extends WeightedLayerConfig {
-    int filters;
-    int[] kernelSize, strides, padding;
+    int filters = 3;
+    int[] kernelSize = null, strides = null, padding = null;
     PaddingType paddingType = PaddingType.NONE;
     public int getFilters() {
         return filters;

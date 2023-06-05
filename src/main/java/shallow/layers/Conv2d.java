@@ -9,7 +9,7 @@ import shallow.layers.configs.PaddingType;
 
 import static org.nd4j.linalg.indexing.NDArrayIndex.*;
 
-public class Conv2d extends WeightedLayer {
+public class Conv2d extends WeightedLayer implements ShapeChangingLayer {
     PaddingType paddingType;
     int[] kernelSize, stride; // [0] for height, [1] for width
     int[][] padding;
@@ -32,17 +32,14 @@ public class Conv2d extends WeightedLayer {
     // [bathSize, inputHeight, inputWidth, inputChannels]
     @Override
     public void init(long... inShape) {
-        if (inShape.length == 4) {
-            inputHeight = inShape[1];
-            inputWidth = inShape[2];
-            inputChannels = inShape[3];
-        } else if (inShape.length == 3) {
-            inputHeight = inShape[0];
-            inputWidth = inShape[1];
-            inputChannels = inShape[2];
-        } else {
+        if (inShape.length != 3 && inShape.length != 4) {
             throw new IllegalArgumentException();
         }
+        int offset = (inShape.length == 3) ? 0 : 1;
+        inputHeight = inShape[offset];
+        inputWidth = inShape[offset + 1];
+        inputChannels = inShape[offset + 2];
+
         // process padding type
         if (paddingType.equals(PaddingType.VALID)) {
             padding = new int[][]{{0, 0}, {0, 0}, {0, 0}, {0, 0}};
@@ -68,11 +65,16 @@ public class Conv2d extends WeightedLayer {
         bias.grads = Nd4j.zerosLike(bias.values);
     }
 
+    @Override
+    public long[] getOutputShape() {
+        return new long[]{outputHeight, outputWidth, outputChannels};
+    }
+
     // input of shape [batchSize, inputHeight, inputWidth, inputChannels]
     // weight tensors are of shape [kernelSize, kernelSize, in_channels, out_channels]
     @Override
     public INDArray forward(INDArray input) {
-        if(!input.dataType().equals(DataType.FLOAT)){
+        if (!input.dataType().equals(DataType.FLOAT)) {
             input.castTo(DataType.FLOAT);
         }
 //        weight.values = Nd4j.ones()
@@ -105,7 +107,7 @@ public class Conv2d extends WeightedLayer {
 
     @Override
     public INDArray backward(INDArray dZ) {
-        if(!dZ.dataType().equals(DataType.FLOAT)){
+        if (!dZ.dataType().equals(DataType.FLOAT)) {
             dZ.castTo(DataType.FLOAT);
         }
         int batchSize = (int) dZ.shape()[0];
@@ -114,7 +116,7 @@ public class Conv2d extends WeightedLayer {
         INDArray dZExpanded = Nd4j.expandDims(dZ, 3);
         INDArray WExpanded = Nd4j.expandDims(weight.values, 0);
         // Calculate db
-        INDArray db = dZ.sum(0, 1, 2).divi(batchSize);
+        bias.grads = dZ.sum(true,0, 1, 2).divi(batchSize);
 
         int verticalStart, verticalEnd, horizontalStart, horizontalEnd;
         for (int i = 0; i < outputHeight; ++i) {

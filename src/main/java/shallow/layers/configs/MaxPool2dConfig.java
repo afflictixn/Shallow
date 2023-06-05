@@ -3,7 +3,7 @@ package shallow.layers.configs;
 import shallow.layers.weight_init.WeightInitEnum;
 
 public class MaxPool2dConfig {
-    int[] kernelSize, strides;
+    int[] kernelSize = null, strides = null;
     public int[] getKernelSize() {
         return kernelSize;
     }

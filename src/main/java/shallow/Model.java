@@ -4,6 +4,7 @@ import org.nd4j.linalg.api.buffer.DataType;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.factory.Nd4j;
 import shallow.layers.BaseLayer;
+import shallow.layers.ShapeChangingLayer;
 import shallow.layers.WeightedLayer;
 import shallow.losses.BaseLoss;
 import shallow.losses.BinaryCrossEntropyLoss;
@@ -26,6 +27,8 @@ class MiniBatch {
 
 public class Model {
     List<BaseLayer> layers;
+    List<WeightedLayer> trainableLayers;
+    List<ShapeChangingLayer> shapeChangingLayers;
     BaseLoss loss;
     BaseOptimizer optimizer;
     LearningRateScheduler scheduler;
@@ -33,6 +36,8 @@ public class Model {
 
     public Model() {
         layers = new ArrayList<>();
+        trainableLayers = new ArrayList<>();
+        shapeChangingLayers = new ArrayList<>();
     }
 
     public void addLayer(BaseLayer layer) {
@@ -40,6 +45,12 @@ public class Model {
             throw new IllegalArgumentException();
         }
         layers.add(layer);
+        if(layer instanceof ShapeChangingLayer shapeChangingLayer){
+            shapeChangingLayers.add(shapeChangingLayer);
+        }
+        if(layer instanceof WeightedLayer weightedLayer) {
+            trainableLayers.add(weightedLayer);
+        }
     }
 
     public void setLoss(BaseLoss loss) {
@@ -82,13 +93,19 @@ public class Model {
     }
 
     // 0-th dimension of X and Y is a number of samples
-    public void fit(INDArray X, INDArray Y, double learning_rate, int batch_size, int num_epochs) {
-        optimizer.init(layers);
+    public void fit(INDArray X, INDArray Y, double learning_rate, int batch_size, int numEpochs) {
+        if(!shapeChangingLayers.isEmpty()) {
+            shapeChangingLayers.get(0).init(X.shape());
+            for(int i = 1; i < shapeChangingLayers.size(); ++i) {
+                shapeChangingLayers.get(i).init(shapeChangingLayers.get(i - 1).getOutputShape());
+            }
+        }
+        optimizer.init(trainableLayers);
         INDArray result = null;
         long numSamples = X.shape()[0];
         List<MiniBatch> miniBatches = (X.shape().length == 2) ?
                 randomMiniBatches(X, Y, batch_size) : getMiniBatches(X, Y, batch_size);
-        for (int i = 1; i <= num_epochs; ++i) {
+        for (int i = 1; i <= numEpochs; ++i) {
             double totalCost = 0.0;
             double cur_lr = scheduler.getCurrentLearningRate(learning_rate, i);
             for (MiniBatch miniBatch : miniBatches) {
@@ -98,9 +115,11 @@ public class Model {
                 optimizer.updateWeights(cur_lr, i);
             }
             totalCost /= -numSamples;
-            if (i % 25 == 1 || i == num_epochs) {
+
+            // ToDo make class for display of metrics and data
+            if (i % 25 == 1 || i == numEpochs) {
                 System.out.println("Current loss: " + totalCost);
-                System.out.println("Curren learning rate: " + cur_lr);
+                System.out.println("Current learning rate: " + cur_lr);
             }
         }
     }

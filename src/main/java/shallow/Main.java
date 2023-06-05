@@ -1,28 +1,48 @@
 package shallow;
-import shallow.layers.Linear;
-import shallow.layers.ReLU;
+
+import org.deeplearning4j.nn.conf.ConvolutionMode;
+import org.nd4j.enums.WeightsFormat;
+import org.nd4j.linalg.api.buffer.DataType;
+import org.nd4j.linalg.api.ndarray.INDArray;
+import org.nd4j.linalg.api.ops.impl.layers.convolution.config.PaddingMode;
+import org.nd4j.linalg.convolution.Convolution;
+import org.nd4j.linalg.factory.Nd4j;
+import shallow.layers.*;
+import shallow.layers.configs.Conv2dConfig;
 import shallow.layers.configs.LinearLayerConfig;
+import shallow.layers.configs.MaxPool2dConfig;
+import shallow.layers.configs.PaddingType;
 import shallow.layers.weight_init.WeightInitEnum;
 import shallow.losses.CategoricalCrossEntropyLoss;
+import shallow.lr_scheduler.IntervalBasedScheduler;
+import shallow.lr_scheduler.LearningRateScheduler;
 import shallow.optimizers.Adam;
 
 
 public class Main {
     public static void main(String[] args) {
-        int numInputs = 2;
-        int numOutputs = 2;
-        //Build model
-        Model model = new Model();
-//        model.addLayer(new Linear(new LinearLayerConfig()
-//                .inputSize(numInputs)
-//                .outputSize(50)
-//                .weightInitializer(WeightInitEnum.HeNormal)));
-        model.addLayer(new ReLU());
-//        model.addLayer(new Linear(new LinearLayerConfig()
-//                .inputSize(50)
-//                .outputSize(numOutputs)
-//                .weightInitializer(WeightInitEnum.XavierNormal)));
-        model.setLoss(new CategoricalCrossEntropyLoss());
-        model.setOptimizer(new Adam());
+        int batchSize = 2;
+        int height = 6;
+        int width = 6;
+        int channels = 1;
+        INDArray input = Nd4j.create(batchSize, height, width, channels);
+
+        Model mod = new Model();
+        mod.addLayer(new Conv2d(new Conv2dConfig().kernelSize(3, 3)
+                .strides(1, 1).paddingType(PaddingType.SAME).weightInitializer(WeightInitEnum.HeNormal).filters(5)));
+        mod.addLayer(new ReLU());
+        mod.addLayer(new MaxPool2d(new MaxPool2dConfig().kernelSize(2, 2).strides(2, 2)));
+        mod.addLayer(new Flatten());
+        mod.addLayer(new Linear(new LinearLayerConfig()
+                .units(10)
+                .weightInitializer(WeightInitEnum.HeNormal)));
+        mod.addLayer(new ReLU());
+
+        mod.setLoss(new CategoricalCrossEntropyLoss());
+        mod.setOptimizer(new Adam());
+        LearningRateScheduler scheduler = new IntervalBasedScheduler(0.2, 100, 0.005);
+        mod.setScheduler(scheduler);
+
+//        mod.fit(resh, labels, 0.09, 32, 10);
     }
 }
