@@ -30,7 +30,7 @@ class Bias {
     }
 }
 
-public abstract class WeightedLayer extends BaseLayer{
+public abstract class WeightedLayer extends BaseLayer {
     Weight weight = new Weight();
     Bias bias = new Bias();
     WeightInitializer weightInitializer;
@@ -39,7 +39,6 @@ public abstract class WeightedLayer extends BaseLayer{
         this.weightInitializer = config.weightInitializer.getWeightInitializer();
         this.biasInitializer = config.biasInitializer.getWeightInitializer();
     }
-    public abstract void init(long... inShape);
     public INDArray getWeightValues() {
         return weight.values;
     }

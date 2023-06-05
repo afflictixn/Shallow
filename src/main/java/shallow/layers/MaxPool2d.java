@@ -6,11 +6,10 @@ import shallow.layers.configs.MaxPool2dConfig;
 
 import static org.nd4j.linalg.indexing.NDArrayIndex.*;
 
-public class MaxPool2d extends BaseLayer {
+public class MaxPool2d extends BaseLayer implements ShapeChangingLayer {
     int[] kernelSize, stride; // [0] for height, [1] for width
-    long[] shapeBefore; // [batchSize, Height, Width, Channels]
+    long inputHeight, inputWidth, channels;
     long outputHeight, outputWidth;
-
     public MaxPool2d() {
         kernelSize = new int[]{2, 2};
         stride = new int[]{2, 2};
@@ -20,14 +19,27 @@ public class MaxPool2d extends BaseLayer {
         kernelSize = config.getKernelSize();
         stride = config.getStrides();
     }
+    @Override
+    public void init(long... inShape) {
+        if (inShape.length != 3 && inShape.length != 4) {
+            throw new IllegalArgumentException();
+        }
+        int offset = (inShape.length == 3) ? 0 : 1;
+        inputHeight = inShape[offset];
+        inputWidth = inShape[offset + 1];
+        channels = inShape[offset + 2];
+        outputHeight = (int) (inputHeight - kernelSize[0]) / stride[0] + 1;
+        outputWidth = (int) (inputWidth - kernelSize[1]) / stride[1] + 1;
+}
+    @Override
+    public long[] getOutputShape() {
+        return new long[]{outputHeight, outputWidth, channels};
+    }
 
     @Override
     public INDArray forward(INDArray input) {
         int batchSize = (int) input.shape()[0];
-        shapeBefore = input.shape().clone();
-        outputHeight = (int) (shapeBefore[1] - kernelSize[0]) / stride[0] + 1;
-        outputWidth = (int) (shapeBefore[2] - kernelSize[1]) / stride[1] + 1;
-        INDArray output = Nd4j.zeros(batchSize, outputHeight, outputWidth, shapeBefore[3]);
+        INDArray output = Nd4j.zeros(batchSize, outputHeight, outputWidth, channels);
         INDArray mask = Nd4j.zerosLike(input);
         // apply pooling
         int verticalStart, verticalEnd, horizontalStart, horizontalEnd;
@@ -56,7 +68,7 @@ public class MaxPool2d extends BaseLayer {
     public INDArray backward(INDArray dZ) {
         INDArray mask = cache.get("mask");
         int batchSize = (int) dZ.shape()[0];
-        INDArray dInput = Nd4j.zeros(batchSize, shapeBefore[1], shapeBefore[2], shapeBefore[3]);
+        INDArray dInput = Nd4j.zeros(batchSize, inputHeight, inputWidth, channels);
 
         int verticalStart, verticalEnd, horizontalStart, horizontalEnd;
         for (int i = 0; i < outputHeight; ++i) {

@@ -5,32 +5,35 @@ import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.factory.Nd4j;
 import shallow.layers.configs.LinearLayerConfig;
 
-public class Linear extends WeightedLayer {
+public class Linear extends WeightedLayer implements ShapeChangingLayer {
     int units;
+
     public Linear(LinearLayerConfig config) {
         super(config);
         units = config.getUnits();
     }
+
     // Instantiates Weight of shape [inShape[0], units] and Bias of shape [1, units]
     @Override
     public void init(long... inShape) {
-        int inputSize;
-        if(inShape.length == 1){
-            inputSize = (int) inShape[0];
-        }
-        else if(inShape.length == 2){ // if inShape is a shape of type [batchSize, inputSize]
-            inputSize = (int) inShape[1];
-        }
-        else {
+        if (inShape.length != 1 && inShape.length != 2) {
             throw new IllegalArgumentException();
         }
-        weight.values = Nd4j.create(DataType.FLOAT,inputSize, units);
+        int offset = (inShape.length == 1) ? 0 : 1;
+        int inputSize = (int) inShape[offset];
+        weight.values = Nd4j.create(DataType.FLOAT, inputSize, units);
         weightInitializer.init(inputSize, units, weight.values);
         bias.values = Nd4j.create(DataType.FLOAT, 1, units);
         biasInitializer.init(inputSize, units, bias.values);
         weight.grads = Nd4j.zerosLike(weight.values);
         bias.grads = Nd4j.zerosLike(bias.values);
     }
+
+    @Override
+    public long[] getOutputShape() {
+        return new long[]{units};
+    }
+
     // computes linear function Z = dot(W,X) + b,
     // where X.shape() = [batch_size, input_size], Z.shape() = [batch_size, output_size]
     @Override
@@ -48,7 +51,7 @@ public class Linear extends WeightedLayer {
         dZ = dZ.castTo(DataType.FLOAT);
         long batchSize = dZ.shape()[0];
         weight.grads = cache.get("X").transpose().mmul(dZ).mul(1 / (double) batchSize);
-        bias.grads = dZ.sum(true,0).muli(1 / (double)batchSize);
+        bias.grads = dZ.sum(true, 0).muli(1 / (double) batchSize);
         return dZ.mmul(weight.values.transpose());
     }
 }
