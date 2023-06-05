@@ -13,15 +13,15 @@ public class Main {
         int numOutputs = 2;
         //Build model
         Model model = new Model();
-        model.addLayer(new Linear(new LinearLayerConfig()
-                .inputSize(numInputs)
-                .outputSize(50)
-                .weightInitializer(WeightInitEnum.HeNormal)));
+//        model.addLayer(new Linear(new LinearLayerConfig()
+//                .inputSize(numInputs)
+//                .outputSize(50)
+//                .weightInitializer(WeightInitEnum.HeNormal)));
         model.addLayer(new ReLU());
-        model.addLayer(new Linear(new LinearLayerConfig()
-                .inputSize(50)
-                .outputSize(numOutputs)
-                .weightInitializer(WeightInitEnum.XavierNormal)));
+//        model.addLayer(new Linear(new LinearLayerConfig()
+//                .inputSize(50)
+//                .outputSize(numOutputs)
+//                .weightInitializer(WeightInitEnum.XavierNormal)));
         model.setLoss(new CategoricalCrossEntropyLoss());
         model.setOptimizer(new Adam());
     }
