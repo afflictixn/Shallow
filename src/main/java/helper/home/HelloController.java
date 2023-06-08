@@ -1,4 +1,4 @@
-package home;
+package helper.home;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -99,6 +99,9 @@ public class HelloController {
     public void DatasetApply(){
         Ok.setVisible(true);
         /// TODO send some message to the class
+
+        // Layer.setValue(text.getText() --> );
+        //Main.begin();
     }
     boolean DatasetOpen = false;
     @FXML

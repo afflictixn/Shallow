@@ -1,4 +1,4 @@
-package home;
+package helper.home;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -16,6 +16,8 @@ public class HelloApplication extends Application {
         stage.setTitle("Privet_koziku_ot_detey_belarusi");
         stage.setScene(scene);
         stage.show();
+
+
 
 
     }
