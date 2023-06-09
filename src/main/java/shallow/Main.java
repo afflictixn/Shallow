@@ -20,7 +20,7 @@ import shallow.optimizers.Adam;
 
 
 public class Main {
-    public static void main(String[] args) {
+    public static void begin(){
         int batchSize = 2;
         int height = 6;
         int width = 6;
@@ -42,7 +42,9 @@ public class Main {
         mod.setOptimizer(new Adam());
         LearningRateScheduler scheduler = new IntervalBasedScheduler(0.2, 100, 0.005);
         mod.setScheduler(scheduler);
-
+    }
+    public static void main(String[] args) {
+        begin();
 //        mod.fit(resh, labels, 0.09, 32, 10);
     }
 }
