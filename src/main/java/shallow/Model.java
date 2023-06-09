@@ -9,11 +9,14 @@ import shallow.layers.WeightedLayer;
 import shallow.losses.BaseLoss;
 import shallow.losses.BinaryCrossEntropyLoss;
 import shallow.losses.CategoricalCrossEntropyLoss;
+import shallow.lr_schedulers.ConstantScheduler;
 import shallow.lr_schedulers.LearningRateScheduler;
 import shallow.optimizers.BaseOptimizer;
 import shallow.utils.Utils;
 
 import java.util.*;
+
+import static org.nd4j.linalg.indexing.NDArrayIndex.interval;
 
 class MiniBatch {
     INDArray X; // features data
@@ -31,7 +34,7 @@ public class Model {
     List<ShapeChangingLayer> shapeChangingLayers;
     BaseLoss loss;
     BaseOptimizer optimizer;
-    LearningRateScheduler scheduler;
+    LearningRateScheduler scheduler = new ConstantScheduler();
     private int lastLayerSize;
 
     public Model() {
@@ -40,7 +43,7 @@ public class Model {
         shapeChangingLayers = new ArrayList<>();
     }
 
-    public void addLayer(BaseLayer layer) {
+    public Model addLayer(BaseLayer layer) {
         if (!validLayerCheck(layer)) {
             throw new IllegalArgumentException();
         }
@@ -51,18 +54,22 @@ public class Model {
         if (layer instanceof WeightedLayer weightedLayer) {
             trainableLayers.add(weightedLayer);
         }
+        return this;
     }
 
-    public void setLoss(BaseLoss loss) {
+    public Model setLoss(BaseLoss loss) {
         this.loss = loss;
+        return this;
     }
 
-    public void setOptimizer(BaseOptimizer optimizer) {
+    public Model setOptimizer(BaseOptimizer optimizer) {
         this.optimizer = optimizer;
+        return this;
     }
 
-    public void setScheduler(LearningRateScheduler scheduler) {
+    public Model setScheduler(LearningRateScheduler scheduler) {
         this.scheduler = scheduler;
+        return this;
     }
 
     // sequential forward pass of a model
@@ -147,38 +154,16 @@ public class Model {
         int numSamples = (int) X.shape()[0];
         int numCompleteBatches = numSamples / batchSize;
         List<MiniBatch> miniBatches = new LinkedList<>();
-        long[] X_shape = X.shape().clone();
-        X_shape[0] = batchSize;
-        long[] Y_shape = Y.shape().clone();
-        Y_shape[0] = batchSize;
-        int cnt = 0;
         for (int i = 0; i < numCompleteBatches; ++i) {
-            INDArray X_mini = Nd4j.create(X_shape);
-            INDArray Y_mini = Nd4j.create(Y_shape);
-            for (int j = 0; j < batchSize; ++j) {
-                X_mini.putSlice(j, X.slice(cnt));
-                if (Y_mini.isVector()) {
-                    Y_mini.put(j, Y.slice(cnt++));
-                } else {
-                    Y_mini.putSlice(j, Y.slice(cnt++));
-                }
-            }
+            INDArray X_mini = X.get(interval(i * batchSize, (i + 1) * batchSize));
+            INDArray Y_mini = Y.get(interval(i * batchSize, (i + 1) * batchSize));
             miniBatches.add(new MiniBatch(X_mini, Y_mini));
         }
-        int left = numSamples - numCompleteBatches * batchSize;
-        X_shape[0] = left;
-        Y_shape[0] = left;
+        int wholeSamples = numCompleteBatches * batchSize;
         if (numSamples % batchSize != 0) {
-            INDArray X_mini = Nd4j.create(X_shape);
-            INDArray Y_mini = Nd4j.create(Y_shape);
-            for (int j = 0; j < left; ++j) {
-                X_mini.putSlice(j, X.slice(cnt));
-                if (Y_mini.isVector()) {
-                    Y_mini.put(j, Y.slice(cnt++));
-                } else {
-                    Y_mini.putSlice(j, Y.slice(cnt++));
-                }
-            }
+            INDArray X_mini = X.get(interval(wholeSamples, numSamples));
+            INDArray Y_mini = Y.get(interval(wholeSamples, numSamples));
+            miniBatches.add(new MiniBatch(X_mini, Y_mini));
         }
         return miniBatches;
     }

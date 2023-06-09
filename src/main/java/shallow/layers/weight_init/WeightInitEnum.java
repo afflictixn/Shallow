@@ -3,6 +3,7 @@ package shallow.layers.weight_init;
 public enum WeightInitEnum {
     ZEROS,
     ONES,
+    Normal,
     HeNormal,
     HeUniform,
     XavierNormal,
@@ -15,6 +16,9 @@ public enum WeightInitEnum {
             }
             case ONES -> {
                 return new ConstInit(1.0);
+            }
+            case Normal -> {
+                return new NormalInit();
             }
             case HeNormal -> {
                 return new HeNormalInit();
