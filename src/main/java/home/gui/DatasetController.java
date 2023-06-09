@@ -16,7 +16,7 @@ public class DatasetController {
     private Button apply;
 
     @FXML
-    private ChoiceBox<String> choiceBox;
+    private ChoiceBox<DatasetEnum> choiceBox;
 
     public void Return() throws IOException {
         MainController.getInstance().reset();
@@ -28,9 +28,9 @@ public class DatasetController {
 
     @FXML
     public void initializeDatasets () {
-        choiceBox.getItems().removeAll(choiceBox.getItems());
-        choiceBox.getItems().add("mnist");
-        choiceBox.getItems().add("cifar10");
+        choiceBox.getItems().clear();
+        choiceBox.getItems().add(DatasetEnum.MNIST);
+        choiceBox.getItems().add(DatasetEnum.CIFAR10);
     }
 
 }

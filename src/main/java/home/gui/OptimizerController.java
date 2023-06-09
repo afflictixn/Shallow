@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
+import shallow.layers.weight_init.WeightInitEnum;
 
 import java.io.IOException;
 
@@ -16,7 +17,7 @@ public class OptimizerController {
     private ChoiceBox<String> loss;
 
     @FXML
-    private ChoiceBox<String> optimizer;
+    private ChoiceBox<WeightInitEnum> optimizer;
 
     @FXML
     private Button Return;
@@ -33,12 +34,12 @@ public class OptimizerController {
 
     @FXML
     public void initOptimizerFunctions () {
-        optimizer.getItems().removeAll(loss.getItems());
-        optimizer.getItems().add("Zero");
-        optimizer.getItems().add("HeNormal");
-        optimizer.getItems().add("HeUniform");
-        optimizer.getItems().add("XavierNormal");
-        optimizer.getItems().add("XavierUniform");
+        optimizer.getItems().clear();
+        optimizer.getItems().add(WeightInitEnum.ZEROS);
+        optimizer.getItems().add(WeightInitEnum.HeNormal);
+//        optimizer.getItems().add("HeUniform");
+//        optimizer.getItems().add("XavierNormal");
+//        optimizer.getItems().add("XavierUniform");
     }
 
 

@@ -1,4 +1,4 @@
-package shallow.lr_scheduler;
+package shallow.lr_schedulers;
 
 public class TimeBasedScheduler implements LearningRateScheduler {
     double stopFactor = 1e-5;

@@ -2,13 +2,12 @@ package shallow.optimizers;
 
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.factory.Nd4j;
-import shallow.layers.BaseLayer;
 import shallow.layers.WeightedLayer;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SGD extends BaseOptimizer {
+public class StochasticGradientDescent extends BaseOptimizer {
     double momentum = 0.0;
     List<List<INDArray>> velocity = null;
 
@@ -23,11 +22,11 @@ public class SGD extends BaseOptimizer {
         }
     }
 
-    public SGD() {
+    public StochasticGradientDescent() {
 
     }
 
-    public SGD(double momentum) {
+    public StochasticGradientDescent(double momentum) {
         this.momentum = momentum;
     }
 

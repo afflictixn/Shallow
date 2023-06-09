@@ -9,7 +9,7 @@ import shallow.layers.WeightedLayer;
 import shallow.losses.BaseLoss;
 import shallow.losses.BinaryCrossEntropyLoss;
 import shallow.losses.CategoricalCrossEntropyLoss;
-import shallow.lr_scheduler.LearningRateScheduler;
+import shallow.lr_schedulers.LearningRateScheduler;
 import shallow.optimizers.BaseOptimizer;
 import shallow.utils.Utils;
 
@@ -45,10 +45,10 @@ public class Model {
             throw new IllegalArgumentException();
         }
         layers.add(layer);
-        if(layer instanceof ShapeChangingLayer shapeChangingLayer){
+        if (layer instanceof ShapeChangingLayer shapeChangingLayer) {
             shapeChangingLayers.add(shapeChangingLayer);
         }
-        if(layer instanceof WeightedLayer weightedLayer) {
+        if (layer instanceof WeightedLayer weightedLayer) {
             trainableLayers.add(weightedLayer);
         }
     }
@@ -60,9 +60,11 @@ public class Model {
     public void setOptimizer(BaseOptimizer optimizer) {
         this.optimizer = optimizer;
     }
+
     public void setScheduler(LearningRateScheduler scheduler) {
         this.scheduler = scheduler;
     }
+
     // sequential forward pass of a model
     public INDArray forwardPass(INDArray X) {
         for (BaseLayer layer : layers) {
@@ -94,9 +96,9 @@ public class Model {
 
     // 0-th dimension of X and Y is a number of samples
     public void fit(INDArray X, INDArray Y, double learningRate, int batchSize, int numEpochs) {
-        if(!shapeChangingLayers.isEmpty()) {
+        if (!shapeChangingLayers.isEmpty()) {
             shapeChangingLayers.get(0).init(X.shape());
-            for(int i = 1; i < shapeChangingLayers.size(); ++i) {
+            for (int i = 1; i < shapeChangingLayers.size(); ++i) {
                 shapeChangingLayers.get(i).init(shapeChangingLayers.get(i - 1).getOutputShape());
             }
         }

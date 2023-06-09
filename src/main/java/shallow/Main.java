@@ -1,11 +1,6 @@
 package shallow;
 
-import org.deeplearning4j.nn.conf.ConvolutionMode;
-import org.nd4j.enums.WeightsFormat;
-import org.nd4j.linalg.api.buffer.DataType;
 import org.nd4j.linalg.api.ndarray.INDArray;
-import org.nd4j.linalg.api.ops.impl.layers.convolution.config.PaddingMode;
-import org.nd4j.linalg.convolution.Convolution;
 import org.nd4j.linalg.factory.Nd4j;
 import shallow.layers.*;
 import shallow.layers.configs.Conv2dConfig;
@@ -14,8 +9,8 @@ import shallow.layers.configs.MaxPool2dConfig;
 import shallow.layers.configs.PaddingType;
 import shallow.layers.weight_init.WeightInitEnum;
 import shallow.losses.CategoricalCrossEntropyLoss;
-import shallow.lr_scheduler.IntervalBasedScheduler;
-import shallow.lr_scheduler.LearningRateScheduler;
+import shallow.lr_schedulers.IntervalBasedScheduler;
+import shallow.lr_schedulers.LearningRateScheduler;
 import shallow.optimizers.Adam;
 
 

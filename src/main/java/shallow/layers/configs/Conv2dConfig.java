@@ -1,11 +1,12 @@
 package shallow.layers.configs;
 
+import shallow.layers.Conv2d;
 import shallow.layers.weight_init.WeightInitEnum;
 
-public class Conv2dConfig extends WeightedLayerConfig {
+public class Conv2dConfig extends WeightedLayerConfig implements Config{
     int filters = 3;
-    int[] kernelSize = null, strides = null, padding = null;
-    PaddingType paddingType = PaddingType.NONE;
+    int[] kernelSize = new int[] {3, 3}, strides = new int[] {1, 1}, padding = null;
+    PaddingType paddingType = PaddingType.SAME;
     public int getFilters() {
         return filters;
     }
@@ -54,5 +55,10 @@ public class Conv2dConfig extends WeightedLayerConfig {
     public Conv2dConfig biasInitializer(WeightInitEnum biasInit) {
         this.biasInitializer = biasInit;
         return this;
+    }
+
+    @Override
+    public Conv2d buildLayer() {
+        return new Conv2d(this);
     }
 }

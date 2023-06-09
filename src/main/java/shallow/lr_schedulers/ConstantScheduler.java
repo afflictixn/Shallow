@@ -1,4 +1,4 @@
-package shallow.lr_scheduler;
+package shallow.lr_schedulers;
 
 public class ConstantScheduler implements LearningRateScheduler{
     @Override

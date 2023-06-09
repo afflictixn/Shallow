@@ -2,7 +2,6 @@ package shallow.optimizers;
 
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.factory.Nd4j;
-import shallow.layers.BaseLayer;
 import shallow.layers.WeightedLayer;
 import shallow.utils.Utils;
 

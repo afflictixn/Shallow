@@ -6,7 +6,7 @@ import org.nd4j.linalg.factory.Nd4j;
 import shallow.layers.configs.LinearLayerConfig;
 
 public class Linear extends WeightedLayer implements ShapeChangingLayer {
-    int units;
+    int units = 20;
 
     public Linear(LinearLayerConfig config) {
         super(config);

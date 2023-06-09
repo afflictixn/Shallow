@@ -77,7 +77,6 @@ public class Conv2d extends WeightedLayer implements ShapeChangingLayer {
         if (!input.dataType().equals(DataType.FLOAT)) {
             input.castTo(DataType.FLOAT);
         }
-//        weight.values = Nd4j.ones()
         long batchSize = input.shape()[0];
         INDArray inputPadded = Nd4j.pad(input, padding);
         // ouput of shape [batch, out_height, out_width, out_channels]
@@ -94,10 +93,6 @@ public class Conv2d extends WeightedLayer implements ShapeChangingLayer {
                 INDArray newSlice = Nd4j.expandDims(slicedInput, 4);
                 output.put(new INDArrayIndex[]{all(), point(i), point(j), all()},
                         newSlice.mul(weight.values.get(newAxis(), all(), all(), all())).sum(1, 2, 3));
-//                for(int kk = 0; kk < 2; ++kk){
-//                    System.out.println("This:");
-//                    System.out.println(output.get(point(kk), point(i), point(j)));
-//                }
             }
         }
         output.addi(bias.values);

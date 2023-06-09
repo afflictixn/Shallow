@@ -1,9 +1,11 @@
 package shallow.layers.configs;
 
+import shallow.layers.BaseLayer;
+import shallow.layers.MaxPool2d;
 import shallow.layers.weight_init.WeightInitEnum;
 
-public class MaxPool2dConfig {
-    int[] kernelSize = null, strides = null;
+public class MaxPool2dConfig implements Config {
+    int[] kernelSize = new int[] {2, 2}, strides = new int[] {2, 2};
     public int[] getKernelSize() {
         return kernelSize;
     }
@@ -20,5 +22,8 @@ public class MaxPool2dConfig {
         this.strides = strides;
         return this;
     }
-
+    @Override
+    public MaxPool2d buildLayer() {
+        return new MaxPool2d(this);
+    }
 }
