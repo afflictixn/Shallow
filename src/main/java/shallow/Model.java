@@ -93,7 +93,7 @@ public class Model {
     }
 
     // 0-th dimension of X and Y is a number of samples
-    public void fit(INDArray X, INDArray Y, double learning_rate, int batch_size, int numEpochs) {
+    public void fit(INDArray X, INDArray Y, double learningRate, int batchSize, int numEpochs) {
         if(!shapeChangingLayers.isEmpty()) {
             shapeChangingLayers.get(0).init(X.shape());
             for(int i = 1; i < shapeChangingLayers.size(); ++i) {
@@ -104,22 +104,22 @@ public class Model {
         INDArray result = null;
         long numSamples = X.shape()[0];
         List<MiniBatch> miniBatches = (X.shape().length == 2) ?
-                randomMiniBatches(X, Y, batch_size) : getMiniBatches(X, Y, batch_size);
+                randomMiniBatches(X, Y, batchSize) : getMiniBatches(X, Y, batchSize);
         for (int i = 1; i <= numEpochs; ++i) {
             double totalCost = 0.0;
-            double cur_lr = scheduler.getCurrentLearningRate(learning_rate, i);
+            double currentLearningRate = scheduler.getCurrentLearningRate(learningRate, i);
             for (MiniBatch miniBatch : miniBatches) {
                 result = forwardPass(miniBatch.X);
                 totalCost += computeLoss(result, miniBatch.Y);
                 backwardPass();
-                optimizer.updateWeights(cur_lr, i);
+                optimizer.updateWeights(currentLearningRate, i);
             }
             totalCost /= -numSamples;
 
             // ToDo make class for display of metrics and data
             if (i % 25 == 1 || i == numEpochs) {
                 System.out.println("Current loss: " + totalCost);
-                System.out.println("Current learning rate: " + cur_lr);
+                System.out.println("Current learning rate: " + currentLearningRate);
             }
         }
     }
@@ -133,12 +133,12 @@ public class Model {
         return ok;
     }
 
-    private static List<MiniBatch> randomMiniBatches(INDArray X, INDArray Y, int batch_size) {
-        int num_samples = (int) X.shape()[0];
-        int[] permutation = Utils.randomPermutation(num_samples);
+    private static List<MiniBatch> randomMiniBatches(INDArray X, INDArray Y, int batchSize) {
+        int numSamples = (int) X.shape()[0];
+        int[] permutation = Utils.randomPermutation(numSamples);
         INDArray X_shuffle = X.getRows(permutation);
         INDArray Y_shuffle = Y.getRows(permutation);
-        return getMiniBatches(X_shuffle, Y_shuffle, batch_size);
+        return getMiniBatches(X_shuffle, Y_shuffle, batchSize);
     }
 
     private static List<MiniBatch> getMiniBatches(INDArray X, INDArray Y, int batchSize) {
@@ -155,7 +155,6 @@ public class Model {
             INDArray Y_mini = Nd4j.create(Y_shape);
             for (int j = 0; j < batchSize; ++j) {
                 X_mini.putSlice(j, X.slice(cnt));
-                INDArray slice = X.slice(0, 0);
                 if (Y_mini.isVector()) {
                     Y_mini.put(j, Y.slice(cnt++));
                 } else {
