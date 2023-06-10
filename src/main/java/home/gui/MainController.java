@@ -22,9 +22,19 @@ public class MainController {
         return instance;
     }
 
-    public void reset(){
-        //AnchorPane p = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Basic.fxml")));
-        center.setCenter(null);
+    public void reset() throws IOException {
+        AnchorPane p = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Basic.fxml")));
+        // В целом можно было бы придумать что-то другое, но нам нормально
+        center.setCenter(p);
+    }
+
+
+    public void setBorderPane(String s) throws IOException {
+        if(center == null){
+            System.out.println("null");
+        }
+        AnchorPane p = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(s)));
+        center.setCenter(p);
     }
 
     private static MainController instance;
@@ -50,29 +60,35 @@ public class MainController {
     @FXML
     private Button optimizer;
 
-    public void datasetFunction(ActionEvent event) throws IOException {
+    public void datasetFunction() throws IOException {
         //DatasetController.what = center;
-        AnchorPane p = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Dataset.fxml")));
-        center.setCenter(p);
+        getInstance().setBorderPane("Dataset.fxml");
+        //AnchorPane p = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Dataset.fxml")));
+        //center.setCenter(p);
     }
 
     public void layerFunction(ActionEvent event) throws IOException {
-        AnchorPane p = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Layer.fxml")));
-        center.setCenter(p);
+        getInstance().setBorderPane("Layer.fxml");
+//        AnchorPane p = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Layer.fxml")));
+//        center.setCenter(p);
     }
 
     public void optimizerFunction(ActionEvent event) throws IOException {
-        AnchorPane p = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Optimizer.fxml")));
-        center.setCenter(p);
+        getInstance().setBorderPane("Optimizer.fxml");
+//        AnchorPane p = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Optimizer.fxml")));
+//        center.setCenter(p);
     }
 
     public void hyperparametersFunction(ActionEvent event) throws IOException {
-        AnchorPane p = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("HyperParameters.fxml")));
-        center.setCenter(p);
+        getInstance().setBorderPane("HyperParameters.fxml");
+//        AnchorPane p = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("HyperParameters.fxml")));
+//        center.setCenter(p);
     }
     public void evaluateFunction(ActionEvent event) throws IOException {
-        AnchorPane p = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Evaluater.fxml")));
-        center.setCenter(p);
+        getInstance().setBorderPane("Evaluater.fxml");
+
+//        AnchorPane p = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Evaluater.fxml")));
+//        center.setCenter(p);
     }
 
 }

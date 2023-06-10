@@ -23,8 +23,15 @@ public class HyperParametersController {
     @FXML
     private Button Return;
 
-    public void Return() throws IOException {
+   public void ReturnFunction() throws IOException {
         MainController.getInstance().reset();
-    };
+   }
+
+   public void ApplyFunction(){
+       // TODO fix this function
+   }
+
+
+
 
 }
