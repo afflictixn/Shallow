@@ -13,7 +13,8 @@
       <Label alignment="CENTER" layoutX="88.0" layoutY="30.0" prefHeight="18.0" prefWidth="62.0" text="Batch Size" />
       <Label alignment="CENTER" layoutX="88.0" layoutY="94.0" prefHeight="18.0" prefWidth="62.0" text="Epochs" />
       <Label alignment="CENTER" layoutX="80.0" layoutY="158.0" prefHeight="18.0" prefWidth="78.0" text="Learning Rate" />
-      <Button fx:id="apply" layoutX="88.0" layoutY="230.0" mnemonicParsing="false" onAction="#ApplyFunction" prefHeight="26.0" prefWidth="62.0" text="Apply" />
-      <Button fx:id="Return" layoutX="88.0" layoutY="266.0" mnemonicParsing="false" onAction="#ReturnFunction" prefHeight="26.0" prefWidth="62.0" text="Return" />
+      <Button fx:id="apply" layoutX="163.0" layoutY="269.0" mnemonicParsing="false" onAction="#ApplyFunction" prefHeight="26.0" prefWidth="62.0" text="Apply" />
+      <Button fx:id="Return" layoutX="14.0" layoutY="269.0" mnemonicParsing="false" onAction="#ReturnFunction" prefHeight="26.0" prefWidth="62.0" text="Return" />
+      <Label fx:id="resultOfOperation" layoutX="105.0" layoutY="244.0" text="Label" />
    </children>
 </AnchorPane>

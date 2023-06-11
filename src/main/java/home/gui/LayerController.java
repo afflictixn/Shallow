@@ -3,15 +3,20 @@ package home.gui;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.paint.Color;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class LayerController implements Initializable {
+    // TODO исправить кнопку apply, а именно когда она должна появляться и когда она должна исчезать
+    // TODO добавить label resultOfOperation около кнопки apply
 
-
-    private String lastPressedButton;
+    @FXML
+    private Label resultOfOperation;
+    private String lastPressedButton = "";
     // last pressed button to use the 'apply' method from this controller
 
     public void setLastPressedButton(String s){
@@ -61,23 +66,31 @@ public class LayerController implements Initializable {
 
     public void ReturnFunction() throws IOException {
         MainController.getInstance().reset();
-        //MainController.getInstance().setBorderPane("Basic.fxml");
-        // TODO  fix this function
     };
 
     public void ApplyFunction(){
-        hideApply(); //? может быть лучше не убирать
-        // TODO bla bla bla
+        if(lastPressedButton.equals("Flatten")){
+            MainController.getConnector().processFlatten();
+        }
+        else if(lastPressedButton.equals("ReLU")){
+            MainController.getConnector().processReLU();
+        }
+        else if(lastPressedButton.equals("Sigmoid")){
+            MainController.getConnector().processSigmoid();
+        }
+        resultOfOperation.setText("Data was successfully applied.");
+        resultOfOperation.setTextFill(Color.GREEN);
+        resultOfOperation.setVisible(true);
     }
 
 
     public void linearFunction() throws IOException {
-        hideApply(); // ?
+        hideApply();
         MainController.getInstance().setBorderPane("LayerInfo/LayerLinear.fxml");
-        // TODO fix this function, it should open another scene
     }
 
     public void flattenFunction(){
+        resultOfOperation.setVisible(false);
         showApply();
         lastPressedButton = "Flatten";
     }
@@ -85,21 +98,21 @@ public class LayerController implements Initializable {
     public void convolution2DFunction() throws IOException {
         hideApply();
         MainController.getInstance().setBorderPane("LayerInfo/LayerConvolution2D.fxml");
-        // TODO fix this button, it should open another scene
     }
 
     public void maxPooling2DFunction() throws IOException {
         hideApply();
         MainController.getInstance().setBorderPane("LayerInfo/LayerMaxPooling2D.fxml");
-        // TODO fix this button, it should open another scene
     }
 
     public void reLUFunction(){
+        resultOfOperation.setVisible(false);
         showApply();
         lastPressedButton = "ReLU";
     }
 
     public void sigmoidFunction(){
+        resultOfOperation.setVisible(false);
         showApply();
         lastPressedButton = "Sigmoid";
     }
@@ -107,5 +120,6 @@ public class LayerController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         hideApply();
+        resultOfOperation.setVisible(false);
     }
 }

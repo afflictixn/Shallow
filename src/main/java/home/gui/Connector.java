@@ -3,28 +3,46 @@ package home.gui;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.fxml.FXML;
 import shallow.layers.Flatten;
 import shallow.layers.ReLU;
 import shallow.layers.Sigmoid;
 import shallow.layers.configs.*;
 import shallow.layers.weight_init.WeightInitEnum;
 import shallow.losses.LossEnum;
+import shallow.optimizers.Adam;
+import shallow.optimizers.BaseOptimizer;
 import shallow.optimizers.OptimizerEnum;
+import shallow.optimizers.StochasticGradientDescent;
 
 public class Connector {
+
+    private static Connector instance;
+
+    Connector(){
+        instance = this;
+    }
+    public static Connector getInstance(){
+        return instance;
+    }
+
+
     DatasetEnum datasetEnum;
-    List<Config> configs;
+    List<Config> configs = new ArrayList<>();
     HyperParametersInfo hyperParametersInfo = new HyperParametersInfo();
-    OptimizerEnum optimizerEnum;
     LossEnum lossEnum;
+    BaseOptimizer optimizer;
     public void setDatasetEnum(DatasetEnum dataset) {
         datasetEnum = dataset;
     };
     public void setLossEnum(LossEnum lossEnum) {
         this.lossEnum = lossEnum;
     }
-    public void setOptimizerEnum(OptimizerEnum optimizerEnum) {
-        this.optimizerEnum = optimizerEnum;
+    public void setOptimizerAdam(double beta1, double beta2) {
+        optimizer = new Adam(beta1, beta2);
+    }
+    public void setOptimizerSGD(double momentum){
+        optimizer = new StochasticGradientDescent(momentum);
     }
     public void processLinear(int nUnits, WeightInitEnum weightInit, WeightInitEnum weightBias) {
         configs.add(new LinearLayerConfig().units(nUnits).weightInitializer(weightInit).biasInitializer(weightBias));
@@ -40,12 +58,11 @@ public class Connector {
     public void processConv2d(int filters,
                               int kernelHeight, int kernelWidth,
                               int stridesHeight, int stridesWidth,
-                              PaddingType paddingType) {
+                              PaddingType paddingType, WeightInitEnum weight, WeightInitEnum bias) {
         configs.add(new Conv2dConfig().filters(filters)
                 .kernelSize(kernelHeight, kernelWidth)
                 .strides(stridesHeight, stridesWidth)
-                .paddingType(paddingType)
-        );
+                .paddingType(paddingType).biasInitializer(bias).weightInitializer(weight));
     }
     public void processMaxPool2d(int kernelHeight, int kernelWidth,
                                  int stridesHeight, int stridesWidth) {
@@ -59,4 +76,8 @@ public class Connector {
         hyperParametersInfo.setEpochs(epochs);
         hyperParametersInfo.setLearningRate(learningRate);
     }
+
+
+
+
 }

@@ -14,6 +14,8 @@ public class StartApplication extends Application {
         Scene scene = new Scene(fxmlLoader.load(), 800, 550);
         stage.setTitle("Hello!");
         stage.setScene(scene);
+
+//        Connector connector = new Connector();
         stage.show();
     }
 

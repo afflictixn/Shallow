@@ -18,5 +18,6 @@
       <Button fx:id="reLU" layoutX="152.0" layoutY="251.0" mnemonicParsing="false" onAction="#reLUFunction" prefHeight="26.0" prefWidth="127.0" text="ReLU" />
       <Button fx:id="sigmoid" layoutX="152.0" layoutY="286.0" mnemonicParsing="false" onAction="#sigmoidFunction" prefHeight="26.0" prefWidth="127.0" text="Sigmoid" />
       <Button fx:id="apply" layoutX="279.0" layoutY="372.0" mnemonicParsing="false" onAction="#ApplyFunction" text="Apply" />
+      <Label fx:id="resultOfOperation" layoutX="289.0" layoutY="345.0" text="Label" />
    </children>
 </AnchorPane>

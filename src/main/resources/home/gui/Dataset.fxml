@@ -2,21 +2,14 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="404.0" prefWidth="266.0" style="-fx-background-color: pink;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="home.gui.DatasetController">
    <children>
       <ChoiceBox fx:id="choiceBox" layoutX="58.0" layoutY="14.0" prefWidth="150.0" />
-      <Button fx:id="apply" layoutX="98.0" layoutY="289.0" mnemonicParsing="false" onAction="#ApplyFunction" text="Apply">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Button>
-      <Button fx:id="Return" layoutX="94.0" layoutY="350.0" mnemonicParsing="false" onAction="#ReturnFunction" prefHeight="26.0" prefWidth="78.0" text="Return">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Button>
+      <Button fx:id="apply" layoutX="170.0" layoutY="335.0" mnemonicParsing="false" onAction="#ApplyFunction" prefHeight="13.0" prefWidth="60.0" text="Apply" />
+      <Button fx:id="Return" layoutX="48.0" layoutY="334.0" mnemonicParsing="false" onAction="#ReturnFunction" prefHeight="26.0" prefWidth="60.0" text="Return" />
+      <Label fx:id="resultOfOperation" layoutX="119.0" layoutY="296.0" text="Label" />
    </children>
 </AnchorPane>

@@ -3,6 +3,8 @@ package home.gui;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.paint.Color;
+import shallow.Main;
 import shallow.layers.weight_init.WeightInitEnum;
 import shallow.losses.LossEnum;
 import shallow.optimizers.OptimizerEnum;
@@ -12,6 +14,18 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class OptimizerController implements Initializable {
+    // TODO сделать так, чтобы мои начальные значения уже были
+    // TODO доступны в connector
+
+    @FXML
+    private Label resultOfOperation;
+
+    private static double lastBeta1 = 1.0;
+    private static double lastBeta2 = 1.0;
+    private static double lastMomentum = 1.0;
+
+    private static LossEnum lastLoss = LossEnum.BinaryCrossEntropyLoss;
+    private static OptimizerEnum lastOptimizer = OptimizerEnum.Adam;
 
     @FXML
     private Button apply;
@@ -43,39 +57,46 @@ public class OptimizerController implements Initializable {
     @FXML
     private TextField momentumField;
 
+    public void showAdam(){
+        beta1.setDisable(false);
+        beta2.setDisable(false);
+        beta1Field.setDisable(false);
+        beta2Field.setDisable(false);
+        momentum.setDisable(true);
+        momentumField.setDisable(true);
+
+        beta1.setVisible(true);
+        beta2.setVisible(true);
+        beta1Field.setVisible(true);
+        beta2Field.setVisible(true);
+        momentum.setVisible(false);
+        momentumField.setVisible(false);
+    }
+
+    public void showSGD(){
+        beta1.setDisable(true);
+        beta2.setDisable(true);
+        beta1Field.setDisable(true);
+        beta2Field.setDisable(true);
+        momentum.setDisable(false);
+        momentumField.setDisable(false);
+
+        beta1.setVisible(false);
+        beta2.setVisible(false);
+        beta1Field.setVisible(false);
+        beta2Field.setVisible(false);
+        momentum.setVisible(true);
+        momentumField.setVisible(true);
+    }
 
 
     public void handleTheChoice(){
         OptimizerEnum o = optimizerBox.getValue();
         if(o.equals(OptimizerEnum.Adam)){
-            beta1.setDisable(false);
-            beta2.setDisable(false);
-            beta1Field.setDisable(false);
-            beta2Field.setDisable(false);
-            momentum.setDisable(true);
-            momentumField.setDisable(true);
-
-            beta1.setVisible(true);
-            beta2.setVisible(true);
-            beta1Field.setVisible(true);
-            beta2Field.setVisible(true);
-            momentum.setVisible(false);
-            momentumField.setVisible(false);
+            showAdam();
         }
         else{
-            beta1.setDisable(true);
-            beta2.setDisable(true);
-            beta1Field.setDisable(true);
-            beta2Field.setDisable(true);
-            momentum.setDisable(false);
-            momentumField.setDisable(false);
-
-            beta1.setVisible(false);
-            beta2.setVisible(false);
-            beta1Field.setVisible(false);
-            beta2Field.setVisible(false);
-            momentum.setVisible(true);
-            momentumField.setVisible(true);
+            showSGD();
         }
     }
 
@@ -85,7 +106,80 @@ public class OptimizerController implements Initializable {
     };
 
     public void ApplyFunction(){
-        // TODO implement this function
+        if(optimizerBox.getValue().equals(OptimizerEnum.Adam)){
+            ApplyAdam();
+        }
+        else{
+            ApplySGD();
+        }
+    }
+
+    public void ApplyAdam(){
+        int temp = 0;
+        String s1 = beta1Field.getText();
+        String s2 = beta2Field.getText();
+        if(s1.isEmpty() || s2.isEmpty()){
+            ++temp;
+        }
+        double i1 = 0;
+        double i2 = 0;
+        try{
+            i1 = Double.parseDouble(s1);
+            i2 = Double.parseDouble(s2);
+            if(i1 <= 0 || i2 <= 0){
+                ++temp;
+            }
+        }
+        catch (Exception e){
+            ++temp;
+        }
+
+        if(temp == 0){
+            MainController.getConnector().setOptimizerAdam(i1, i2);
+            lastBeta1 = i1;
+            lastBeta2 = i2;
+
+            resultOfOperation.setText("Data was successfully applied.");
+            resultOfOperation.setTextFill(Color.GREEN);
+            resultOfOperation.setVisible(true);
+        }
+        else{
+            resultOfOperation.setText("Entered data is inappropriate.");
+            resultOfOperation.setTextFill(Color.RED);
+            resultOfOperation.setVisible(true);
+        }
+    }
+
+    public void ApplySGD(){
+        int temp = 0;
+        String s = momentum.getText();
+        if(s.isEmpty()){
+            ++temp;
+        }
+        double i = 0;
+        try{
+            i = Double.parseDouble(s);
+            if(i <= 0){
+                ++temp;
+            }
+        }
+        catch (Exception e){
+            ++temp;
+        }
+
+        if(temp == 0){
+            MainController.getConnector().setOptimizerSGD(i);
+            lastMomentum = i;
+
+            resultOfOperation.setText("Data was successfully applied.");
+            resultOfOperation.setTextFill(Color.GREEN);
+            resultOfOperation.setVisible(true);
+        }
+        else{
+            resultOfOperation.setText("Entered data is inappropriate.");
+            resultOfOperation.setTextFill(Color.RED);
+            resultOfOperation.setVisible(true);
+        }
     }
 
     @Override
@@ -97,6 +191,22 @@ public class OptimizerController implements Initializable {
         optimizerBox.getItems().clear();
         optimizerBox.getItems().add(OptimizerEnum.Adam);
         optimizerBox.getItems().add(OptimizerEnum.StochasticGradientDescent);
+
+        beta1Field.setText(Double.toString(lastBeta1));
+        beta2Field.setText(Double.toString(lastBeta2));
+        momentumField.setText(Double.toString(lastMomentum));
+
+        lossBox.setValue(lastLoss);
+        optimizerBox.setValue(lastOptimizer);
+
+        if(optimizerBox.getValue().equals(OptimizerEnum.Adam)){
+            showAdam();
+        }
+        else{
+            showSGD();
+        }
+
+        resultOfOperation.setVisible(false);
 
         optimizerBox.setOnAction(event -> handleTheChoice());
         // TODO сделать чтобы снчала labels // TextFields были невидимыми

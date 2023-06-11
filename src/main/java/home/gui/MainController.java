@@ -13,13 +13,21 @@ import java.util.Objects;
 
 public class MainController {
 
+    private static Connector connector;
+
+
     public MainController(){
         instance = this;
+        connector = new Connector();
         //reset();
     }
 
     public static MainController getInstance(){
         return instance;
+    }
+
+    public static Connector getConnector(){
+        return connector;
     }
 
     public void reset() throws IOException {

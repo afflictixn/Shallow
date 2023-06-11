@@ -20,5 +20,6 @@
       <Label fx:id="beta1" layoutX="170.0" layoutY="148.0" text="beta1" />
       <Label fx:id="momentum" layoutX="325.0" layoutY="148.0" text="momentum" />
       <Label fx:id="beta2" layoutX="518.0" layoutY="148.0" text="beta2" />
+      <Label fx:id="resultOfOperation" layoutX="342.0" layoutY="301.0" text="Label" />
    </children>
 </AnchorPane>
