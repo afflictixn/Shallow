@@ -1,0 +1,5 @@
+.label{
+    -fx-text-fill:  #dbdcf9; /* Задаем цвет текста (в данном случае красный) */
+    -fx-background-color:  #52548e; /* Задаем цвет фона (в данном случае желтый) */
+    -fx-background-radius: 2px;
+}

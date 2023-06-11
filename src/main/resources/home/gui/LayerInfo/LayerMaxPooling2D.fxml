@@ -4,19 +4,46 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: grey;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="home.gui.LayerInfo.MaxPoolingController2D">
+<AnchorPane prefHeight="701.0" prefWidth="300.0" style="-fx-background-color: #52548e;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="home.gui.LayerInfo.MaxPoolingController2D">
    <children>
-      <Label layoutX="145.0" layoutY="42.0" text="Strides Height" />
-      <Label layoutX="332.0" layoutY="42.0" text="Strides Width" />
-      <Label layoutX="333.0" layoutY="104.0" text="Kernel Width" />
-      <Label layoutX="146.0" layoutY="104.0" text="Kernel Height" />
-      <TextField fx:id="stridesHeight" layoutX="108.0" layoutY="59.0" />
-      <TextField fx:id="stridesWidth" layoutX="293.0" layoutY="59.0" />
-      <TextField fx:id="kernelHeight" layoutX="108.0" layoutY="122.0" />
-      <TextField fx:id="kernelWidth" layoutX="292.0" layoutY="122.0" />
-      <Button fx:id="Return" layoutX="108.0" layoutY="340.0" mnemonicParsing="false" onAction="#ReturnFunction" text="Return" />
-      <Button fx:id="apply" layoutX="378.0" layoutY="340.0" mnemonicParsing="false" onAction="#ApplyFunction" text="Apply" />
-      <Label fx:id="resultOfOperation" layoutX="388.0" layoutY="316.0" text="Label" />
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="80.0" layoutY="99.0" prefHeight="30.0" prefWidth="150.0" stylesheets="@../css/LabelName.css" text="Strides Height">
+         <font>
+            <Font size="15.0" />
+         </font></Label>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="80.0" layoutY="183.0" prefHeight="30.0" prefWidth="150.0" stylesheets="@../css/LabelName.css" text="Strides Width">
+         <font>
+            <Font size="15.0" />
+         </font></Label>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="80.0" layoutY="273.0" prefHeight="30.0" prefWidth="150.0" stylesheets="@../css/LabelName.css" text="Kernel Width">
+         <font>
+            <Font size="15.0" />
+         </font></Label>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="80.0" layoutY="362.0" prefHeight="30.0" prefWidth="150.0" stylesheets="@../css/LabelName.css" text="Kernel Height">
+         <font>
+            <Font size="15.0" />
+         </font></Label>
+      <TextField fx:id="stridesHeight" layoutX="64.0" layoutY="129.0" stylesheets="@../css/TextField.css" />
+      <TextField fx:id="stridesWidth" layoutX="64.0" layoutY="213.0" stylesheets="@../css/TextField.css" />
+      <TextField fx:id="kernelHeight" layoutX="64.0" layoutY="392.0" stylesheets="@../css/TextField.css" />
+      <TextField fx:id="kernelWidth" layoutX="64.0" layoutY="303.0" stylesheets="@../css/TextField.css" />
+      <Button fx:id="Return" contentDisplay="CENTER" layoutX="24.0" layoutY="588.0" mnemonicParsing="false" onAction="#ReturnFunction" prefHeight="30.0" prefWidth="80.0" stylesheets="@../css/StandardButton.css" text="Return">
+         <font>
+            <Font size="15.0" />
+         </font></Button>
+      <Button fx:id="apply" contentDisplay="CENTER" layoutX="190.0" layoutY="588.0" mnemonicParsing="false" onAction="#ApplyFunction" prefHeight="30.0" prefWidth="80.0" stylesheets="@../css/StandardButton.css" text="Apply">
+         <font>
+            <Font size="15.0" />
+         </font></Button>
+      <Label fx:id="resultOfOperation" alignment="CENTER" contentDisplay="CENTER" layoutX="50.0" layoutY="641.0" prefHeight="25.0" prefWidth="200.0" stylesheets="@../css/InfoGood.css" text="Label">
+         <font>
+            <Font size="14.0" />
+         </font></Label>
+      <Label alignment="CENTER" layoutX="50.0" layoutY="20.0" prefHeight="40.0" prefWidth="200.0" stylesheets="@../css/CenterLabel.css" text="Pooling 2D">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

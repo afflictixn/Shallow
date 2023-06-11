@@ -5,17 +5,41 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: grey;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="home.gui.LayerInfo.LinearController">
+<AnchorPane prefHeight="701.0" prefWidth="300.0" style="-fx-background-color: #52548e;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="home.gui.LayerInfo.LinearController">
    <children>
-      <Label layoutX="258.0" layoutY="156.0" text="number of units" />
-      <TextField fx:id="field" layoutX="224.0" layoutY="174.0" />
-      <ChoiceBox fx:id="box1" layoutX="225.0" layoutY="49.0" prefWidth="150.0" />
-      <Label layoutX="255.0" layoutY="31.0" text="Weight Initializer" />
-      <Button fx:id="apply" layoutX="375.0" layoutY="286.0" mnemonicParsing="false" onAction="#ApplyFunction" text="Apply" />
-      <Button fx:id="Return" layoutX="173.0" layoutY="286.0" mnemonicParsing="false" onAction="#ReturnFunction" text="Return" />
-      <Label fx:id="resultOfOperation" layoutX="385.0" layoutY="257.0" text="Label" />
-      <ChoiceBox fx:id="box2" layoutX="223.0" layoutY="109.0" prefWidth="150.0" />
-      <Label layoutX="255.0" layoutY="91.0" text="Bias Initializer" />
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="90.0" layoutY="294.0" prefHeight="30.0" prefWidth="120.0" stylesheets="@../css/LabelName.css" text="Number of units">
+         <font>
+            <Font size="15.0" />
+         </font></Label>
+      <TextField fx:id="field" layoutX="75.0" layoutY="324.0" prefHeight="30.0" prefWidth="150.0" stylesheets="@../css/TextField.css" />
+      <ChoiceBox fx:id="box1" layoutX="75.0" layoutY="141.0" prefHeight="30.0" prefWidth="150.0" stylesheets="@../css/ChoiceBox.css" />
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="90.0" layoutY="111.0" prefHeight="30.0" prefWidth="120.0" stylesheets="@../css/LabelName.css" text="Weight Initializer">
+         <font>
+            <Font size="15.0" />
+         </font></Label>
+      <Button fx:id="apply" layoutX="185.0" layoutY="600.0" mnemonicParsing="false" onAction="#ApplyFunction" prefHeight="30.0" prefWidth="80.0" stylesheets="@../css/StandardButton.css" text="Apply">
+         <font>
+            <Font size="14.0" />
+         </font></Button>
+      <Button fx:id="Return" layoutX="35.0" layoutY="600.0" mnemonicParsing="false" onAction="#ReturnFunction" prefHeight="30.0" prefWidth="80.0" stylesheets="@../css/StandardButton.css" text="Return">
+         <font>
+            <Font size="15.0" />
+         </font></Button>
+      <Label fx:id="resultOfOperation" alignment="CENTER" contentDisplay="CENTER" layoutX="50.0" layoutY="651.0" prefHeight="25.0" prefWidth="200.0" stylesheets="@../css/InfoGood.css" text="Label">
+         <font>
+            <Font size="14.0" />
+         </font></Label>
+      <ChoiceBox fx:id="box2" layoutX="75.0" layoutY="229.0" prefHeight="30.0" prefWidth="150.0" stylesheets="@../css/ChoiceBox.css" />
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="90.0" layoutY="199.0" prefHeight="30.0" prefWidth="120.0" stylesheets="@../css/LabelName.css" text="Bias Initializer">
+         <font>
+            <Font size="15.0" />
+         </font></Label>
+      <Label alignment="CENTER" layoutX="50.0" layoutY="20.0" prefHeight="40.0" prefWidth="200.0" stylesheets="@../css/CenterLabel.css" text="Linear">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

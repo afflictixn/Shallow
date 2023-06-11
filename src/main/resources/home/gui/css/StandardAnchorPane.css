@@ -1,0 +1,6 @@
+.root {
+    -fx-background-color:  #dbdcf9; /* Цвет фона */
+    -fx-border-color: #52548e; /* Задаем цвет края */
+    -fx-border-width: 2px; /* Задаем ширину края */
+    -fx-border-style: solid; /* Задаем стиль края (в данном случае сплошной) */
+}

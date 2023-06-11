@@ -45,7 +45,6 @@ public class LinearController implements Initializable {
             ++temp;
         }
 
-
         int a = 0;
 
         try{
@@ -62,12 +61,12 @@ public class LinearController implements Initializable {
             MainController.getConnector().processLinear(a, box1.getValue(), box2.getValue());
 
             resultOfOperation.setText("Data was successfully applied.");
-            resultOfOperation.setTextFill(Color.GREEN);
+            resultOfOperation.setStyle("-fx-background-color: green");
             resultOfOperation.setVisible(true);
         }
         else{
             resultOfOperation.setText("Entered data is inappropriate.");
-            resultOfOperation.setTextFill(Color.RED);
+            resultOfOperation.setStyle("-fx-background-color: red");
             resultOfOperation.setVisible(true);
         }
     }

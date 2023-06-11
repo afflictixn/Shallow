@@ -5,17 +5,17 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="630.0" prefWidth="808.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="home.gui.MainController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="706.0" prefWidth="925.0" stylesheets="@css/StandardAnchorPane.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="home.gui.MainController">
    <children>
-      <VBox fx:id="box" layoutX="14.0" layoutY="91.0" prefHeight="448.0" prefWidth="111.0">
+      <VBox fx:id="box" layoutX="-2.0" layoutY="233.0" prefHeight="240.0" prefWidth="127.0">
          <children>
-            <Button fx:id="dataset" mnemonicParsing="false" onAction="#datasetFunction" prefHeight="48.0" prefWidth="111.0" text="Dataset" />
-            <Button fx:id="layer" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#layerFunction" prefHeight="48.0" prefWidth="111.0" text="Add Layer" />
-            <Button fx:id="hyperparameters" layoutX="10.0" layoutY="58.0" mnemonicParsing="false" onAction="#hyperparametersFunction" prefHeight="48.0" prefWidth="111.0" text="Hyperparameters" />
-            <Button fx:id="optimizer" layoutX="10.0" layoutY="106.0" mnemonicParsing="false" onAction="#optimizerFunction" prefHeight="48.0" prefWidth="111.0" text="Optimizer" />
-            <Button fx:id="evaluate" layoutX="10.0" layoutY="154.0" mnemonicParsing="false" onAction="#evaluateFunction" prefHeight="48.0" prefWidth="111.0" text="Evaluate" />
+            <Button fx:id="dataset" mnemonicParsing="false" onAction="#datasetFunction" prefHeight="48.0" prefWidth="128.0" stylesheets="@css/StandardButton.css" text="Dataset" />
+            <Button fx:id="layer" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#layerFunction" prefHeight="48.0" prefWidth="128.0" stylesheets="@css/StandardButton.css" text="Add Layer" />
+            <Button fx:id="hyperparameters" layoutX="10.0" layoutY="58.0" mnemonicParsing="false" onAction="#hyperparametersFunction" prefHeight="48.0" prefWidth="128.0" stylesheets="@css/StandardButton.css" text="Hyperparameters" />
+            <Button fx:id="optimizer" layoutX="10.0" layoutY="106.0" mnemonicParsing="false" onAction="#optimizerFunction" prefHeight="48.0" prefWidth="128.0" stylesheets="@css/StandardButton.css" text="Optimizer" />
+            <Button fx:id="evaluate" layoutX="10.0" layoutY="154.0" mnemonicParsing="false" onAction="#evaluateFunction" prefHeight="48.0" prefWidth="128.0" stylesheets="@css/StandardButton.css" text="Evaluate" />
          </children>
       </VBox>
-      <BorderPane fx:id="center" layoutX="132.0" layoutY="4.0" prefHeight="429.0" prefWidth="437.0" />
+      <BorderPane fx:id="center" layoutX="125.0" layoutY="2.0" prefHeight="702.0" prefWidth="300.0" />
    </children>
 </AnchorPane>
