@@ -3,7 +3,7 @@ package shallow.layers.configs;
 import shallow.layers.weight_init.WeightInitEnum;
 
 public abstract class WeightedLayerConfig {
-    public WeightInitEnum weightInitializer;
+    public WeightInitEnum weightInitializer = WeightInitEnum.Normal;
     public WeightInitEnum biasInitializer = WeightInitEnum.ZEROS;
     public WeightedLayerConfig(){
     }

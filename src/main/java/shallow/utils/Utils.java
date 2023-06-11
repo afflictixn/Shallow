@@ -25,6 +25,10 @@ public class Utils {
         X.mul(X.lt(max_val).castTo(DataType.FLOAT)).muli(X.gt(min_val).castTo(DataType.FLOAT)).addi(minMask).addi(maxMask);
         return X;
     }
+    public static INDArray softmax(INDArray X) {
+        INDArray corrected = Utils.get().exp(X.sub(X.max(true, 1)));
+        return corrected.div(corrected.sum(true,1));
+    }
     public static int[] randomPermutation(int n){
         int [] permutation = new int[n];
         IntStream.range(0, n).forEach(i -> permutation[i] = i);

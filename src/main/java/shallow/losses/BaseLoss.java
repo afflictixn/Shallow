@@ -19,6 +19,7 @@ public abstract class BaseLoss {
     public abstract INDArray forward(INDArray X, INDArray Y);
 
     public abstract INDArray backward();
+    public abstract INDArray getActivation();
     public Map<String, INDArray> getGrads() {
         return grads;
     }

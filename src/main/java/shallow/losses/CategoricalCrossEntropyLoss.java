@@ -1,6 +1,7 @@
 package shallow.losses;
 
 import org.nd4j.linalg.api.ndarray.INDArray;
+import org.nd4j.linalg.factory.Nd4j;
 import shallow.utils.Utils;
 
 // Use CategoricalCrossEntropyLoss function when there are two or more label classes.
@@ -14,8 +15,7 @@ public class CategoricalCrossEntropyLoss extends BaseLoss {
         cache.put("Y", Y);
         // for numerical stability, for each sample we apply not softmax(x), but softmax(x - max(x_i))
         // where x is sample vector and max(x_i) is a maximum value along this vector, result is analytically the same
-        INDArray corrected = Utils.get().exp(X.sub(X.max(true, 1)));
-        INDArray activation = corrected.div(corrected.sum(true,1));
+        INDArray activation = Utils.softmax(X);
         cache.put("A", activation);
         INDArray cost = Y.mul(Utils.get().log(activation.add(Utils.epsilon8))).sum();
         return cost;
@@ -26,5 +26,10 @@ public class CategoricalCrossEntropyLoss extends BaseLoss {
         INDArray A = cache.get("A");
         INDArray Y = cache.get("Y");
         return A.sub(Y);
+    }
+
+    @Override
+    public INDArray getActivation() {
+        return cache.get("A");
     }
 }

@@ -2,7 +2,7 @@ package shallow.lr_schedulers;
 
 public class IntervalBasedScheduler implements LearningRateScheduler {
     double stopFactor = 1e-5;
-    double decay = 0.4;
+    double decay = 0.2;
     int timeInterval = 10;
 
     public IntervalBasedScheduler(double decay, int timeInterval, double stopFactor) {

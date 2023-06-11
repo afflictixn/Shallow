@@ -32,4 +32,9 @@ public class BinaryCrossEntropyLoss extends BaseLoss {
         // epsilon is added for numerical stability
         return X.sub(Y).divi(X.mul(Nd4j.onesLike(X).subi(X)).addi(Utils.epsilon12));
     }
+
+    @Override
+    public INDArray getActivation() {
+        return cache.get("X");
+    }
 }
