@@ -37,7 +37,6 @@ public enum DatasetEnum {
                 return new Cifar10DataSetIterator(batchSize,
                         new int[]{DatasetEnum.Cifar10Parameters.HEIGHT, DatasetEnum.Cifar10Parameters.WIDTH},
                         DataSetType.TEST, null, seed);
-
             }
         }
         throw new RuntimeException();
