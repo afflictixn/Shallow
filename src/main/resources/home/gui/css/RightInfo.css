@@ -1,0 +1,25 @@
+/* Оформление основного контейнера Label */
+.label-container {
+    -fx-background-color: #f1f1f1;
+    -fx-padding: 10px;
+    -fx-alignment: center;
+}
+
+/* Оформление текста внутри Label */
+.label-text {
+    -fx-font-size: 18px;
+    -fx-text-fill: #333333;
+    -fx-font-weight: bold;
+}
+
+/* Анимация при наведении на Label */
+.label-container:hover {
+    -fx-background-color: #d8d8d8;
+    -fx-cursor: hand;
+}
+
+/* Стиль для определенного состояния Label (например, выбранного) */
+.selected-label {
+    -fx-background-color: #ff0000;
+    -fx-text-fill: white;
+}
