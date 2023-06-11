@@ -62,8 +62,8 @@ public class OptimizerController implements Initializable {
         beta2.setDisable(false);
         beta1Field.setDisable(false);
         beta2Field.setDisable(false);
-        momentum.setDisable(true);
-        momentumField.setDisable(true);
+//        momentum.setDisable(true);
+//        momentumField.setDisable(true);
 
         beta1.setVisible(true);
         beta2.setVisible(true);
@@ -74,10 +74,10 @@ public class OptimizerController implements Initializable {
     }
 
     public void showSGD(){
-        beta1.setDisable(true);
-        beta2.setDisable(true);
-        beta1Field.setDisable(true);
-        beta2Field.setDisable(true);
+//        beta1.setDisable(true);
+//        beta2.setDisable(true);
+//        beta1Field.setDisable(true);
+//        beta2Field.setDisable(true);
         momentum.setDisable(false);
         momentumField.setDisable(false);
 
@@ -136,6 +136,7 @@ public class OptimizerController implements Initializable {
 
         if(temp == 0){
             MainController.getConnector().setOptimizerAdam(i1, i2);
+            MainController.getConnector().setLossEnum(lossBox.getValue());
             lastBeta1 = i1;
             lastBeta2 = i2;
 
@@ -151,24 +152,29 @@ public class OptimizerController implements Initializable {
     }
 
     public void ApplySGD(){
+        System.out.println("applying");
         int temp = 0;
-        String s = momentum.getText();
+        String s = momentumField.getText();
         if(s.isEmpty()){
+            System.out.println("empty");
             ++temp;
         }
         double i = 0;
         try{
             i = Double.parseDouble(s);
             if(i <= 0){
+                System.out.println("less than zero");
                 ++temp;
             }
         }
         catch (Exception e){
+            System.out.println("mistake");
             ++temp;
         }
 
         if(temp == 0){
             MainController.getConnector().setOptimizerSGD(i);
+            MainController.getConnector().setLossEnum(lossBox.getValue());
             lastMomentum = i;
 
             resultOfOperation.setText("Data was successfully applied.");

@@ -6,25 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="8a697e2e-9572-4d0e-a9d8-7c8128a229be" name="Changes" comment="fixed some minor problems">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/home/gui/BasicController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/home/gui/BasicController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/home/gui/Connector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/home/gui/Connector.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/home/gui/DatasetController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/home/gui/DatasetController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/home/gui/HyperParametersController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/home/gui/HyperParametersController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/home/gui/HyperParametersInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/home/gui/HyperParametersInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/home/gui/LayerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/home/gui/LayerController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/home/gui/LayerInfo/ConvolutionController2D.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/home/gui/LayerInfo/ConvolutionController2D.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/home/gui/LayerInfo/LinearController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/home/gui/LayerInfo/LinearController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/home/gui/LayerInfo/MaxPoolingController2D.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/home/gui/LayerInfo/MaxPoolingController2D.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/home/gui/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/home/gui/MainController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/home/gui/OptimizerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/home/gui/OptimizerController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/home/gui/StartApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/home/gui/StartApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/home/gui/Dataset.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/home/gui/Dataset.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/home/gui/HyperParameters.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/home/gui/HyperParameters.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/home/gui/Layer.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/home/gui/Layer.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/home/gui/LayerInfo/LayerConvolution2D.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/home/gui/LayerInfo/LayerConvolution2D.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/home/gui/LayerInfo/LayerLinear.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/home/gui/LayerInfo/LayerLinear.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/home/gui/LayerInfo/LayerMaxPooling2D.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/home/gui/LayerInfo/LayerMaxPooling2D.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/home/gui/Optimizer.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/home/gui/Optimizer.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,17 +60,17 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/HP/Documents/GitHub/Testing/Shallow0&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Global Libraries&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.5356322&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "C:/Users/HP/Documents/GitHub/Testing/Shallow0",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.5356322"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\HP\Documents\GitHub\Testing\Shallow\src\main" />
@@ -205,5 +186,16 @@
     <MESSAGE value="added javafx file" />
     <MESSAGE value="fixed some minor problems" />
     <option name="LAST_COMMIT_MESSAGE" value="fixed some minor problems" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/home/gui/OptimizerController.java</url>
+          <line>93</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

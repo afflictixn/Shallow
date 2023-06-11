@@ -9,8 +9,5 @@
         <module name="shallow-core" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="Shallow" target="19" />
-    </bytecodeTargetLevel>
   </component>
 </project>
