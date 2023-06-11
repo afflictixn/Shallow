@@ -31,13 +31,11 @@ public class LayerController implements Initializable {
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public void showApply(){
-        apply.setVisible(true);
         apply.setDisable(false);
     }
 
     public void hideApply(){
         apply.setDisable(true);
-        apply.setVisible(false);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -79,8 +77,9 @@ public class LayerController implements Initializable {
             MainController.getConnector().processSigmoid();
         }
         resultOfOperation.setText("Data was successfully applied.");
-        resultOfOperation.setTextFill(Color.GREEN);
+//        resultOfOperation.setTextFill(Color.GREEN);
         resultOfOperation.setVisible(true);
+        hideApply();
     }
 
 

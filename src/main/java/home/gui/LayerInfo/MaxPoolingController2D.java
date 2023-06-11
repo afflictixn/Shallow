@@ -64,12 +64,13 @@ public class MaxPoolingController2D implements Initializable {
             MainController.getConnector().processMaxPool2d(i1, i2, i3, i4);
 
             resultOfOperation.setText("Data was successfully applied.");
-            resultOfOperation.setTextFill(Color.GREEN);
+            resultOfOperation.setStyle("-fx-background-color: green");
             resultOfOperation.setVisible(true);
         }
         else{
+
             resultOfOperation.setText("Entered data is inappropriate.");
-            resultOfOperation.setTextFill(Color.RED);
+            resultOfOperation.setStyle("-fx-background-color: red");
             resultOfOperation.setVisible(true);
         }
     }
@@ -80,6 +81,7 @@ public class MaxPoolingController2D implements Initializable {
         stridesWidth.setText("1");
         kernelHeight.setText("1");
         kernelWidth.setText("1");
+
 
         resultOfOperation.setVisible(false);
     }

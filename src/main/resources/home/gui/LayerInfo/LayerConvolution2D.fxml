@@ -5,27 +5,66 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: grey;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="home.gui.LayerInfo.ConvolutionController2D">
+<AnchorPane prefHeight="701.0" prefWidth="300.0" style="-fx-background-color: #52548e;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="home.gui.LayerInfo.ConvolutionController2D">
    <children>
-      <TextField fx:id="filters" layoutX="205.0" layoutY="65.0" />
-      <Label layoutX="250.0" layoutY="47.0" text="Filters" />
-      <Label layoutX="148.0" layoutY="102.0" text="Kernel Height" />
-      <TextField fx:id="kernelHeight" layoutX="110.0" layoutY="120.0" />
-      <Label layoutX="337.0" layoutY="102.0" text="Kernel Width" />
-      <TextField fx:id="kernelWidth" layoutX="300.0" layoutY="120.0" />
-      <Label layoutX="147.0" layoutY="160.0" text="Strides Height" />
-      <TextField fx:id="stridesHeight" layoutX="109.0" layoutY="178.0" />
-      <Label layoutX="74.0" layoutY="226.0" text="Padding" />
-      <ChoiceBox fx:id="padding" layoutX="21.0" layoutY="244.0" prefWidth="150.0" />
-      <Button fx:id="Return" layoutX="96.0" layoutY="344.0" mnemonicParsing="false" onAction="#ReturnFunction" text="Return" />
-      <Button fx:id="apply" layoutX="406.0" layoutY="344.0" mnemonicParsing="false" onAction="#ApplyFunction" text="Apply" />
-      <TextField fx:id="stridesWidth" layoutX="300.0" layoutY="178.0" />
-      <Label layoutX="339.0" layoutY="160.0" text="Strides Width" />
-      <Label fx:id="resultOfOperation" alignment="CENTER" layoutX="416.0" layoutY="316.0" text="Label" />
-      <ChoiceBox fx:id="weight" layoutX="191.0" layoutY="244.0" prefWidth="150.0" />
-      <ChoiceBox fx:id="bias" layoutX="361.0" layoutY="244.0" prefWidth="150.0" />
-      <Label layoutX="221.0" layoutY="226.0" text="Weight Initializer" />
-      <Label layoutX="394.0" layoutY="226.0" text="Bias Initializer" />
+      <TextField fx:id="filters" layoutX="59.0" layoutY="101.0" stylesheets="@../css/TextField.css" />
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="75.0" layoutY="79.0" prefHeight="20.0" prefWidth="150.0" stylesheets="@../css/LabelName.css" text="Filters">
+         <font>
+            <Font size="15.0" />
+         </font></Label>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="75.0" layoutY="143.0" prefHeight="20.0" prefWidth="150.0" stylesheets="@../css/LabelName.css" text="Kernel Height">
+         <font>
+            <Font size="15.0" />
+         </font></Label>
+      <TextField fx:id="kernelHeight" layoutX="59.0" layoutY="165.0" stylesheets="@../css/TextField.css" />
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="75.0" layoutY="209.0" prefHeight="20.0" prefWidth="150.0" stylesheets="@../css/LabelName.css" text="Kernel Width">
+         <font>
+            <Font size="15.0" />
+         </font></Label>
+      <TextField fx:id="kernelWidth" layoutX="59.0" layoutY="231.0" stylesheets="@../css/TextField.css" />
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="75.0" layoutY="278.0" prefHeight="20.0" prefWidth="150.0" stylesheets="@../css/LabelName.css" text="Strides Height">
+         <font>
+            <Font size="15.0" />
+         </font></Label>
+      <TextField fx:id="stridesHeight" layoutX="59.0" layoutY="300.0" stylesheets="@../css/TextField.css" />
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="75.0" layoutY="418.0" prefHeight="25.0" prefWidth="150.0" stylesheets="@../css/LabelName.css" text="Padding">
+         <font>
+            <Font size="15.0" />
+         </font></Label>
+      <ChoiceBox fx:id="padding" layoutX="75.0" layoutY="444.0" prefHeight="25.0" prefWidth="150.0" stylesheets="@../css/ChoiceBox.css" />
+      <Button fx:id="Return" layoutX="35.0" layoutY="593.0" mnemonicParsing="false" onAction="#ReturnFunction" prefHeight="30.0" prefWidth="80.0" stylesheets="@../css/StandardButton.css" text="Return">
+         <font>
+            <Font size="15.0" />
+         </font></Button>
+      <Button fx:id="apply" layoutX="185.0" layoutY="593.0" mnemonicParsing="false" onAction="#ApplyFunction" prefHeight="30.0" prefWidth="80.0" stylesheets="@../css/StandardButton.css" text="Apply">
+         <font>
+            <Font size="15.0" />
+         </font></Button>
+      <TextField fx:id="stridesWidth" layoutX="59.0" layoutY="373.0" stylesheets="@../css/TextField.css" />
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="75.0" layoutY="351.0" prefHeight="20.0" prefWidth="150.0" stylesheets="@../css/LabelName.css" text="Strides Width">
+         <font>
+            <Font size="15.0" />
+         </font></Label>
+      <Label fx:id="resultOfOperation" alignment="CENTER" layoutX="50.0" layoutY="645.0" prefHeight="25.0" prefWidth="200.0" stylesheets="@../css/InfoGood.css" text="Label">
+         <font>
+            <Font size="14.0" />
+         </font></Label>
+      <ChoiceBox fx:id="weight" layoutX="75.0" layoutY="540.0" prefWidth="150.0" stylesheets="@../css/ChoiceBox.css" />
+      <ChoiceBox fx:id="bias" layoutX="75.0" layoutY="492.0" prefWidth="150.0" stylesheets="@../css/ChoiceBox.css" />
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="75.0" layoutY="518.0" prefHeight="20.0" prefWidth="150.0" stylesheets="@../css/LabelName.css" text="Weight Initializer">
+         <font>
+            <Font size="15.0" />
+         </font></Label>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="75.0" layoutY="470.0" prefHeight="20.0" prefWidth="150.0" stylesheets="@../css/LabelName.css" text="Bias Initializer">
+         <font>
+            <Font size="15.0" />
+         </font></Label>
+      <Label alignment="CENTER" layoutX="50.0" layoutY="20.0" prefHeight="40.0" prefWidth="200.0" stylesheets="@../css/CenterLabel.css" text="2D Convolution">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

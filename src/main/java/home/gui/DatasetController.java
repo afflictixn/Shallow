@@ -40,8 +40,8 @@ public class DatasetController implements Initializable {
         currentDataset = temp;
         MainController.getConnector().setDatasetEnum(temp);
 
+        resultOfOperation.setTextFill(Color.BLACK);
         resultOfOperation.setText("Data was successfully applied.");
-        resultOfOperation.setTextFill(Color.GREEN);
         resultOfOperation.setVisible(true);
 
 //        System.out.println("done");
@@ -52,12 +52,6 @@ public class DatasetController implements Initializable {
     };
 
 
-//    @FXML
-//    public void initializeDatasets () {
-//        choiceBox.getItems().clear();
-//        choiceBox.getItems().add(DatasetEnum.MNIST);
-//        choiceBox.getItems().add(DatasetEnum.CIFAR10);
-//    }
 
     public void ReturnFunction() throws IOException {
         MainController.getInstance().reset();
@@ -71,9 +65,13 @@ public class DatasetController implements Initializable {
         choiceBox.setValue(currentDataset);
 
         resultOfOperation.setVisible(false);
-        resultOfOperation.setDisable(true);
+        //resultOfOperation.setDisable(true);
 
-        //choiceBox.setOnAction(this::handler);
+        choiceBox.setOnAction(this::handler);
+    }
+
+    private void handler(ActionEvent actionEvent) {
+        resultOfOperation.setVisible(false);
     }
 
 

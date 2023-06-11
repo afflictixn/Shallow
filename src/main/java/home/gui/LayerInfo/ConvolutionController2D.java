@@ -93,12 +93,12 @@ public class ConvolutionController2D implements Initializable {
             MainController.getConnector().processConv2d(i1, i2, i3, i4, i5, padding.getValue(), weight.getValue(), bias.getValue());
             // TODO fix this problem
             resultOfOperation.setText("Data was successfully applied.");
-            resultOfOperation.setTextFill(Color.GREEN);
+            resultOfOperation.setStyle("-fx-background-color: green");
             resultOfOperation.setVisible(true);
         }
         else{
             resultOfOperation.setText("Entered data is inappropriate.");
-            resultOfOperation.setTextFill(Color.RED);
+            resultOfOperation.setStyle("-fx-background-color: red");
             resultOfOperation.setVisible(true);
         }
     }

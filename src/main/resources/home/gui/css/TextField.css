@@ -1,0 +1,27 @@
+/* Стилизация TextField */
+.text-field {
+    -fx-background-color: #dbdcf9; /* Цвет фона */
+    -fx-background-radius: 5px; /* Радиус закругления углов */
+    -fx-border-color: white; /* Цвет границы */
+    -fx-border-radius: 5px; /* Радиус закругления углов границы */
+    -fx-border-width: 1px; /* Толщина границы */
+    -fx-padding: 5px; /* Отступы внутри поля */
+    -fx-font-size: 15px; /* Размер шрифта */
+    -fx-alignment: center; /* теперь текст вводится по центру */
+}
+
+/* Стилизация TextField при наведении */
+.text-field:hover {
+    -fx-background-color: #8a8cee; /* Цвет фона при наведении */
+}
+
+
+/* Стилизация текста в TextField */
+.text-field .text {
+    -fx-fill: green; /* Цвет текста */
+}
+
+/* Стилизация подсказки в TextField */
+.text-field .prompt-text {
+    -fx-fill: orange; /* Цвет подсказки */
+}

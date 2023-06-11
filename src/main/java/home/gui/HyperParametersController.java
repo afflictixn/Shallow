@@ -71,12 +71,12 @@ public class HyperParametersController implements Initializable {
            MainController.getConnector().setHyperParametersInfo(i1, i2, i3);
 
            resultOfOperation.setText("Data was successfully applied.");
-           resultOfOperation.setTextFill(Color.GREEN);
+           resultOfOperation.setStyle("-fx-background-color: green");
            resultOfOperation.setVisible(true);
        }
        else{
            resultOfOperation.setText("Entered data is inappropriate.");
-           resultOfOperation.setTextFill(Color.RED);
+           resultOfOperation.setStyle("-fx-background-color: red");
            resultOfOperation.setVisible(true);
        }
    }

@@ -14,8 +14,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class OptimizerController implements Initializable {
-    // TODO сделать так, чтобы мои начальные значения уже были
-    // TODO доступны в connector
+    // TODO сделать так чтобы мои начальные значени совпадали со значениями в коннекторе
+    // TODO сделать так, чтобы Label пропадал, когда он уже не нужен
+    // TODO проверить предыдущий пункт для остальных контроллеров
 
     @FXML
     private Label resultOfOperation;
@@ -141,12 +142,12 @@ public class OptimizerController implements Initializable {
             lastBeta2 = i2;
 
             resultOfOperation.setText("Data was successfully applied.");
-            resultOfOperation.setTextFill(Color.GREEN);
+            resultOfOperation.setStyle("-fx-background-color: green");
             resultOfOperation.setVisible(true);
         }
         else{
             resultOfOperation.setText("Entered data is inappropriate.");
-            resultOfOperation.setTextFill(Color.RED);
+            resultOfOperation.setStyle("-fx-background-color: red");
             resultOfOperation.setVisible(true);
         }
     }
@@ -178,12 +179,12 @@ public class OptimizerController implements Initializable {
             lastMomentum = i;
 
             resultOfOperation.setText("Data was successfully applied.");
-            resultOfOperation.setTextFill(Color.GREEN);
+            resultOfOperation.setStyle("-fx-background-color: green");
             resultOfOperation.setVisible(true);
         }
         else{
             resultOfOperation.setText("Entered data is inappropriate.");
-            resultOfOperation.setTextFill(Color.RED);
+            resultOfOperation.setStyle("-fx-background-color: red");
             resultOfOperation.setVisible(true);
         }
     }

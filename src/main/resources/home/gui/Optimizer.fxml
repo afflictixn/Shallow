@@ -5,21 +5,56 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="430.0" prefWidth="715.0" style="-fx-background-color: pink;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="home.gui.OptimizerController">
+<AnchorPane prefHeight="701.0" prefWidth="300.0" style="-fx-background-color: #52548e;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="home.gui.OptimizerController">
    <children>
-      <Label layoutX="316.0" layoutY="14.0" prefHeight="18.0" prefWidth="81.0" text="Loss Function" />
-      <Label layoutX="302.0" layoutY="70.0" prefHeight="18.0" prefWidth="110.0" text="Optimizer Function" />
-      <Button fx:id="apply" layoutX="498.0" layoutY="318.0" mnemonicParsing="false" onAction="#ApplyFunction" prefHeight="36.0" prefWidth="68.0" text="Apply" />
-      <Button fx:id="Return" layoutX="150.0" layoutY="318.0" mnemonicParsing="false" onAction="#ReturnFunction" prefHeight="36.0" prefWidth="68.0" text="Return" />
-      <ChoiceBox fx:id="lossBox" layoutX="281.0" layoutY="32.0" prefWidth="150.0" />
-      <ChoiceBox fx:id="optimizerBox" layoutX="282.0" layoutY="88.0" prefWidth="150.0" />
-      <TextField fx:id="beta1Field" layoutX="109.0" layoutY="165.0" />
-      <TextField fx:id="momentumField" layoutX="283.0" layoutY="165.0" />
-      <TextField fx:id="beta2Field" layoutX="457.0" layoutY="165.0" />
-      <Label fx:id="beta1" layoutX="170.0" layoutY="148.0" text="beta1" />
-      <Label fx:id="momentum" layoutX="325.0" layoutY="148.0" text="momentum" />
-      <Label fx:id="beta2" layoutX="518.0" layoutY="148.0" text="beta2" />
-      <Label fx:id="resultOfOperation" layoutX="342.0" layoutY="301.0" text="Label" />
+      <Button fx:id="apply" layoutX="206.0" layoutY="549.0" mnemonicParsing="false" onAction="#ApplyFunction" prefHeight="30.0" prefWidth="80.0" stylesheets="@css/StandardButton.css" text="Apply">
+         <font>
+            <Font size="15.0" />
+         </font></Button>
+      <Button fx:id="Return" layoutX="16.0" layoutY="549.0" mnemonicParsing="false" onAction="#ReturnFunction" prefHeight="30.0" prefWidth="80.0" stylesheets="@css/StandardButton.css" text="Return">
+         <font>
+            <Font size="15.0" />
+         </font></Button>
+      <ChoiceBox fx:id="lossBox" layoutX="75.0" layoutY="105.0" prefWidth="150.0" stylesheets="@css/ChoiceBox.css" />
+      <ChoiceBox fx:id="optimizerBox" layoutX="75.0" layoutY="194.0" prefWidth="150.0" stylesheets="@css/ChoiceBox.css" />
+      <Label fx:id="resultOfOperation" alignment="CENTER" contentDisplay="CENTER" layoutX="50.0" layoutY="602.0" prefHeight="25.0" prefWidth="200.0" stylesheets="@css/InfoGood.css" text="Label">
+         <font>
+            <Font size="14.0" />
+         </font></Label>
+      <Label alignment="CENTER" layoutX="50.0" layoutY="20.0" prefHeight="40.0" prefWidth="200.0" stylesheets="@css/CenterLabel.css" text="Optimizer">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="75.0" layoutY="75.0" prefHeight="30.0" prefWidth="150.0" stylesheets="@css/LabelName.css" text="Batch Size">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="75.0" layoutY="164.0" prefHeight="30.0" prefWidth="150.0" stylesheets="@css/LabelName.css" text="Optimizer Function">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="beta1" alignment="CENTER" layoutX="75.0" layoutY="243.0" prefHeight="30.0" prefWidth="150.0" stylesheets="@css/LabelName.css" text="Beta 1">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="momentum" alignment="CENTER" layoutX="75.0" layoutY="327.0" prefHeight="30.0" prefWidth="150.0" stylesheets="@css/LabelName.css" text="Momentum">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="beta2" alignment="CENTER" layoutX="75.0" layoutY="409.0" prefHeight="30.0" prefWidth="150.0" stylesheets="@css/LabelName.css" text="Beta 2">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <TextField fx:id="beta1Field" layoutX="59.0" layoutY="273.0" stylesheets="@css/TextField.css" />
+      <TextField fx:id="momentumField" layoutX="59.0" layoutY="357.0" stylesheets="@css/TextField.css" />
+      <TextField fx:id="beta2Field" layoutX="59.0" layoutY="439.0" stylesheets="@css/TextField.css" />
    </children>
 </AnchorPane>

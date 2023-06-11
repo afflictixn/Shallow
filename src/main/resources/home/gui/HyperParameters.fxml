@@ -4,17 +4,44 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="354.0" prefWidth="239.0" style="-fx-background-color: pink;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="home.gui.HyperParametersController">
+<AnchorPane prefHeight="701.0" prefWidth="300.0" style="-fx-background-color: #52548e;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="home.gui.HyperParametersController">
    <children>
-      <TextField fx:id="epochs" layoutX="45.0" layoutY="122.0" />
-      <TextField fx:id="learningRate" layoutX="45.0" layoutY="187.0" />
-      <TextField fx:id="batchSize" layoutX="45.0" layoutY="58.0" />
-      <Label alignment="CENTER" layoutX="88.0" layoutY="30.0" prefHeight="18.0" prefWidth="62.0" text="Batch Size" />
-      <Label alignment="CENTER" layoutX="88.0" layoutY="94.0" prefHeight="18.0" prefWidth="62.0" text="Epochs" />
-      <Label alignment="CENTER" layoutX="80.0" layoutY="158.0" prefHeight="18.0" prefWidth="78.0" text="Learning Rate" />
-      <Button fx:id="apply" layoutX="163.0" layoutY="269.0" mnemonicParsing="false" onAction="#ApplyFunction" prefHeight="26.0" prefWidth="62.0" text="Apply" />
-      <Button fx:id="Return" layoutX="14.0" layoutY="269.0" mnemonicParsing="false" onAction="#ReturnFunction" prefHeight="26.0" prefWidth="62.0" text="Return" />
-      <Label fx:id="resultOfOperation" layoutX="105.0" layoutY="244.0" text="Label" />
+      <TextField fx:id="epochs" layoutX="64.0" layoutY="221.0" stylesheets="@css/TextField.css" />
+      <TextField fx:id="learningRate" layoutX="64.0" layoutY="324.0" stylesheets="@css/TextField.css" />
+      <TextField fx:id="batchSize" layoutX="64.0" layoutY="119.0" stylesheets="@css/TextField.css" />
+      <Button fx:id="apply" layoutX="206.0" layoutY="542.0" mnemonicParsing="false" onAction="#ApplyFunction" prefHeight="30.0" prefWidth="80.0" stylesheets="@css/StandardButton.css" text="Apply">
+         <font>
+            <Font size="15.0" />
+         </font></Button>
+      <Button fx:id="Return" layoutX="24.0" layoutY="542.0" mnemonicParsing="false" onAction="#ReturnFunction" prefHeight="30.0" prefWidth="80.0" stylesheets="@css/StandardButton.css" text="Return">
+         <font>
+            <Font size="15.0" />
+         </font></Button>
+      <Label fx:id="resultOfOperation" alignment="CENTER" contentDisplay="CENTER" layoutX="68.0" layoutY="593.0" prefHeight="25.0" prefWidth="200.0" stylesheets="@css/InfoGood.css" text="Label">
+         <font>
+            <Font size="14.0" />
+         </font></Label>
+      <Label alignment="CENTER" layoutX="50.0" layoutY="20.0" prefHeight="40.0" prefWidth="200.0" stylesheets="@css/CenterLabel.css" text="Hyperparameters">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="90.0" layoutY="88.0" prefHeight="30.0" prefWidth="120.0" stylesheets="@css/LabelName.css" text="Batch Size">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="90.0" layoutY="190.0" prefHeight="30.0" prefWidth="120.0" stylesheets="@css/LabelName.css" text="Epochs">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="95.0" layoutY="293.0" prefHeight="30.0" prefWidth="120.0" stylesheets="@css/LabelName.css" text="Learning Rate">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
