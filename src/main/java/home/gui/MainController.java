@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -100,6 +101,28 @@ public class MainController implements Initializable {
 //        AnchorPane p = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Evaluater.fxml")));
 //        center.setCenter(p);
     }
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @FXML
+    private Button startButton; // green button to start the training
+
+    public void bigRedButton(){ // starts the training of the model, actually button is green :)
+        // TODO implement this function
+    }
+
+    @FXML
+    private Label lossDisplayValue;
+
+    @FXML
+    private Label accuracyDisplayValue;
+
+    @FXML
+    private Label epochDisplayValue;
+
+    @FXML
+    private Label timeDisplayValue;
+
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -107,7 +130,7 @@ public class MainController implements Initializable {
             getInstance().setBorderPane("Basic.fxml");
         }
         catch (Exception e){
-            System.out.println("e");
+            System.out.println("exception");
         }
     }
 }
