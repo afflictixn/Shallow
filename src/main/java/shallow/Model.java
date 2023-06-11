@@ -2,7 +2,8 @@ package shallow;
 
 import org.nd4j.linalg.api.buffer.DataType;
 import org.nd4j.linalg.api.ndarray.INDArray;
-import org.nd4j.linalg.factory.Nd4j;
+import org.nd4j.linalg.dataset.api.DataSet;
+import org.nd4j.linalg.dataset.api.iterator.DataSetIterator;
 import shallow.layers.BaseLayer;
 import shallow.layers.ShapeChangingLayer;
 import shallow.layers.WeightedLayer;
@@ -35,18 +36,21 @@ public class Model {
     BaseLoss loss;
     BaseOptimizer optimizer;
     LearningRateScheduler scheduler = new ConstantScheduler();
-    private int lastLayerSize;
-
+    final ModelInfo info;
     public Model() {
         layers = new ArrayList<>();
         trainableLayers = new ArrayList<>();
         shapeChangingLayers = new ArrayList<>();
+        this.info = new ModelInfo();
+    }
+    public Model(ModelInfo info) {
+        layers = new ArrayList<>();
+        trainableLayers = new ArrayList<>();
+        shapeChangingLayers = new ArrayList<>();
+        this.info = info;
     }
 
     public Model addLayer(BaseLayer layer) {
-        if (!validLayerCheck(layer)) {
-            throw new IllegalArgumentException();
-        }
         layers.add(layer);
         if (layer instanceof ShapeChangingLayer shapeChangingLayer) {
             shapeChangingLayers.add(shapeChangingLayer);
@@ -92,54 +96,93 @@ public class Model {
     }
 
     public INDArray predict(INDArray X) {
-        if (loss.getClass().equals(BinaryCrossEntropyLoss.class) || loss.getClass().equals(CategoricalCrossEntropyLoss.class)) {
+        INDArray res = forwardPass(X);
+        if (loss.getClass().equals(CategoricalCrossEntropyLoss.class)) {
             // transforms probabilities given by forward pass of network into predictions 1 or 0
-            INDArray probs = forwardPass(X);
-            INDArray ans = probs.gt(0.5).castTo(DataType.FLOAT);
+            // applies softmax as during training it was included in loss function
+            INDArray activation = Utils.softmax(res);
+            INDArray maxProba = activation.max(true, 1);
+            INDArray ans = activation.eq(maxProba).castTo(DataType.FLOAT);
+            return ans;
+        }
+        else if (loss.getClass().equals(BinaryCrossEntropyLoss.class)) {
+            INDArray ans = res.gt(0.5).castTo(DataType.FLOAT);
             return ans;
         }
         return null;
     }
-
-    // 0-th dimension of X and Y is a number of samples
-    public void fit(INDArray X, INDArray Y, double learningRate, int batchSize, int numEpochs) {
+    public void evaluateTestSet(INDArray testFeatures, INDArray testLabels) {
+        INDArray prediction = predict(testFeatures);
+        info.reset();
+        info.evaluate(prediction, testLabels, false);
+        System.out.println(info.toString());
+    }
+    void prepareModel(long... inputShape){
         if (!shapeChangingLayers.isEmpty()) {
-            shapeChangingLayers.get(0).init(X.shape());
+            shapeChangingLayers.get(0).init(inputShape);
             for (int i = 1; i < shapeChangingLayers.size(); ++i) {
                 shapeChangingLayers.get(i).init(shapeChangingLayers.get(i - 1).getOutputShape());
             }
         }
         optimizer.init(trainableLayers);
-        INDArray result = null;
+    }
+    // trains model on one mini batch
+    // returns loss of a current mini batch iteration
+    double oneStep(INDArray X, INDArray Y, double currentLearningRate, int currentEpoch){
+        INDArray result = forwardPass(X);
+        double stepLoss = computeLoss(result, Y);
+        backwardPass();
+        optimizer.updateWeights(currentLearningRate, currentEpoch);
+
+        info.evaluateFromRaw(loss.getActivation(), Y);
+        return stepLoss;
+    }
+
+    // 0-th dimension of X and Y is a number of samples
+    public void fit(INDArray X, INDArray Y, double learningRate, int batchSize, int numEpochs) {
+        prepareModel(X.shape());
         long numSamples = X.shape()[0];
         List<MiniBatch> miniBatches = (X.shape().length == 2) ?
                 randomMiniBatches(X, Y, batchSize) : getMiniBatches(X, Y, batchSize);
-        for (int i = 1; i <= numEpochs; ++i) {
-            double totalCost = 0.0;
-            double currentLearningRate = scheduler.getCurrentLearningRate(learningRate, i);
-            for (MiniBatch miniBatch : miniBatches) {
-                result = forwardPass(miniBatch.X);
-                totalCost += computeLoss(result, miniBatch.Y);
-                backwardPass();
-                optimizer.updateWeights(currentLearningRate, i);
-            }
-            totalCost /= -numSamples;
 
-            // ToDo make class for display of metrics and data
-            if (i % 25 == 1 || i == numEpochs) {
-                System.out.println("Current loss: " + totalCost);
-                System.out.println("Current learning rate: " + currentLearningRate);
+        for (int currentEpoch = 1; currentEpoch <= numEpochs; ++currentEpoch) {
+            info.reset();
+            double totalLoss = 0.0;
+            double currentLearningRate = scheduler.getCurrentLearningRate(learningRate, currentEpoch);
+            for (MiniBatch miniBatch : miniBatches) {
+                totalLoss += oneStep(miniBatch.X, miniBatch.Y, currentLearningRate, currentEpoch);
+            }
+            totalLoss /= -numSamples;
+            info.setMetadata(currentEpoch, totalLoss);
+            System.out.println(info.toString());
+            synchronized (info) {
+                info.notify();
             }
         }
     }
 
-    private boolean validLayerCheck(BaseLayer layer) {
-        boolean ok = true;
-//        if (layer instanceof WeightedLayer weighted) {
-//            ok = (last_layer_size == 0) || last_layer_size == weighted.getInputSize();
-//            last_layer_size = weighted.getOutputSize();
-//        }
-        return ok;
+    public void fit(DataSetIterator iterator, double learningRate, int numEpochs) {
+        DataSet dataSet = iterator.next();
+        prepareModel(dataSet.getFeatures().shape());
+        for (int currentEpoch = 1; currentEpoch <= numEpochs; ++currentEpoch) {
+            info.reset();
+            double totalLoss = 0.0;
+            double currentLearningRate = scheduler.getCurrentLearningRate(learningRate, currentEpoch);
+            while(true) {
+                totalLoss += oneStep(dataSet.getFeatures(), dataSet.getLabels(), currentLearningRate, currentEpoch);
+                if(!iterator.hasNext()){
+                    break;
+                }
+                dataSet = iterator.next();
+            }
+            totalLoss /= -info.totalPredictions;
+            info.setMetadata(currentEpoch, totalLoss);
+            System.out.println(info.toString());
+            synchronized (info) {
+                info.notify();
+            }
+            iterator.reset();
+        }
     }
 
     private static List<MiniBatch> randomMiniBatches(INDArray X, INDArray Y, int batchSize) {
