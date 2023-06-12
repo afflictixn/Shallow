@@ -57,6 +57,18 @@ public class DatasetController implements Initializable {
         MainController.getInstance().reset();
     }
 
+    @FXML
+    private Label trainSetSize;
+
+    @FXML
+    private Label testSetSize;
+
+    @FXML
+    private Label inputShape;
+
+    @FXML
+    private Label labels;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         choiceBox.getItems().clear();
@@ -65,12 +77,33 @@ public class DatasetController implements Initializable {
         choiceBox.setValue(currentDataset);
 
         resultOfOperation.setVisible(false);
+        setDescription();
         //resultOfOperation.setDisable(true);
 
         choiceBox.setOnAction(this::handler);
     }
 
+    public void setDescription(){
+        if(choiceBox.getValue().equals(DatasetEnum.MNIST)){
+            trainSetSize.setText(MNIST[0]);
+            testSetSize.setText(MNIST[1]);
+            inputShape.setText(MNIST[2]);
+            labels.setText(MNIST[3]);
+        }
+        else{
+            trainSetSize.setText(CIFAR10[0]);
+            testSetSize.setText(CIFAR10[1]);
+            inputShape.setText(CIFAR10[2]);
+            labels.setText(CIFAR10[3]);
+        }
+    }
+
+
+    String[] MNIST = {"60000", "10000", "784", "0, 1, 2, 3, 4, 5, 6, 7, 8, 9"};
+    String[] CIFAR10 = {"50000", "10000", "32x32x3", "3"};
+
     private void handler(ActionEvent actionEvent) {
+        setDescription();
         resultOfOperation.setVisible(false);
     }
 
