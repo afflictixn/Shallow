@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.StackPane;
@@ -30,6 +31,9 @@ public class EvaluateController implements Initializable {
 
     @FXML
     private Canvas canvas;
+
+    @FXML
+    private Label superAnswer;
 
     @FXML
     private Button startButton;
@@ -113,6 +117,7 @@ public class EvaluateController implements Initializable {
         INDArray prediction = model.predict(image);
         double label = prediction.argMax(0, 1).getDouble();
         System.out.println("Label: " + label);
+        superAnswer.setText(Double.toString(label));
     }
 
     @Override
