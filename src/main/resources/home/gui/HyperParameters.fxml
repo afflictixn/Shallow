@@ -43,5 +43,10 @@
             <Font size="15.0" />
          </font>
       </Label>
+      <Label contentDisplay="CENTER" layoutX="64.0" layoutY="369.0" prefHeight="54.0" prefWidth="182.0" stylesheets="@css/LabelName.css" text="Learning rate can be changed during the training process" wrapText="true">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
