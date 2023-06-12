@@ -39,6 +39,10 @@ public class HyperParametersController implements Initializable {
         MainController.getInstance().reset();
    }
 
+   public void hideTheLabel(){
+       resultOfOperation.setVisible(false);
+   }
+
    public void ApplyFunction(){
        int temp = 0;
        String s1 = batchSize.getText();

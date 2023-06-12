@@ -7,8 +7,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import shallow.layers.weight_init.WeightInitEnum;
+import javafx.event.ActionEvent;
 
 import java.io.IOException;
 import java.net.URL;
@@ -75,6 +77,10 @@ public class LinearController implements Initializable {
         MainController.getInstance().setBorderPane("Layer.fxml");
     }
 
+    public void hideTheLabel(ActionEvent event){
+        resultOfOperation.setVisible(false);
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         box1.getItems().clear();
@@ -99,6 +105,12 @@ public class LinearController implements Initializable {
         field.setText("10");
         box1.setValue(WeightInitEnum.HeNormal);
         box2.setValue(WeightInitEnum.ZEROS);
+        resultOfOperation.setVisible(false);
+        box1.setOnAction(this::hideTheLabel);
+        box2.setOnAction(this::hideTheLabel);
+    }
+
+    public void hidingTheLabel() {
         resultOfOperation.setVisible(false);
     }
 }

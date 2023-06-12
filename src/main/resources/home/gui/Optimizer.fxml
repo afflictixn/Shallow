@@ -53,8 +53,8 @@
             <Font size="15.0" />
          </font>
       </Label>
-      <TextField fx:id="beta1Field" layoutX="59.0" layoutY="273.0" stylesheets="@css/TextField.css" />
-      <TextField fx:id="momentumField" layoutX="59.0" layoutY="357.0" stylesheets="@css/TextField.css" />
-      <TextField fx:id="beta2Field" layoutX="59.0" layoutY="439.0" stylesheets="@css/TextField.css" />
+      <TextField fx:id="beta1Field" layoutX="59.0" layoutY="273.0" onMouseClicked="#hideTheLabel" stylesheets="@css/TextField.css" />
+      <TextField fx:id="momentumField" layoutX="59.0" layoutY="357.0" onMouseClicked="#hideTheLabel" stylesheets="@css/TextField.css" />
+      <TextField fx:id="beta2Field" layoutX="59.0" layoutY="439.0" onMouseClicked="#hideTheLabel" stylesheets="@css/TextField.css" />
    </children>
 </AnchorPane>

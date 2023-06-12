@@ -24,10 +24,10 @@
          <font>
             <Font size="15.0" />
          </font></Label>
-      <TextField fx:id="stridesHeight" layoutX="64.0" layoutY="129.0" stylesheets="@../css/TextField.css" />
-      <TextField fx:id="stridesWidth" layoutX="64.0" layoutY="213.0" stylesheets="@../css/TextField.css" />
-      <TextField fx:id="kernelHeight" layoutX="64.0" layoutY="392.0" stylesheets="@../css/TextField.css" />
-      <TextField fx:id="kernelWidth" layoutX="64.0" layoutY="303.0" stylesheets="@../css/TextField.css" />
+      <TextField fx:id="stridesHeight" layoutX="64.0" layoutY="129.0" onMouseClicked="#hideTheLabel" stylesheets="@../css/TextField.css" />
+      <TextField fx:id="stridesWidth" layoutX="64.0" layoutY="213.0" onMouseClicked="#hideTheLabel" stylesheets="@../css/TextField.css" />
+      <TextField fx:id="kernelHeight" layoutX="64.0" layoutY="392.0" onMouseClicked="#hideTheLabel" stylesheets="@../css/TextField.css" />
+      <TextField fx:id="kernelWidth" layoutX="64.0" layoutY="303.0" onMouseClicked="#hideTheLabel" stylesheets="@../css/TextField.css" />
       <Button fx:id="Return" contentDisplay="CENTER" layoutX="24.0" layoutY="588.0" mnemonicParsing="false" onAction="#ReturnFunction" prefHeight="30.0" prefWidth="80.0" stylesheets="@../css/StandardButton.css" text="Return">
          <font>
             <Font size="15.0" />

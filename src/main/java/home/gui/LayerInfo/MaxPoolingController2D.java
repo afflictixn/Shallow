@@ -75,6 +75,10 @@ public class MaxPoolingController2D implements Initializable {
         }
     }
 
+    public void hideTheLabel(){
+        resultOfOperation.setVisible(false);
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         stridesHeight.setText("2");

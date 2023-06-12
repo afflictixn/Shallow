@@ -13,7 +13,7 @@
          <font>
             <Font size="15.0" />
          </font></Label>
-      <TextField fx:id="field" layoutX="75.0" layoutY="324.0" prefHeight="30.0" prefWidth="150.0" stylesheets="@../css/TextField.css" />
+      <TextField fx:id="field" layoutX="75.0" layoutY="324.0" onMouseClicked="#hidingTheLabel" prefHeight="30.0" prefWidth="150.0" stylesheets="@../css/TextField.css" />
       <ChoiceBox fx:id="box1" layoutX="75.0" layoutY="141.0" prefHeight="30.0" prefWidth="150.0" stylesheets="@../css/ChoiceBox.css" />
       <Label alignment="CENTER" contentDisplay="CENTER" layoutX="90.0" layoutY="111.0" prefHeight="30.0" prefWidth="120.0" stylesheets="@../css/LabelName.css" text="Weight Initializer">
          <font>
