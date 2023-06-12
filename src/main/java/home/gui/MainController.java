@@ -30,17 +30,18 @@ public class MainController implements Initializable {
     public static AtomicDouble currentLearningRate = new AtomicDouble(0);
     private static Connector connector;
 
+    public static Model neuralNetworkModel;
 
-    public MainController(){
+    public MainController() {
         instance = this;
         connector = new Connector();
     }
 
-    public static MainController getInstance(){
+    public static MainController getInstance() {
         return instance;
     }
 
-    public static Connector getConnector(){
+    public static Connector getConnector() {
         return connector;
     }
 
@@ -52,7 +53,7 @@ public class MainController implements Initializable {
 
 
     public void setBorderPane(String s) throws IOException {
-        if(center == null){
+        if (center == null) {
             System.out.println("null");
         }
         AnchorPane p = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(s)));
@@ -106,6 +107,7 @@ public class MainController implements Initializable {
 //        AnchorPane p = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("HyperParameters.fxml")));
 //        center.setCenter(p);
     }
+
     public void evaluateFunction(ActionEvent event) throws IOException {
         getInstance().setBorderPane("Evaluater.fxml");
 
@@ -126,21 +128,21 @@ public class MainController implements Initializable {
 
         // building model for training
         DataSetIterator trainIterator = connector.datasetEnum.getTrainDataSetIterator(batchSize, seed);
-        DataSetIterator testIterator = connector.datasetEnum.getTestDataSetIterator(batchSize, seed);
+//        DataSetIterator testIterator = connector.datasetEnum.getTestDataSetIterator(batchSize, seed);
         ModelInfo modelInfo = new ModelInfo(connector.hyperParametersInfo.epochs);
-        Model model = new Model(modelInfo);
-        for(Config config : connector.configs){
-            model.addLayer(config.buildLayer());
+        neuralNetworkModel = new Model(modelInfo);
+        for (Config config : connector.configs) {
+            neuralNetworkModel.addLayer(config.buildLayer());
         }
         // set learning rate scheduler that will react on user input during training
-        model.setScheduler((initialRate, epochNum)-> currentLearningRate.get());
-        model.setOptimizer(connector.optimizer);
-        model.setLoss(connector.lossEnum.getLoss());
+        neuralNetworkModel.setScheduler((initialRate, epochNum) -> currentLearningRate.get());
+        neuralNetworkModel.setOptimizer(connector.optimizer);
+        neuralNetworkModel.setLoss(connector.lossEnum.getLoss());
 
         Runnable runTrainModel = new Runnable() {
             @Override
             public void run() {
-                model.fit(trainIterator,
+                neuralNetworkModel.fit(trainIterator,
                         connector.hyperParametersInfo.learningRate,
                         connector.hyperParametersInfo.epochs);
             }
@@ -157,7 +159,7 @@ public class MainController implements Initializable {
                         throw new RuntimeException(e);
                     }
                     updateValue(modelInfo.getCurrentEpoch());
-                    if(modelInfo.getCurrentEpoch() == modelInfo.getTotalEpoch()){
+                    if (modelInfo.getCurrentEpoch() == modelInfo.getTotalEpoch()) {
                         break;
                     }
                 }
@@ -185,11 +187,11 @@ public class MainController implements Initializable {
         Task<String> updateTimeTask = new Task<String>() {
             @Override
             protected String call() throws Exception {
-                while(true) {
+                while (true) {
                     long passedTime = (System.currentTimeMillis() - startTime) / 1000;
                     updateMessage(passedTime + " s");
                     Thread.sleep(1000);
-                    if(modelInfo.getCurrentEpoch() == modelInfo.getTotalEpoch()){
+                    if (modelInfo.getCurrentEpoch() == modelInfo.getTotalEpoch()) {
                         break;
                     }
                 }
@@ -215,13 +217,11 @@ public class MainController implements Initializable {
     private Label timeDisplayValue;
 
 
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        try{
+        try {
             getInstance().setBorderPane("Basic.fxml");
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             System.out.println("exception");
         }
     }
