@@ -9,16 +9,20 @@
 
 <AnchorPane prefHeight="701.0" prefWidth="300.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="home.gui.EvaluateController">
    <children>
-      <Button fx:id="startButton" layoutX="94.0" layoutY="37.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="110.0" text="Start" />
-      <Button fx:id="finishButton" layoutX="94.0" layoutY="78.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="110.0" text="FInish" />
+      <Button fx:id="startButton" layoutX="79.0" layoutY="33.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="142.0" stylesheets="@css/StandardButton.css" text="Start" />
+      <Button fx:id="finishButton" layoutX="72.0" layoutY="96.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="155.0" stylesheets="@css/StandardButton.css" text="FInish" />
       <Canvas fx:id="canvas" height="100.0" layoutX="50.0" layoutY="251.0" width="100.0" />
       <Separator layoutX="47.0" layoutY="251.0" orientation="VERTICAL" prefHeight="200.0" />
       <Separator layoutX="247.0" layoutY="251.0" orientation="VERTICAL" prefHeight="200.0" prefWidth="6.0" />
       <Separator layoutX="50.0" layoutY="250.0" prefWidth="200.0" />
       <Separator layoutX="50.0" layoutY="449.0" prefHeight="3.0" prefWidth="200.0" />
-      <Button fx:id="clearButton" layoutX="89.0" layoutY="118.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="122.0" text="Clear" />
-      <Label layoutX="37.0" layoutY="494.0" prefHeight="26.0" prefWidth="200.0" text="The answer of the most precise NN : " />
-      <Label fx:id="superAnswer" alignment="CENTER" layoutX="34.0" layoutY="529.0" prefHeight="126.0" prefWidth="200.0" text="superAnswer">
+      <Button fx:id="clearButton" layoutX="72.0" layoutY="153.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="155.0" stylesheets="@css/StandardButton.css" text="Clear" />
+      <Label alignment="CENTER" layoutX="50.0" layoutY="487.0" prefHeight="26.0" prefWidth="200.0" text="Predicted answer : ">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="superAnswer" alignment="CENTER" layoutX="50.0" layoutY="513.0" prefHeight="92.0" prefWidth="200.0" text="superAnswer">
          <font>
             <Font size="30.0" />
          </font>
