@@ -4,6 +4,9 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -11,58 +14,87 @@
    <children>
       <VBox fx:id="box" layoutX="-2.0" layoutY="233.0" prefHeight="240.0" prefWidth="127.0">
          <children>
-            <Button fx:id="dataset" mnemonicParsing="false" onAction="#datasetFunction" prefHeight="48.0" prefWidth="128.0" stylesheets="@css/StandardButton.css" text="Dataset" />
-            <Button fx:id="layer" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#layerFunction" prefHeight="48.0" prefWidth="128.0" stylesheets="@css/StandardButton.css" text="Add Layer" />
-            <Button fx:id="hyperparameters" layoutX="10.0" layoutY="58.0" mnemonicParsing="false" onAction="#hyperparametersFunction" prefHeight="48.0" prefWidth="128.0" stylesheets="@css/StandardButton.css" text="Hyperparameters" />
-            <Button fx:id="optimizer" layoutX="10.0" layoutY="106.0" mnemonicParsing="false" onAction="#optimizerFunction" prefHeight="48.0" prefWidth="128.0" stylesheets="@css/StandardButton.css" text="Optimizer" />
-            <Button fx:id="evaluate" layoutX="10.0" layoutY="154.0" mnemonicParsing="false" onAction="#evaluateFunction" prefHeight="48.0" prefWidth="128.0" stylesheets="@css/StandardButton.css" text="Evaluate" />
+            <Button fx:id="dataset" mnemonicParsing="false" onAction="#datasetFunction" prefHeight="48.0" prefWidth="128.0" stylesheets="@css/StandardButton.css" text="Dataset">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font></Button>
+            <Button fx:id="layer" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#layerFunction" prefHeight="48.0" prefWidth="128.0" stylesheets="@css/StandardButton.css" text="Add Layer">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font></Button>
+            <Button fx:id="hyperparameters" layoutX="10.0" layoutY="58.0" mnemonicParsing="false" onAction="#hyperparametersFunction" prefHeight="48.0" prefWidth="128.0" stylesheets="@css/StandardButton.css" text="Hyperparameters">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Button>
+            <Button fx:id="optimizer" layoutX="10.0" layoutY="106.0" mnemonicParsing="false" onAction="#optimizerFunction" prefHeight="48.0" prefWidth="128.0" stylesheets="@css/StandardButton.css" text="Optimizer">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font></Button>
+            <Button fx:id="evaluate" layoutX="10.0" layoutY="154.0" mnemonicParsing="false" onAction="#evaluateFunction" prefHeight="48.0" prefWidth="128.0" stylesheets="@css/StandardButton.css" text="Evaluate">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font></Button>
          </children>
       </VBox>
       <BorderPane fx:id="center" layoutX="125.0" layoutY="2.0" prefHeight="702.0" prefWidth="300.0" />
-      <Label alignment="CENTER" layoutX="450.0" layoutY="22.0" prefHeight="30.0" prefWidth="44.0" text="Loss">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <Label layoutX="571.0" layoutY="22.0" prefHeight="30.0" prefWidth="58.0" text="Accuracy">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <Label alignment="CENTER" layoutX="710.0" layoutY="22.0" prefHeight="30.0" prefWidth="51.0" text="Epoch">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <Label fx:id="lossDisplayValue" alignment="CENTER" contentDisplay="CENTER" layoutX="443.0" layoutY="52.0" prefHeight="30.0" prefWidth="57.0" text="-">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
       <Button fx:id="startButton" layoutX="-2.0" layoutY="77.0" mnemonicParsing="false" onAction="#bigRedButton" prefHeight="48.0" prefWidth="128.0" style="-fx-background-color: green;" text="START" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Button>
-      <Label fx:id="accuracyDisplayValue" alignment="CENTER" contentDisplay="CENTER" layoutX="571.0" layoutY="52.0" prefHeight="30.0" prefWidth="57.0" text="-">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <Label fx:id="epochDisplayValue" alignment="CENTER" contentDisplay="CENTER" layoutX="707.0" layoutY="52.0" prefHeight="30.0" prefWidth="57.0" text="-">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <Label alignment="CENTER" layoutX="816.0" layoutY="22.0" prefHeight="30.0" prefWidth="51.0" text="Time">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <Label fx:id="timeDisplayValue" alignment="CENTER" contentDisplay="CENTER" layoutX="813.0" layoutY="52.0" prefHeight="30.0" prefWidth="57.0" text="-">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
+      <GridPane hgap="15.0" layoutX="457.0" layoutY="14.0" prefHeight="78.0" prefWidth="438.0" vgap="5.0">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label alignment="CENTER" prefHeight="69.0" prefWidth="139.0" stylesheets="@css/light.css" text="Loss">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="lossDisplayValue" alignment="CENTER" contentDisplay="CENTER" prefHeight="44.0" prefWidth="127.0" stylesheets="@css/light.css" text="-" GridPane.rowIndex="1">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" prefHeight="64.0" prefWidth="98.0" stylesheets="@css/light.css" text="Accuracy" GridPane.columnIndex="1">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="accuracyDisplayValue" alignment="CENTER" contentDisplay="CENTER" prefHeight="45.0" prefWidth="115.0" stylesheets="@css/light.css" text="-" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" prefHeight="44.0" prefWidth="114.0" stylesheets="@css/light.css" text="Epoch" GridPane.columnIndex="2">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="epochDisplayValue" alignment="CENTER" contentDisplay="CENTER" prefHeight="55.0" prefWidth="98.0" stylesheets="@css/light.css" text="-" GridPane.columnIndex="2" GridPane.rowIndex="1">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" prefHeight="68.0" prefWidth="111.0" stylesheets="@css/light.css" text="Time" GridPane.columnIndex="3">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="timeDisplayValue" alignment="CENTER" contentDisplay="CENTER" prefHeight="84.0" prefWidth="127.0" stylesheets="@css/light.css" text="-" GridPane.columnIndex="3" GridPane.rowIndex="1">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+         </children>
+      </GridPane>
    </children>
 </AnchorPane>
