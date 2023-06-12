@@ -18,9 +18,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class ConvolutionController2D implements Initializable {
-    // TODO добавить два weight/bias initializer точно таких же как и для Linear
-    // TODO обновить функцию отправки данных в Connector, когда Витя починит там функцию
-
     @FXML
     private Label resultOfOperation;
     @FXML
@@ -128,14 +125,14 @@ public class ConvolutionController2D implements Initializable {
         bias.getItems().add(WeightInitEnum.XavierNormal);
         bias.getItems().add(WeightInitEnum.XavierUniform);
 
-        filters.setText("1");
-        kernelHeight.setText("1");
-        kernelWidth.setText("1");
+        filters.setText("5");
+        kernelHeight.setText("3");
+        kernelWidth.setText("3");
         stridesWidth.setText("1");
         stridesHeight.setText("1");
-        padding.setValue(PaddingType.VALID);
+        padding.setValue(PaddingType.SAME);
         weight.setValue(WeightInitEnum.HeNormal);
-        bias.setValue(WeightInitEnum.HeNormal);
+        bias.setValue(WeightInitEnum.ZEROS);
 
         resultOfOperation.setVisible(false);
     }

@@ -77,10 +77,10 @@ public class MaxPoolingController2D implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        stridesHeight.setText("1");
-        stridesWidth.setText("1");
-        kernelHeight.setText("1");
-        kernelWidth.setText("1");
+        stridesHeight.setText("2");
+        stridesWidth.setText("2");
+        kernelHeight.setText("2");
+        kernelWidth.setText("2");
 
 
         resultOfOperation.setVisible(false);

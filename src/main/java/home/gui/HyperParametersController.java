@@ -13,9 +13,9 @@ import java.util.ResourceBundle;
 
 public class HyperParametersController implements Initializable {
 
-    private static int lastBatchSize = 1;
-    private static int lastEpochs = 1;
-    private static double lastLearningRate = 1.0;
+    private static int lastBatchSize = 64;
+    private static int lastEpochs = 20;
+    private static double lastLearningRate = 0.05;
 
     @FXML
     private Label resultOfOperation;
@@ -69,6 +69,7 @@ public class HyperParametersController implements Initializable {
            lastEpochs = i2;
            lastLearningRate = i3;
            MainController.getConnector().setHyperParametersInfo(i1, i2, i3);
+           MainController.currentLearningRate.set(i3);
 
            resultOfOperation.setText("Data was successfully applied.");
            resultOfOperation.setStyle("-fx-background-color: green");

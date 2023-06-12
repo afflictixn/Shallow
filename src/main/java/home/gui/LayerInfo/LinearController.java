@@ -96,9 +96,9 @@ public class LinearController implements Initializable {
         box2.getItems().add(WeightInitEnum.XavierNormal);
         box2.getItems().add(WeightInitEnum.XavierUniform);
 
-        field.setText("1");
+        field.setText("10");
         box1.setValue(WeightInitEnum.HeNormal);
-        box2.setValue(WeightInitEnum.HeNormal);
+        box2.setValue(WeightInitEnum.ZEROS);
         resultOfOperation.setVisible(false);
     }
 }

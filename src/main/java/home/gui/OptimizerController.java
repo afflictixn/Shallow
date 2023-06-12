@@ -21,11 +21,11 @@ public class OptimizerController implements Initializable {
     @FXML
     private Label resultOfOperation;
 
-    private static double lastBeta1 = 1.0;
-    private static double lastBeta2 = 1.0;
-    private static double lastMomentum = 1.0;
+    private static double lastBeta1 = 0.9;
+    private static double lastBeta2 = 0.999;
+    private static double lastMomentum = 0.0;
 
-    private static LossEnum lastLoss = LossEnum.BinaryCrossEntropyLoss;
+    private static LossEnum lastLoss = LossEnum.CategoricalCrossEntropyLoss;
     private static OptimizerEnum lastOptimizer = OptimizerEnum.Adam;
 
     @FXML
