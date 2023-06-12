@@ -21,7 +21,7 @@ public class DatasetController implements Initializable {
     @FXML
     private Label resultOfOperation;
 
-    private static DatasetEnum currentDataset = DatasetEnum.CIFAR10;
+    private static DatasetEnum currentDataset = DatasetEnum.MNIST;
     // TODO сделать так, чтобы по дефолту этот же датасет был установлен в Connector!!!
     // TODO при нажатии на шторку пропадает надпись
 

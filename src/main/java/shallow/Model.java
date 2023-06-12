@@ -36,6 +36,7 @@ public class Model {
     BaseLoss loss;
     BaseOptimizer optimizer;
     LearningRateScheduler scheduler = new ConstantScheduler();
+    public boolean isNCHWOrder = false; // specifies whether the input is given in [batchSize, Channels, Height, Width] format
     final ModelInfo info;
     public Model() {
         layers = new ArrayList<>();
@@ -149,6 +150,7 @@ public class Model {
             info.reset();
             double totalLoss = 0.0;
             double currentLearningRate = scheduler.getCurrentLearningRate(learningRate, currentEpoch);
+            System.out.println("Cur LR: " + currentLearningRate);
             for (MiniBatch miniBatch : miniBatches) {
                 totalLoss += oneStep(miniBatch.X, miniBatch.Y, currentLearningRate, currentEpoch);
             }
@@ -163,17 +165,19 @@ public class Model {
 
     public void fit(DataSetIterator iterator, double learningRate, int numEpochs) {
         DataSet dataSet = iterator.next();
-        prepareModel(dataSet.getFeatures().shape());
+        INDArray features = (isNCHWOrder) ? dataSet.getFeatures().permute(0, 2, 3, 1) : dataSet.getFeatures();
+        prepareModel(features.shape());
         for (int currentEpoch = 1; currentEpoch <= numEpochs; ++currentEpoch) {
             info.reset();
             double totalLoss = 0.0;
             double currentLearningRate = scheduler.getCurrentLearningRate(learningRate, currentEpoch);
             while(true) {
-                totalLoss += oneStep(dataSet.getFeatures(), dataSet.getLabels(), currentLearningRate, currentEpoch);
+                totalLoss += oneStep(features, dataSet.getLabels(), currentLearningRate, currentEpoch);
                 if(!iterator.hasNext()){
                     break;
                 }
                 dataSet = iterator.next();
+                features = (isNCHWOrder) ? dataSet.getFeatures().permute(0, 2, 3, 1) : dataSet.getFeatures();
             }
             totalLoss /= -info.totalPredictions;
             info.setMetadata(currentEpoch, totalLoss);

@@ -27,7 +27,7 @@ public class Connector {
     }
 
 
-    DatasetEnum datasetEnum = DatasetEnum.CIFAR10;
+    DatasetEnum datasetEnum = DatasetEnum.MNIST;
     List<Config> configs = new ArrayList<>();
     HyperParametersInfo hyperParametersInfo = new HyperParametersInfo();
     LossEnum lossEnum = LossEnum.CategoricalCrossEntropyLoss;

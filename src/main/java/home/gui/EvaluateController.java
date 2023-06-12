@@ -14,6 +14,11 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import org.nd4j.enums.ImageResizeMethod;
+import org.nd4j.linalg.api.buffer.DataType;
+import org.nd4j.linalg.api.ndarray.INDArray;
+import org.nd4j.linalg.factory.Nd4j;
+import shallow.Model;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -79,21 +84,41 @@ public class EvaluateController implements Initializable {
 
 
         //matrix[y][x] = (pixelReader.getColor(x, y).equals(Color.BLACK)) ? 1 : 0;
-        System.out.println("test start");
+        System.out.println("evaluate ");
 
-        for(int i = 0; i < height; ++i){
-            for(int j = 0; j < width; ++j) {
-                System.out.print(BigDecimal.valueOf(matrix[i][j]).setScale(1, RoundingMode.HALF_DOWN) + " ");
+//        for(int i = 0; i < height; ++i){
+//            for(int j = 0; j < width; ++j) {
+//                System.out.print(BigDecimal.valueOf(matrix[i][j]).setScale(1, RoundingMode.HALF_DOWN) + " ");
+//            }
+//            System.out.println();
+//        }
+        Model model = MainController.neuralNetworkModel;
+        INDArray image = Nd4j.create(matrix);
+        image = image.reshape(1, image.shape()[0], image.shape()[1], 1);
+        image = Nd4j.image().imageResize(image, Nd4j.create(new double[]{28, 28}).castTo(DataType.INT8),
+                false, true, ImageResizeMethod.ResizeBilinear);
+        image = image.reshape(28, 28);
+        double [][] res = image.toDoubleMatrix();
+        image = image.reshape(1, image.shape()[0] * image.shape()[1]);
+
+
+        for(int i = 0; i < 28; ++i){
+            for(int j = 0; j < 28; ++j) {
+                System.out.print(BigDecimal.valueOf(res[i][j]).setScale(1, RoundingMode.HALF_DOWN) + " ");
             }
             System.out.println();
         }
+
+        INDArray prediction = model.predict(image);
+        double label = prediction.argMax(0, 1).getDouble();
+        System.out.println("Label: " + label);
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         graphicsContext = canvas.getGraphicsContext2D();
         graphicsContext.setStroke(Color.BLACK);
-        graphicsContext.setLineWidth(3);
+        graphicsContext.setLineWidth(6);
         // Here I can choose the width of the line
 
         canvas.setOnMousePressed(event -> {
