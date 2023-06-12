@@ -76,8 +76,9 @@ public class EvaluateController implements Initializable {
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 Color color = pixelReader.getColor(x, y);
-                double grayscaleValue = color.getRed() * 0.299 + color.getGreen() * 0.587 + color.getBlue() * 0.114;
-                matrix[y][x] = 1.0 - grayscaleValue;
+//                double grayscaleValue = color.getRed() * 0.299 + color.getGreen() * 0.587 + color.getBlue() * 0.114;
+                matrix[y][x] = color.equals(Color.BLACK) ? 1 : 0;
+//                matrix[y][x] = 1.0 - grayscaleValue;
             }
         }
 

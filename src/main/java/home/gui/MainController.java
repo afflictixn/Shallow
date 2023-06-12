@@ -22,14 +22,11 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URL;
-import java.util.Objects;
-import java.util.Random;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class MainController implements Initializable {
     public static AtomicDouble currentLearningRate = new AtomicDouble(0);
     private static Connector connector;
-
     public static Model neuralNetworkModel;
 
     public MainController() {
@@ -118,6 +115,9 @@ public class MainController implements Initializable {
 //        DataSetIterator testIterator = connector.datasetEnum.getTestDataSetIterator(batchSize, seed);
         ModelInfo modelInfo = new ModelInfo(connector.hyperParametersInfo.epochs);
         neuralNetworkModel = new Model(modelInfo);
+        if(connector.datasetEnum.equals(DatasetEnum.CIFAR10)){
+            neuralNetworkModel.isNCHWOrder = true;
+        }
         for (Config config : connector.configs) {
             neuralNetworkModel.addLayer(config.buildLayer());
         }
