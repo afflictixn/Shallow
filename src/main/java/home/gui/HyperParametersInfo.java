@@ -1,9 +1,9 @@
 package home.gui;
 
 public class HyperParametersInfo {
-    int batchSize = 1;
-    int epochs = 1;
-    double learningRate = 1;
+    int batchSize = 64;
+    int epochs = 20;
+    double learningRate = 0.05;
 
     public int getBatchSize() {
         return batchSize;

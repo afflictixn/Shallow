@@ -27,11 +27,11 @@ public class Connector {
     }
 
 
-    DatasetEnum datasetEnum;
+    DatasetEnum datasetEnum = DatasetEnum.CIFAR10;
     List<Config> configs = new ArrayList<>();
     HyperParametersInfo hyperParametersInfo = new HyperParametersInfo();
-    LossEnum lossEnum;
-    BaseOptimizer optimizer;
+    LossEnum lossEnum = LossEnum.CategoricalCrossEntropyLoss;
+    BaseOptimizer optimizer = new Adam();
     public void setDatasetEnum(DatasetEnum dataset) {
         datasetEnum = dataset;
     };
