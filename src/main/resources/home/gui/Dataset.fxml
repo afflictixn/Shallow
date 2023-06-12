@@ -9,15 +9,15 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="701.0" prefWidth="300.0" style="-fx-background-color: #52548e;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="home.gui.DatasetController">
    <children>
       <ChoiceBox fx:id="choiceBox" layoutX="50.0" layoutY="85.0" prefHeight="30.0" prefWidth="200.0" stylesheets="@css/ChoiceBox.css" />
-      <Button fx:id="apply" layoutX="210.0" layoutY="600.0" mnemonicParsing="false" onAction="#ApplyFunction" prefHeight="30.0" prefWidth="80.0" stylesheets="@css/StandardButton.css" text="Apply">
+      <Button fx:id="apply" layoutX="210.0" layoutY="615.0" mnemonicParsing="false" onAction="#ApplyFunction" prefHeight="30.0" prefWidth="80.0" stylesheets="@css/StandardButton.css" text="Apply">
          <font>
             <Font size="15.0" />
          </font></Button>
-      <Button fx:id="Return" layoutX="10.0" layoutY="600.0" mnemonicParsing="false" onAction="#ReturnFunction" prefHeight="30.0" prefWidth="80.0" stylesheets="@css/StandardButton.css" text="Return">
+      <Button fx:id="Return" layoutX="10.0" layoutY="615.0" mnemonicParsing="false" onAction="#ReturnFunction" prefHeight="30.0" prefWidth="80.0" stylesheets="@css/StandardButton.css" text="Return">
          <font>
             <Font size="15.0" />
          </font></Button>
-      <Label fx:id="resultOfOperation" alignment="CENTER" contentDisplay="CENTER" layoutX="50.0" layoutY="648.0" prefHeight="25.0" prefWidth="200.0" stylesheets="@css/InfoGood.css" text="Label">
+      <Label fx:id="resultOfOperation" alignment="CENTER" contentDisplay="CENTER" layoutX="50.0" layoutY="661.0" prefHeight="25.0" prefWidth="200.0" stylesheets="@css/InfoGood.css" text="Label">
          <font>
             <Font size="14.0" />
          </font></Label>
@@ -61,7 +61,7 @@
             <Font size="17.0" />
          </font>
       </Label>
-      <Label fx:id="labels" alignment="CENTER" layoutX="39.0" layoutY="533.0" prefHeight="25.0" prefWidth="220.0" stylesheets="@css/DataLabel.css" text="#Data">
+      <Label fx:id="labels" alignment="CENTER" layoutX="9.0" layoutY="533.0" prefHeight="57.0" prefWidth="284.0" stylesheets="@css/DataLabel.css" text="#Data" wrapText="true">
          <font>
             <Font size="17.0" />
          </font>
