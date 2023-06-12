@@ -47,7 +47,6 @@ public class MainController implements Initializable {
 
     public void reset() throws IOException {
         AnchorPane p = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Basic.fxml")));
-        // В целом можно было бы придумать что-то другое, но нам нормально
         center.setCenter(p);
     }
 
@@ -84,35 +83,23 @@ public class MainController implements Initializable {
     private Button optimizer;
 
     public void datasetFunction() throws IOException {
-        //DatasetController.what = center;
         getInstance().setBorderPane("Dataset.fxml");
-        //AnchorPane p = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Dataset.fxml")));
-        //center.setCenter(p);
     }
 
     public void layerFunction(ActionEvent event) throws IOException {
         getInstance().setBorderPane("Layer.fxml");
-//        AnchorPane p = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Layer.fxml")));
-//        center.setCenter(p);
     }
 
     public void optimizerFunction(ActionEvent event) throws IOException {
         getInstance().setBorderPane("Optimizer.fxml");
-//        AnchorPane p = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Optimizer.fxml")));
-//        center.setCenter(p);
     }
 
     public void hyperparametersFunction(ActionEvent event) throws IOException {
         getInstance().setBorderPane("HyperParameters.fxml");
-//        AnchorPane p = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("HyperParameters.fxml")));
-//        center.setCenter(p);
     }
 
     public void evaluateFunction(ActionEvent event) throws IOException {
         getInstance().setBorderPane("Evaluater.fxml");
-
-//        AnchorPane p = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Evaluater.fxml")));
-//        center.setCenter(p);
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

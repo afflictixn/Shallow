@@ -8,9 +8,9 @@
 
 <AnchorPane prefHeight="701.0" prefWidth="300.0" style="-fx-background-color: #52548e;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="home.gui.HyperParametersController">
    <children>
-      <TextField fx:id="epochs" layoutX="64.0" layoutY="221.0" stylesheets="@css/TextField.css" />
-      <TextField fx:id="learningRate" layoutX="64.0" layoutY="324.0" stylesheets="@css/TextField.css" />
-      <TextField fx:id="batchSize" layoutX="64.0" layoutY="119.0" stylesheets="@css/TextField.css" />
+      <TextField fx:id="epochs" layoutX="64.0" layoutY="221.0" onMouseClicked="#hideTheLabel" stylesheets="@css/TextField.css" />
+      <TextField fx:id="learningRate" layoutX="64.0" layoutY="324.0" onMouseClicked="#hideTheLabel" stylesheets="@css/TextField.css" />
+      <TextField fx:id="batchSize" layoutX="64.0" layoutY="119.0" onMouseClicked="#hideTheLabel" stylesheets="@css/TextField.css" />
       <Button fx:id="apply" layoutX="206.0" layoutY="542.0" mnemonicParsing="false" onAction="#ApplyFunction" prefHeight="30.0" prefWidth="80.0" stylesheets="@css/StandardButton.css" text="Apply">
          <font>
             <Font size="15.0" />

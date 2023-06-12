@@ -1,6 +1,7 @@
 package home.gui.LayerInfo;
 
 import home.gui.MainController;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -88,7 +89,6 @@ public class ConvolutionController2D implements Initializable {
 
         if(temp==0){
             MainController.getConnector().processConv2d(i1, i2, i3, i4, i5, padding.getValue(), weight.getValue(), bias.getValue());
-            // TODO fix this problem
             resultOfOperation.setText("Data was successfully applied.");
             resultOfOperation.setStyle("-fx-background-color: green");
             resultOfOperation.setVisible(true);
@@ -98,6 +98,14 @@ public class ConvolutionController2D implements Initializable {
             resultOfOperation.setStyle("-fx-background-color: red");
             resultOfOperation.setVisible(true);
         }
+    }
+
+    public void hideTheLabel(ActionEvent event){
+        resultOfOperation.setVisible(false);
+    }
+
+    public void hidingTheLabel(){
+        resultOfOperation.setVisible(false);
     }
 
     @Override
@@ -133,6 +141,9 @@ public class ConvolutionController2D implements Initializable {
         padding.setValue(PaddingType.SAME);
         weight.setValue(WeightInitEnum.HeNormal);
         bias.setValue(WeightInitEnum.ZEROS);
+        padding.setOnAction(this::hideTheLabel);
+        weight.setOnAction(this::hideTheLabel);
+        bias.setOnAction(this::hideTheLabel);
 
         resultOfOperation.setVisible(false);
     }

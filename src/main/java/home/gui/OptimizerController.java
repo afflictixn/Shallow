@@ -63,8 +63,6 @@ public class OptimizerController implements Initializable {
         beta2.setDisable(false);
         beta1Field.setDisable(false);
         beta2Field.setDisable(false);
-//        momentum.setDisable(true);
-//        momentumField.setDisable(true);
 
         beta1.setVisible(true);
         beta2.setVisible(true);
@@ -75,10 +73,6 @@ public class OptimizerController implements Initializable {
     }
 
     public void showSGD(){
-//        beta1.setDisable(true);
-//        beta2.setDisable(true);
-//        beta1Field.setDisable(true);
-//        beta2Field.setDisable(true);
         momentum.setDisable(false);
         momentumField.setDisable(false);
 
@@ -163,7 +157,7 @@ public class OptimizerController implements Initializable {
         double i = 0;
         try{
             i = Double.parseDouble(s);
-            if(i <= 0){
+            if(i < 0){
                 System.out.println("less than zero");
                 ++temp;
             }
@@ -187,6 +181,10 @@ public class OptimizerController implements Initializable {
             resultOfOperation.setStyle("-fx-background-color: red");
             resultOfOperation.setVisible(true);
         }
+    }
+
+    public void hideTheLabel(){
+        resultOfOperation.setVisible(false);
     }
 
     @Override
@@ -213,8 +211,10 @@ public class OptimizerController implements Initializable {
             showSGD();
         }
 
-        resultOfOperation.setVisible(false);
+        lossBox.setOnAction(actionEvent -> {hideTheLabel();});
+        optimizerBox.setOnAction(actionEvent -> {hideTheLabel();});
 
+        resultOfOperation.setVisible(false);
         optimizerBox.setOnAction(event -> handleTheChoice());
         // TODO сделать чтобы снчала labels // TextFields были невидимыми
     }
