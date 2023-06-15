@@ -1,13 +1,12 @@
 package home.gui;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -68,7 +67,10 @@ public class MainController implements Initializable {
     private Button dataset;
 
     @FXML
-    private Button evaluate;
+    private Button Evaluate;
+
+    @FXML
+    private Button testSet;
 
     @FXML
     private Button hyperparameters;
@@ -98,12 +100,19 @@ public class MainController implements Initializable {
     public void evaluateFunction(ActionEvent event) throws IOException {
         getInstance().setBorderPane("Evaluater.fxml");
     }
+
+    public void testSetFunction(ActionEvent event) throws IOException {
+        getInstance().setBorderPane("TestSet.fxml");
+    }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @FXML
     private Button startButton; // green button to start the training
 
-    public void bigRedButton() throws IOException { // starts the training of the model, actually button is green :)
+    @FXML
+    private Button stopButton; // red button to stop the training process
+
+    public void startButton() throws IOException { // starts the training of the model, actually button is green :)
         int batchSize = connector.hyperParametersInfo.batchSize;
         String totalEpochString = String.valueOf(connector.hyperParametersInfo.epochs);
 
@@ -185,10 +194,29 @@ public class MainController implements Initializable {
                 return null;
             }
         };
+        startButton.setVisible(false);
+        startButton.setDisable(true);
+
+        stopButton.setDisable(false);
+        stopButton.setVisible(true);
         Thread displayTime = new Thread(updateTimeTask);
         displayTime.setDaemon(true);
         displayTime.start();
         timeDisplayValue.textProperty().bind(updateTimeTask.messageProperty());
+
+    }
+
+    public void stopButton(){
+        // TODO write here what you want to do when the stopButton is pressed
+        // TODO also should deactivate the stop button when the process in finished
+
+
+
+
+        stopButton.setDisable(true);
+        stopButton.setVisible(false);
+        startButton.setDisable(false);
+        startButton.setVisible(true);
     }
 
     @FXML
@@ -211,5 +239,9 @@ public class MainController implements Initializable {
         } catch (Exception e) {
             System.out.println("exception");
         }
+
+        stopButton.setVisible(false);
+        stopButton.setDisable(true);
+
     }
 }
