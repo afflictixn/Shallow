@@ -71,10 +71,11 @@ public class Connector {
     public void processFlatten() {
         configs.add(Flatten::new);
     }
-    public void setHyperParametersInfo(int batchSize, int epochs, double learningRate) {
+    public void setHyperParametersInfo(int batchSize, int epochs, double learningRate, double lambda) {
         hyperParametersInfo.setBatchSize(batchSize);
         hyperParametersInfo.setEpochs(epochs);
         hyperParametersInfo.setLearningRate(learningRate);
+        hyperParametersInfo.setL2RegularizationLambda(lambda);
     }
 
 

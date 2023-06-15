@@ -4,6 +4,7 @@ import org.nd4j.linalg.api.buffer.DataType;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.dataset.api.DataSet;
 import org.nd4j.linalg.dataset.api.iterator.DataSetIterator;
+import org.nd4j.linalg.factory.Nd4j;
 import shallow.layers.BaseLayer;
 import shallow.layers.ShapeChangingLayer;
 import shallow.layers.WeightedLayer;
@@ -36,6 +37,7 @@ public class Model {
     BaseLoss loss;
     BaseOptimizer optimizer;
     LearningRateScheduler scheduler = new ConstantScheduler();
+    double L2RegularizationLambda; // hyperparameter for L2 Regularization of a model to reduce overfitting
     public boolean isNCHWOrder = false; // specifies whether the input is given in [batchSize, Channels, Height, Width] format
     final ModelInfo info;
     public Model() {
@@ -77,6 +79,14 @@ public class Model {
         return this;
     }
 
+    public Model setL2Regularization(double lambda) {
+        if(lambda < 0.0){
+            throw new IllegalArgumentException("Lambda for L2 Regularization has to be non negative");
+        }
+        L2RegularizationLambda = lambda;
+        return this;
+    }
+
     // sequential forward pass of a model
     public INDArray forwardPass(INDArray X) {
         for (BaseLayer layer : layers) {
@@ -86,7 +96,15 @@ public class Model {
     }
 
     public double computeLoss(INDArray X, INDArray Y) {
-        return loss.forward(X, Y).getDouble();
+        double totalLoss = loss.forward(X, Y).getDouble();
+        // add L2 Regularization penalty to the loss
+        if(L2RegularizationLambda != 0.0) {
+            for (WeightedLayer weightedLayer : trainableLayers) {
+                totalLoss -= Utils.get().square(weightedLayer.getWeightValues().dup())
+                        .muli(L2RegularizationLambda / 2).sumNumber().doubleValue();
+            }
+        }
+        return totalLoss;
     }
 
     public void backwardPass() {
@@ -95,28 +113,23 @@ public class Model {
             D = layers.get(i).backward(D);
         }
     }
-
-    public INDArray predict(INDArray X) {
+    public INDArray getProbas(INDArray X) {
         INDArray res = forwardPass(X);
-        if (loss.getClass().equals(CategoricalCrossEntropyLoss.class)) {
-            // transforms probabilities given by forward pass of network into predictions 1 or 0
-            // applies softmax as during training it was included in loss function
-            INDArray activation = Utils.softmax(res);
-            INDArray maxProba = activation.max(true, 1);
-            INDArray ans = activation.eq(maxProba).castTo(DataType.FLOAT);
-            return ans;
+        if(loss.getClass().equals(CategoricalCrossEntropyLoss.class)) {
+            res = Utils.softmax(res);
         }
-        else if (loss.getClass().equals(BinaryCrossEntropyLoss.class)) {
-            INDArray ans = res.gt(0.5).castTo(DataType.FLOAT);
-            return ans;
-        }
-        return null;
+        return res;
+    }
+    public INDArray predict(INDArray X) {
+        INDArray res = getProbas(X);
+        INDArray maxProba = res.max(true, 1);
+        return res.eq(maxProba).castTo(DataType.FLOAT);
     }
     public void evaluateTestSet(INDArray testFeatures, INDArray testLabels) {
         INDArray prediction = predict(testFeatures);
         info.reset();
         info.evaluate(prediction, testLabels, false);
-        System.out.println(info.toString());
+        System.out.println(info);
     }
     void prepareModel(long... inputShape){
         if (!shapeChangingLayers.isEmpty()) {
@@ -125,11 +138,12 @@ public class Model {
                 shapeChangingLayers.get(i).init(shapeChangingLayers.get(i - 1).getOutputShape());
             }
         }
+        optimizer.addRegularizationL2(L2RegularizationLambda);
         optimizer.init(trainableLayers);
     }
     // trains model on one mini batch
     // returns loss of a current mini batch iteration
-    double oneStep(INDArray X, INDArray Y, double currentLearningRate, int currentEpoch){
+    double oneStep(INDArray X, INDArray Y, double currentLearningRate, int currentEpoch) {
         INDArray result = forwardPass(X);
         double stepLoss = computeLoss(result, Y);
         backwardPass();
@@ -139,7 +153,7 @@ public class Model {
         return stepLoss;
     }
 
-    // 0-th dimension of X and Y is a number of samples
+    // 0-th dimension of X and Y has a size of a number of samples
     public void fit(INDArray X, INDArray Y, double learningRate, int batchSize, int numEpochs) {
         prepareModel(X.shape());
         long numSamples = X.shape()[0];
@@ -150,13 +164,12 @@ public class Model {
             info.reset();
             double totalLoss = 0.0;
             double currentLearningRate = scheduler.getCurrentLearningRate(learningRate, currentEpoch);
-            System.out.println("Cur LR: " + currentLearningRate);
             for (MiniBatch miniBatch : miniBatches) {
                 totalLoss += oneStep(miniBatch.X, miniBatch.Y, currentLearningRate, currentEpoch);
             }
             totalLoss /= -numSamples;
             info.setMetadata(currentEpoch, totalLoss);
-            System.out.println(info.toString());
+            System.out.println(info);
             synchronized (info) {
                 info.notify();
             }
@@ -181,7 +194,7 @@ public class Model {
             }
             totalLoss /= -info.totalPredictions;
             info.setMetadata(currentEpoch, totalLoss);
-            System.out.println(info.toString());
+            System.out.println(info);
             synchronized (info) {
                 info.notify();
             }

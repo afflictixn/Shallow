@@ -31,6 +31,7 @@ class Bias {
 }
 
 public abstract class WeightedLayer extends BaseLayer {
+    long currentBatchSize;
     Weight weight = new Weight();
     Bias bias = new Bias();
     WeightInitializer weightInitializer;
@@ -38,6 +39,9 @@ public abstract class WeightedLayer extends BaseLayer {
     public WeightedLayer(WeightedLayerConfig config) {
         this.weightInitializer = config.weightInitializer.getWeightInitializer();
         this.biasInitializer = config.biasInitializer.getWeightInitializer();
+    }
+    public long getCurrentBatchSize() {
+        return currentBatchSize;
     }
     public INDArray getWeightValues() {
         return weight.values;

@@ -100,6 +100,23 @@ public class MainController implements Initializable {
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    Model buildModel(ModelInfo modelInfo) {
+        Model model = new Model(modelInfo);
+        if (connector.datasetEnum.equals(DatasetEnum.CIFAR10)) {
+            model.isNCHWOrder = true;
+        }
+        for (Config config : connector.configs) {
+            model.addLayer(config.buildLayer());
+        }
+        // set learning rate scheduler that will react on user input during training
+        model
+            .setScheduler((initialRate, epochNum) -> currentLearningRate.get())
+            .setOptimizer(connector.optimizer)
+            .setLoss(connector.lossEnum.getLoss())
+            .setL2Regularization(0.0007);
+        return model;
+    }
+
     @FXML
     private Button startButton; // green button to start the training
 
@@ -112,20 +129,8 @@ public class MainController implements Initializable {
 
         // building model for training
         DataSetIterator trainIterator = connector.datasetEnum.getTrainDataSetIterator(batchSize, seed);
-//        DataSetIterator testIterator = connector.datasetEnum.getTestDataSetIterator(batchSize, seed);
         ModelInfo modelInfo = new ModelInfo(connector.hyperParametersInfo.epochs);
-        neuralNetworkModel = new Model(modelInfo);
-        if(connector.datasetEnum.equals(DatasetEnum.CIFAR10)){
-            neuralNetworkModel.isNCHWOrder = true;
-        }
-        for (Config config : connector.configs) {
-            neuralNetworkModel.addLayer(config.buildLayer());
-        }
-        // set learning rate scheduler that will react on user input during training
-        neuralNetworkModel.setScheduler((initialRate, epochNum) -> currentLearningRate.get());
-        neuralNetworkModel.setOptimizer(connector.optimizer);
-        neuralNetworkModel.setLoss(connector.lossEnum.getLoss());
-
+        neuralNetworkModel = buildModel(modelInfo);
         Runnable runTrainModel = new Runnable() {
             @Override
             public void run() {
@@ -171,9 +176,9 @@ public class MainController implements Initializable {
         long startTime = System.currentTimeMillis();
         trainModel.start();
         // run a thread to display time passed since the beginning of training
-        Task<String> updateTimeTask = new Task<String>() {
+        Task<Void> updateTimeTask = new Task<Void>() {
             @Override
-            protected String call() throws Exception {
+            protected Void call() throws Exception {
                 while (true) {
                     long passedTime = (System.currentTimeMillis() - startTime) / 1000;
                     updateMessage(passedTime + " s");

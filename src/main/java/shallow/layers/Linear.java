@@ -39,6 +39,7 @@ public class Linear extends WeightedLayer implements ShapeChangingLayer {
     @Override
     public INDArray forward(INDArray input) {
         // TODO check shape of input
+        currentBatchSize = input.shape()[0];
         input = input.castTo(DataType.FLOAT);
         cache.put("X", input);
         return input.mmul(weight.values).addi(bias.values);
@@ -49,9 +50,8 @@ public class Linear extends WeightedLayer implements ShapeChangingLayer {
     public INDArray backward(INDArray dZ) {
         // TODO check shape of input
         dZ = dZ.castTo(DataType.FLOAT);
-        long batchSize = dZ.shape()[0];
-        weight.grads = cache.get("X").transpose().mmul(dZ).mul(1 / (double) batchSize);
-        bias.grads = dZ.sum(true, 0).muli(1 / (double) batchSize);
+        weight.grads = cache.get("X").transpose().mmul(dZ).mul(1 / (double) currentBatchSize);
+        bias.grads = dZ.sum(true, 0).muli(1 / (double) currentBatchSize);
         return dZ.mmul(weight.values.transpose());
     }
 }

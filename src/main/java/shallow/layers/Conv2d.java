@@ -77,10 +77,10 @@ public class Conv2d extends WeightedLayer implements ShapeChangingLayer {
         if (!input.dataType().equals(DataType.FLOAT)) {
             input.castTo(DataType.FLOAT);
         }
-        long batchSize = input.shape()[0];
+        currentBatchSize = input.shape()[0];
         INDArray inputPadded = Nd4j.pad(input, padding);
         // ouput of shape [batch, out_height, out_width, out_channels]
-        INDArray output = Nd4j.zeros(batchSize, outputHeight, outputWidth, outputChannels);
+        INDArray output = Nd4j.zeros(currentBatchSize, outputHeight, outputWidth, outputChannels);
         int verticalStart, verticalEnd, horizontalStart, horizontalEnd;
         for (int i = 0; i < outputHeight; ++i) {
             verticalStart = stride[0] * i;
@@ -105,13 +105,12 @@ public class Conv2d extends WeightedLayer implements ShapeChangingLayer {
         if (!dZ.dataType().equals(DataType.FLOAT)) {
             dZ.castTo(DataType.FLOAT);
         }
-        int batchSize = (int) dZ.shape()[0];
         INDArray dInputPadded = Nd4j.zerosLike(cache.get("inputPadded"));
         INDArray InputPaddedExpanded = Nd4j.expandDims(cache.get("inputPadded"), 4);
         INDArray dZExpanded = Nd4j.expandDims(dZ, 3);
         INDArray WExpanded = Nd4j.expandDims(weight.values, 0);
         // Calculate db
-        bias.grads = dZ.sum(true,0, 1, 2).divi(batchSize);
+        bias.grads = dZ.sum(true,0, 1, 2).divi(currentBatchSize);
 
         int verticalStart, verticalEnd, horizontalStart, horizontalEnd;
         for (int i = 0; i < outputHeight; ++i) {
@@ -135,7 +134,7 @@ public class Conv2d extends WeightedLayer implements ShapeChangingLayer {
             }
         }
 
-        weight.grads.divi(batchSize);
+        weight.grads.divi(currentBatchSize);
         // select derivatives of original tensor without padding
 
         INDArray dInput = dInputPadded.get(

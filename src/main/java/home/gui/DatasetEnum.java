@@ -15,6 +15,14 @@ public enum DatasetEnum {
         public static final int HEIGHT = 32;
         public static final int WIDTH = 32;
     }
+    public int getNumberOfClasses() {
+        switch (this) {
+            case MNIST, CIFAR10 -> {
+                return 10;
+            }
+        }
+        return 0;
+    };
     public DataSetIterator getTrainDataSetIterator(int batchSize, int seed) throws IOException {
         switch (this){
             case MNIST -> {

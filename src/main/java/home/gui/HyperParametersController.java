@@ -72,7 +72,7 @@ public class HyperParametersController implements Initializable {
            lastBatchSize = i1;
            lastEpochs = i2;
            lastLearningRate = i3;
-           MainController.getConnector().setHyperParametersInfo(i1, i2, i3);
+           MainController.getConnector().setHyperParametersInfo(i1, i2, i3, 0.0);
            MainController.currentLearningRate.set(i3);
 
            resultOfOperation.setText("Data was successfully applied.");
