@@ -5,6 +5,16 @@ import org.nd4j.linalg.api.ndarray.INDArray;
 
 public class ModelInfo {
     boolean training = true;
+
+    public boolean isStopTraining() {
+        return stopTraining;
+    }
+
+    public void setStopTraining(boolean stopTraining) {
+        this.stopTraining = stopTraining;
+    }
+
+    boolean stopTraining = false;
     int currentEpoch, totalEpoch;
     double currentLoss;
     int truePositive = 0, falsePositive = 0;

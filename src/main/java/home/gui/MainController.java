@@ -1,18 +1,19 @@
 package home.gui;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import org.nd4j.common.primitives.AtomicDouble;
+import org.nd4j.linalg.api.ndarray.INDArray;
+import org.nd4j.linalg.dataset.api.DataSet;
 import org.nd4j.linalg.dataset.api.iterator.DataSetIterator;
 import shallow.Model;
 import shallow.ModelInfo;
@@ -27,6 +28,7 @@ import java.util.*;
 public class MainController implements Initializable {
     public static AtomicDouble currentLearningRate = new AtomicDouble(0);
     private static Connector connector;
+    public static ModelInfo modelInfo;
     public static Model neuralNetworkModel;
 
     public MainController() {
@@ -68,7 +70,10 @@ public class MainController implements Initializable {
     private Button dataset;
 
     @FXML
-    private Button evaluate;
+    private Button Evaluate;
+
+    @FXML
+    private Button testSet;
 
     @FXML
     private Button hyperparameters;
@@ -98,6 +103,10 @@ public class MainController implements Initializable {
     public void evaluateFunction(ActionEvent event) throws IOException {
         getInstance().setBorderPane("Evaluater.fxml");
     }
+
+    public void testSetFunction(ActionEvent event) throws IOException {
+        getInstance().setBorderPane("TestSet.fxml");
+    }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     Model buildModel(ModelInfo modelInfo) {
@@ -110,17 +119,20 @@ public class MainController implements Initializable {
         }
         // set learning rate scheduler that will react on user input during training
         model
-            .setScheduler((initialRate, epochNum) -> currentLearningRate.get())
-            .setOptimizer(connector.optimizer)
-            .setLoss(connector.lossEnum.getLoss())
-            .setL2Regularization(0.0007);
+                .setScheduler((initialRate, epochNum) -> currentLearningRate.get())
+                .setOptimizer(connector.optimizer)
+                .setLoss(connector.lossEnum.getLoss())
+                .setL2Regularization(0.0007);
         return model;
     }
 
     @FXML
     private Button startButton; // green button to start the training
 
-    public void bigRedButton() throws IOException { // starts the training of the model, actually button is green :)
+    @FXML
+    private Button stopButton; // red button to stop the training process
+
+    public void startButton() throws IOException { // starts the training of the model
         int batchSize = connector.hyperParametersInfo.batchSize;
         String totalEpochString = String.valueOf(connector.hyperParametersInfo.epochs);
 
@@ -129,14 +141,24 @@ public class MainController implements Initializable {
 
         // building model for training
         DataSetIterator trainIterator = connector.datasetEnum.getTrainDataSetIterator(batchSize, seed);
-        ModelInfo modelInfo = new ModelInfo(connector.hyperParametersInfo.epochs);
+        modelInfo = new ModelInfo(connector.hyperParametersInfo.epochs);
         neuralNetworkModel = buildModel(modelInfo);
         Runnable runTrainModel = new Runnable() {
             @Override
             public void run() {
-                neuralNetworkModel.fit(trainIterator,
-                        connector.hyperParametersInfo.learningRate,
-                        connector.hyperParametersInfo.epochs);
+                switch (connector.datasetEnum) {
+                    case MNIST -> {
+                        neuralNetworkModel.fit(trainIterator,
+                                connector.hyperParametersInfo.learningRate,
+                                connector.hyperParametersInfo.epochs);
+                    }
+                    case CIFAR10 -> {
+                        DataSet trainData = trainIterator.next();
+                        INDArray trainFeatures = trainData.getFeatures().div(255);
+                        neuralNetworkModel.fit(trainFeatures, trainData.getLabels(), connector.hyperParametersInfo.learningRate,
+                                connector.hyperParametersInfo.batchSize, connector.hyperParametersInfo.epochs);
+                    }
+                }
             }
         };
         Task<Integer> displayInfoTask = new Task<Integer>() {
@@ -151,7 +173,7 @@ public class MainController implements Initializable {
                         throw new RuntimeException(e);
                     }
                     updateValue(modelInfo.getCurrentEpoch());
-                    if (modelInfo.getCurrentEpoch() == modelInfo.getTotalEpoch()) {
+                    if (modelInfo.getCurrentEpoch() == modelInfo.getTotalEpoch() || modelInfo.isStopTraining()) {
                         break;
                     }
                 }
@@ -183,17 +205,32 @@ public class MainController implements Initializable {
                     long passedTime = (System.currentTimeMillis() - startTime) / 1000;
                     updateMessage(passedTime + " s");
                     Thread.sleep(1000);
-                    if (modelInfo.getCurrentEpoch() == modelInfo.getTotalEpoch()) {
+                    if (modelInfo.getCurrentEpoch() == modelInfo.getTotalEpoch() || modelInfo.isStopTraining()) {
                         break;
                     }
                 }
                 return null;
             }
         };
+        startButton.setVisible(false);
+        startButton.setDisable(true);
+
+        stopButton.setDisable(false);
+        stopButton.setVisible(true);
         Thread displayTime = new Thread(updateTimeTask);
         displayTime.setDaemon(true);
         displayTime.start();
         timeDisplayValue.textProperty().bind(updateTimeTask.messageProperty());
+
+    }
+
+    public void stopButton() {
+        modelInfo.setStopTraining(true);
+
+        stopButton.setDisable(true);
+        stopButton.setVisible(false);
+        startButton.setDisable(false);
+        startButton.setVisible(true);
     }
 
     @FXML
@@ -216,5 +253,9 @@ public class MainController implements Initializable {
         } catch (Exception e) {
             System.out.println("exception");
         }
+
+        stopButton.setVisible(false);
+        stopButton.setDisable(true);
+
     }
 }

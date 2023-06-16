@@ -126,10 +126,12 @@ public class Model {
         return res.eq(maxProba).castTo(DataType.FLOAT);
     }
     public void evaluateTestSet(INDArray testFeatures, INDArray testLabels) {
+        testFeatures = (isNCHWOrder) ? testFeatures.permute(0, 2, 3, 1) : testFeatures;
         INDArray prediction = predict(testFeatures);
         info.reset();
         info.evaluate(prediction, testLabels, false);
-        System.out.println(info);
+        double lossValue = -computeLoss(prediction, testLabels) / info.totalPredictions;
+        info.setMetadata(0, lossValue);
     }
     void prepareModel(long... inputShape){
         if (!shapeChangingLayers.isEmpty()) {
@@ -155,6 +157,7 @@ public class Model {
 
     // 0-th dimension of X and Y has a size of a number of samples
     public void fit(INDArray X, INDArray Y, double learningRate, int batchSize, int numEpochs) {
+        X = (isNCHWOrder) ? X.permute(0, 2, 3, 1) : X;
         prepareModel(X.shape());
         long numSamples = X.shape()[0];
         List<MiniBatch> miniBatches = (X.shape().length == 2) ?
@@ -166,12 +169,16 @@ public class Model {
             double currentLearningRate = scheduler.getCurrentLearningRate(learningRate, currentEpoch);
             for (MiniBatch miniBatch : miniBatches) {
                 totalLoss += oneStep(miniBatch.X, miniBatch.Y, currentLearningRate, currentEpoch);
+                System.out.println(info);
             }
             totalLoss /= -numSamples;
             info.setMetadata(currentEpoch, totalLoss);
             System.out.println(info);
             synchronized (info) {
                 info.notify();
+            }
+            if(info.stopTraining){
+                return;
             }
         }
     }
@@ -199,6 +206,9 @@ public class Model {
                 info.notify();
             }
             iterator.reset();
+            if(info.isStopTraining()){
+                return;
+            }
         }
     }
 

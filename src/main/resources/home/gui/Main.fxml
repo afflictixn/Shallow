@@ -12,7 +12,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="706.0" prefWidth="925.0" stylesheets="@css/StandardAnchorPane.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="home.gui.MainController">
    <children>
-      <VBox fx:id="box" layoutX="-2.0" layoutY="233.0" prefHeight="240.0" prefWidth="127.0">
+      <VBox fx:id="box" layoutX="-2.0" layoutY="233.0" prefHeight="338.0" prefWidth="127.0">
          <children>
             <Button fx:id="dataset" mnemonicParsing="false" onAction="#datasetFunction" prefHeight="48.0" prefWidth="128.0" stylesheets="@css/StandardButton.css" text="Dataset">
                <font>
@@ -30,14 +30,25 @@
                <font>
                   <Font name="System Bold" size="14.0" />
                </font></Button>
-            <Button fx:id="evaluate" layoutX="10.0" layoutY="154.0" mnemonicParsing="false" onAction="#evaluateFunction" prefHeight="48.0" prefWidth="128.0" stylesheets="@css/StandardButton.css" text="Evaluate">
+            <Button layoutX="10.0" layoutY="202.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="128.0" stylesheets="@css/StandardButton.css" text="Architecture">
                <font>
                   <Font name="System Bold" size="14.0" />
-               </font></Button>
+               </font>
+            </Button>
+            <Button fx:id="Evaluate" layoutX="10.0" layoutY="202.0" mnemonicParsing="false" onAction="#evaluateFunction" prefHeight="48.0" prefWidth="128.0" stylesheets="@css/StandardButton.css" text="Evaluate">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Button>
+            <Button fx:id="testSet" layoutX="10.0" layoutY="250.0" mnemonicParsing="false" onAction="#testSetFunction" prefHeight="48.0" prefWidth="128.0" stylesheets="@css/StandardButton.css" text="Test Set">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Button>
          </children>
       </VBox>
       <BorderPane fx:id="center" layoutX="125.0" layoutY="2.0" prefHeight="702.0" prefWidth="300.0" />
-      <Button fx:id="startButton" layoutX="-2.0" layoutY="77.0" mnemonicParsing="false" onAction="#bigRedButton" prefHeight="48.0" prefWidth="128.0" style="-fx-background-color: green;" text="START" textFill="WHITE">
+      <Button fx:id="startButton" layoutX="-2.0" layoutY="102.0" mnemonicParsing="false" onAction="#startButton" prefHeight="48.0" prefWidth="128.0" style="-fx-background-color: green;" text="START" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
@@ -96,5 +107,10 @@
             </Label>
          </children>
       </GridPane>
+      <Button fx:id="stopButton" disable="true" layoutX="-2.0" layoutY="102.0" mnemonicParsing="false" onAction="#stopButton" prefHeight="48.0" prefWidth="128.0" style="-fx-background-color: red;" text="STOP" textFill="WHITE" visible="false">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>
