@@ -2,6 +2,13 @@ package shallow;
 
 import org.nd4j.linalg.api.buffer.DataType;
 import org.nd4j.linalg.api.ndarray.INDArray;
+import org.nd4j.linalg.factory.Nd4j;
+import org.nd4j.linalg.indexing.INDArrayIndex;
+import org.nd4j.linalg.indexing.NDArrayIndex;
+
+import java.util.Arrays;
+
+import static org.nd4j.linalg.indexing.NDArrayIndex.*;
 
 public class ModelInfo {
     boolean training = true;
@@ -75,8 +82,11 @@ public class ModelInfo {
     public void evaluateFromRaw(INDArray activation, INDArray labels) {
         INDArray mostProbablePredictions;
         if (classificationThreshold == -1) {
-            INDArray maxProba = activation.max(true, 1);
-            mostProbablePredictions = activation.eq(maxProba).castTo(DataType.FLOAT);
+            long[] maxProbaIndex = activation.argMax(1).toLongVector();
+            mostProbablePredictions = Nd4j.zerosLike(activation);
+            for(int i = 0; i < activation.shape()[0]; ++i) {
+                mostProbablePredictions.get(point(i), point(maxProbaIndex[i])).addi(1.0);
+            }
         } else {
             mostProbablePredictions = activation.gt(classificationThreshold).castTo(activation.dataType());
         }

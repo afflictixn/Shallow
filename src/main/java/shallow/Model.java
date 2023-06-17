@@ -127,10 +127,11 @@ public class Model {
     }
     public void evaluateTestSet(INDArray testFeatures, INDArray testLabels) {
         testFeatures = (isNCHWOrder) ? testFeatures.permute(0, 2, 3, 1) : testFeatures;
-        INDArray prediction = predict(testFeatures);
+        INDArray forwardPass = forwardPass(testFeatures);
+        double lossValue = -computeLoss(forwardPass, testLabels) / info.totalPredictions;
         info.reset();
-        info.evaluate(prediction, testLabels, false);
-        double lossValue = -computeLoss(prediction, testLabels) / info.totalPredictions;
+        info.evaluateFromRaw(loss.getActivation(), testLabels);
+
         info.setMetadata(0, lossValue);
     }
     void prepareModel(long... inputShape){

@@ -44,7 +44,7 @@ public class TestSetController implements Initializable {
     public final static int height = 100;
     INDArray currentFeature;
     DataSetIterator iteratorShow = MainController.getConnector()
-            .datasetEnum.getTestDataSetIterator(1, 123);
+            .datasetEnum.getTestDataSetIterator(1, new Random().nextInt());
     @FXML
     private Button evaluateButton;
 
@@ -133,7 +133,7 @@ public class TestSetController implements Initializable {
         INDArray features = (MainController.getConnector().datasetEnum.equals(DatasetEnum.CIFAR10)) ?
                 test.getFeatures().div(255) : test.getFeatures();
         MainController.neuralNetworkModel.evaluateTestSet(features, test.getLabels());
-        lossResult.setText(String.valueOf(MainController.modelInfo.getCurrentLoss()));
+        lossResult.setText(String.valueOf(BigDecimal.valueOf(MainController.modelInfo.getCurrentLoss()).setScale(3, RoundingMode.HALF_DOWN)));
         accuracyResult.setText(String.valueOf(MainController.modelInfo.accuracy()));
     }
 
