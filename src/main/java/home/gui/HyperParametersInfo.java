@@ -4,7 +4,7 @@ public class HyperParametersInfo {
     int batchSize = 64;
     int epochs = 20;
     double learningRate = 0.05;
-    double L2RegularizationLambda;
+    double L2RegularizationLambda = 0.0005;
 
     public int getBatchSize() {
         return batchSize;

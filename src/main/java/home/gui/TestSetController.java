@@ -79,7 +79,7 @@ public class TestSetController implements Initializable {
     }
 
     public void ReturnFunction() throws IOException {
-        MainController.getInstance().reset();
+        MainController.getInstance().setBorderPane("EvaluateMiddleClass.fxml");
     }
 
 
@@ -104,9 +104,12 @@ public class TestSetController implements Initializable {
             double[][] blueMatrix = transform.get(point(0), all(), all(), point(2)).toDoubleMatrix();
             showColorPicture(canvas, redMatrix, greenMatrix, blueMatrix);
         }
+
+        innerAnchorPane.setVisible(false);
     }
 
     public void predictButton() {
+        System.out.println("predict");
         INDArray prediction = MainController.neuralNetworkModel.getProbas(currentFeature);
         double[] probas = prediction.toDoubleVector();
         int[] sortedIndexes = getTop3Probas(probas);
@@ -114,6 +117,8 @@ public class TestSetController implements Initializable {
         setProbabilityLabel(superAnswer, sortedIndexes[0], probas[sortedIndexes[0]]);
         setProbabilityLabel(prediction1, sortedIndexes[1], probas[sortedIndexes[1]]);
         setProbabilityLabel(prediction2, sortedIndexes[2], probas[sortedIndexes[2]]);
+
+        innerAnchorPane.setVisible(true);
     }
 
     public void evaluateButton() throws IOException {
@@ -141,6 +146,6 @@ public class TestSetController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        //innerAnchorPane.setVisible(false); TODO should be uncommented
+        innerAnchorPane.setVisible(false);
     }
 }

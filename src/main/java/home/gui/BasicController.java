@@ -21,17 +21,7 @@ public class BasicController {
     public static BasicController getInstance(){
         return instance;
     }
-    @FXML
-    public Label label;
-    int i = 0;
-    @FXML
-    private Button button;
 
-    public void Func() throws IOException {
-        ++i;
-        label.setText("current value : " + i);
-
-    }
 
 
 }

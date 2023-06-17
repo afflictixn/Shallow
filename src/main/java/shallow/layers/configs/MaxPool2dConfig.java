@@ -26,4 +26,16 @@ public class MaxPool2dConfig implements Config {
     public MaxPool2d buildLayer() {
         return new MaxPool2d(this);
     }
+
+    @Override
+    public String getDescription(){
+        return "Kernel height : " + kernelSize[0] + '\n' +
+                "Kernel width : " + kernelSize[1] + '\n' +
+                "Strides height : " + strides[0] + '\n' +
+                "Strides width : " + strides[1];
+    }
+    @Override
+    public String toString(){
+        return "MaxPool2d";
+    }
 }

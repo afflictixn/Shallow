@@ -21,7 +21,7 @@
          <font>
             <Font size="14.0" />
          </font></Label>
-      <Label alignment="CENTER" layoutX="50.0" layoutY="20.0" prefHeight="40.0" prefWidth="200.0" stylesheets="@css/CenterLabel.css" text="Dataset">
+      <Label alignment="CENTER" layoutX="50.0" layoutY="20.0" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #a0005e;" stylesheets="@css/CenterLabel.css" text="Dataset">
          <font>
             <Font size="20.0" />
          </font>

@@ -26,4 +26,15 @@ public class LinearLayerConfig extends WeightedLayerConfig implements Config{
     public Linear buildLayer() {
         return new Linear(this);
     }
+
+    @Override
+    public String getDescription(){
+        return "Number of units : " + units + '\n' +
+                "Weight initializer : " + weightInitializer + '\n' +
+                "Bias initializer : " + biasInitializer;
+    }
+    @Override
+    public String toString(){
+        return "Linear";
+    }
 }

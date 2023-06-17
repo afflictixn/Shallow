@@ -11,11 +11,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 import org.w3c.dom.Text;
 import shallow.Main;
+import shallow.layers.configs.Config;
 import shallow.layers.configs.PaddingType;
 import shallow.layers.weight_init.WeightInitEnum;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class ConvolutionController2D implements Initializable {
@@ -89,9 +91,15 @@ public class ConvolutionController2D implements Initializable {
 
         if(temp==0){
             MainController.getConnector().processConv2d(i1, i2, i3, i4, i5, padding.getValue(), weight.getValue(), bias.getValue());
+
+            List<Config> configs = MainController.getConnector().configs;
+            MainController.getInstance().addLayer(configs.get(configs.size() - 1).toString(), configs.get(configs.size() - 1).getDescription());
+
+
             resultOfOperation.setText("Data was successfully applied.");
             resultOfOperation.setStyle("-fx-background-color: green");
             resultOfOperation.setVisible(true);
+
         }
         else{
             resultOfOperation.setText("Entered data is inappropriate.");

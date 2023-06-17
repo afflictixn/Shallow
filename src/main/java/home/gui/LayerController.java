@@ -5,14 +5,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
+import shallow.layers.configs.Config;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class LayerController implements Initializable {
-    // TODO исправить кнопку apply, а именно когда она должна появляться и когда она должна исчезать
-    // TODO добавить label resultOfOperation около кнопки apply
 
     @FXML
     private Label resultOfOperation;
@@ -69,15 +69,24 @@ public class LayerController implements Initializable {
     public void ApplyFunction(){
         if(lastPressedButton.equals("Flatten")){
             MainController.getConnector().processFlatten();
+
+            List<Config> configs = MainController.getConnector().configs;
+            MainController.getInstance().addLayer(configs.get(configs.size() - 1).toString(), configs.get(configs.size() - 1).toString() + " Layer");
         }
         else if(lastPressedButton.equals("ReLU")){
             MainController.getConnector().processReLU();
+
+            List<Config> configs = MainController.getConnector().configs;
+            MainController.getInstance().addLayer(configs.get(configs.size() - 1).toString(), configs.get(configs.size() - 1).toString() + " Layer");
         }
         else if(lastPressedButton.equals("Sigmoid")){
             MainController.getConnector().processSigmoid();
+
+            List<Config> configs = MainController.getConnector().configs;
+            MainController.getInstance().addLayer(configs.get(configs.size() - 1).toString(), configs.get(configs.size() - 1).toString() + " Layer");
         }
         resultOfOperation.setText("Data was successfully applied.");
-//        resultOfOperation.setTextFill(Color.GREEN);
+
         resultOfOperation.setVisible(true);
         hideApply();
     }

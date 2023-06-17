@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.fxml.FXML;
+import shallow.layers.BaseLayer;
 import shallow.layers.Flatten;
 import shallow.layers.ReLU;
 import shallow.layers.Sigmoid;
@@ -28,7 +29,7 @@ public class Connector {
 
 
     DatasetEnum datasetEnum = DatasetEnum.MNIST;
-    List<Config> configs = new ArrayList<>();
+    public List<Config> configs = new ArrayList<>();
     HyperParametersInfo hyperParametersInfo = new HyperParametersInfo();
     LossEnum lossEnum = LossEnum.CategoricalCrossEntropyLoss;
     BaseOptimizer optimizer = new Adam();
@@ -49,11 +50,38 @@ public class Connector {
     }
 
     public void processReLU() {
-        configs.add(ReLU::new);
+        configs.add(new Config() {
+            @Override
+            public BaseLayer buildLayer() {
+                return new ReLU();
+            }
+            @Override
+            public String getDescription() {
+                return "";
+            }
+            @Override
+            public String toString(){
+                return "ReLU";
+            }
+        });
     }
 
     public void processSigmoid() {
-        configs.add(Sigmoid::new);
+        configs.add(new Config() {
+            @Override
+            public BaseLayer buildLayer() {
+                return new Sigmoid();
+            }
+
+            @Override
+            public String getDescription() {
+                return "";
+            }
+            @Override
+            public String toString(){
+                return "Sigmoid";
+            }
+        });
     }
     public void processConv2d(int filters,
                               int kernelHeight, int kernelWidth,
@@ -69,7 +97,21 @@ public class Connector {
         configs.add(new MaxPool2dConfig().kernelSize(kernelHeight, kernelWidth).strides(stridesHeight, stridesWidth));
     }
     public void processFlatten() {
-        configs.add(Flatten::new);
+        configs.add(new Config() {
+            @Override
+            public BaseLayer buildLayer() {
+                return new Flatten();
+            }
+
+            @Override
+            public String getDescription() {
+                return "";
+            }
+            @Override
+            public String toString(){
+                return "Flatten";
+            }
+        });
     }
     public void setHyperParametersInfo(int batchSize, int epochs, double learningRate, double lambda) {
         hyperParametersInfo.setBatchSize(batchSize);

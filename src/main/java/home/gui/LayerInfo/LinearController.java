@@ -9,11 +9,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
+import shallow.layers.configs.Config;
 import shallow.layers.weight_init.WeightInitEnum;
 import javafx.event.ActionEvent;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class LinearController implements Initializable {
@@ -61,6 +63,9 @@ public class LinearController implements Initializable {
 
         if(temp == 0){
             MainController.getConnector().processLinear(a, box1.getValue(), box2.getValue());
+
+            List<Config> configs = MainController.getConnector().configs;
+            MainController.getInstance().addLayer(configs.get(configs.size() - 1).toString(), configs.get(configs.size() - 1).getDescription());
 
             resultOfOperation.setText("Data was successfully applied.");
             resultOfOperation.setStyle("-fx-background-color: green");

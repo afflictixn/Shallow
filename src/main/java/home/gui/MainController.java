@@ -31,6 +31,68 @@ public class MainController implements Initializable {
     public static ModelInfo modelInfo;
     public static Model neuralNetworkModel;
 
+    ArrayList<Button> ListOfButtons = new ArrayList<>();
+
+    @FXML
+    private VBox architecture;
+
+    @FXML
+    private Button temp;
+
+    HashMap<Button, String> information = new HashMap<>();
+
+    @FXML
+    private Label informationLabel;
+
+    @FXML
+    private Button removeLayer;
+
+    public void addLayer(String name, String info){
+        Button button = createButton(name);
+        button.setOnAction(this::showInformation);
+        information.put(button, info);
+        ListOfButtons.add(button);
+        architecture.getChildren().add(button);
+        if(ListOfButtons.size()==1){
+            removeLayer.setDisable(false);
+        }
+    }
+    private Button createButton(String name){
+        Button button = new Button(name);
+        button.setPrefHeight(40);
+        button.setPrefWidth(300);
+        button.setStyle("-fx-background-color: #52548e; -fx-text-fill: white;");
+        button.setOnMouseEntered(event -> {
+            button.setStyle("-fx-background-color: #8a8cee; -fx-text-fill: white;");
+        });
+        button.setOnMouseExited(event -> {
+            button.setStyle("-fx-background-color: #52548e; -fx-text-fill: white;");
+        });
+        return button;
+    }
+
+    public void showInformation(ActionEvent event){
+        Button clickedButton = (Button) event.getSource();
+        informationLabel.setText(information.get(clickedButton));
+    }
+
+    public void removeLayerFunction(){
+        informationLabel.setText(""); //
+        Button button = ListOfButtons.get(ListOfButtons.size() - 1);
+        information.remove(button);
+        List<Config> configs = MainController.getConnector().configs;
+        configs.remove(configs.get(configs.size() - 1));
+        ListOfButtons.remove(ListOfButtons.size() - 1);
+        architecture.getChildren().remove(architecture.getChildren().size()-1);
+        if(ListOfButtons.isEmpty()){
+            removeLayer.setDisable(true);
+        }
+    }
+
+
+
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////
     public MainController() {
         instance = this;
         connector = new Connector();
@@ -59,7 +121,7 @@ public class MainController implements Initializable {
     }
 
     private static MainController instance;
-    // this is an effective way to switch between scenes
+
     @FXML
     private VBox box;
 
@@ -70,10 +132,7 @@ public class MainController implements Initializable {
     private Button dataset;
 
     @FXML
-    private Button Evaluate;
-
-    @FXML
-    private Button testSet;
+    private Button evaluate;
 
     @FXML
     private Button hyperparameters;
@@ -101,12 +160,9 @@ public class MainController implements Initializable {
     }
 
     public void evaluateFunction(ActionEvent event) throws IOException {
-        getInstance().setBorderPane("Evaluater.fxml");
+        getInstance().setBorderPane("EvaluateMiddleClass.fxml");
     }
 
-    public void testSetFunction(ActionEvent event) throws IOException {
-        getInstance().setBorderPane("TestSet.fxml");
-    }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     Model buildModel(ModelInfo modelInfo) {
@@ -122,7 +178,7 @@ public class MainController implements Initializable {
                 .setScheduler((initialRate, epochNum) -> currentLearningRate.get())
                 .setOptimizer(connector.optimizer)
                 .setLoss(connector.lossEnum.getLoss())
-                .setL2Regularization(0.0007);
+                .setL2Regularization(connector.hyperParametersInfo.L2RegularizationLambda);
         return model;
     }
 
@@ -131,8 +187,22 @@ public class MainController implements Initializable {
 
     @FXML
     private Button stopButton; // red button to stop the training process
+    public void showStop(){
+        startButton.setVisible(false);
+        startButton.setDisable(true);
 
+        stopButton.setDisable(false);
+        stopButton.setVisible(true);
+    }
+    public void showStart(){
+        stopButton.setVisible(false);
+        stopButton.setDisable(true);
+
+        startButton.setDisable(false);
+        startButton.setVisible(true);
+    }
     public void startButton() throws IOException { // starts the training of the model
+        removeLayer.setDisable(true);
         int batchSize = connector.hyperParametersInfo.batchSize;
         String totalEpochString = String.valueOf(connector.hyperParametersInfo.epochs);
 
@@ -159,6 +229,8 @@ public class MainController implements Initializable {
                                 connector.hyperParametersInfo.batchSize, connector.hyperParametersInfo.epochs);
                     }
                 }
+                showStart();
+                removeLayer.setDisable(false);
             }
         };
         Task<Integer> displayInfoTask = new Task<Integer>() {
@@ -212,16 +284,12 @@ public class MainController implements Initializable {
                 return null;
             }
         };
-        startButton.setVisible(false);
-        startButton.setDisable(true);
 
-        stopButton.setDisable(false);
-        stopButton.setVisible(true);
+        showStop();
         Thread displayTime = new Thread(updateTimeTask);
         displayTime.setDaemon(true);
         displayTime.start();
         timeDisplayValue.textProperty().bind(updateTimeTask.messageProperty());
-
     }
 
     public void stopButton() {
@@ -256,6 +324,14 @@ public class MainController implements Initializable {
 
         stopButton.setVisible(false);
         stopButton.setDisable(true);
+
+        informationLabel.setText("");
+        if(ListOfButtons.isEmpty()){
+            removeLayer.setDisable(true);
+        }
+        else{
+            removeLayer.setDisable(false);
+        }
 
     }
 }

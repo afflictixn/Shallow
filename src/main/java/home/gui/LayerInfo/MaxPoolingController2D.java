@@ -7,9 +7,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
+import shallow.layers.configs.Config;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class MaxPoolingController2D implements Initializable {
@@ -62,6 +64,9 @@ public class MaxPoolingController2D implements Initializable {
 
         if(temp==0){
             MainController.getConnector().processMaxPool2d(i1, i2, i3, i4);
+
+            List<Config> configs = MainController.getConnector().configs;
+            MainController.getInstance().addLayer(configs.get(configs.size() - 1).toString(), configs.get(configs.size() - 1).getDescription());
 
             resultOfOperation.setText("Data was successfully applied.");
             resultOfOperation.setStyle("-fx-background-color: green");

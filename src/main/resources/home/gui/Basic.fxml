@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="701.0" prefWidth="300.0" style="-fx-background-color: #52548e;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="home.gui.BasicController">
-   <children>
-      <TextArea layoutX="19.0" layoutY="70.0" prefHeight="200.0" prefWidth="262.0" style="-fx-control-inner-background: #dbdcf9; -fx-wrap-text: true;" text="Here should be some text regarding our application" />
-   </children>
-</AnchorPane>
+<AnchorPane prefHeight="701.0" prefWidth="300.0" style="-fx-background-color: #52548e;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="home.gui.BasicController" />

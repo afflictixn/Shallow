@@ -1,11 +1,7 @@
 package home.gui;
 
-import javafx.concurrent.Task;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.application.Application;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
@@ -13,33 +9,21 @@ import javafx.scene.control.Label;
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.stage.Stage;
-import org.deeplearning4j.datasets.mnist.MnistManager;
-import org.eclipse.collections.impl.block.factory.Comparators;
 import org.nd4j.enums.ImageResizeMethod;
-import org.nd4j.enums.Mode;
 import org.nd4j.linalg.api.buffer.DataType;
 import org.nd4j.linalg.api.ndarray.INDArray;
-import org.nd4j.linalg.dataset.api.DataSet;
-import org.nd4j.linalg.dataset.api.iterator.DataSetIterator;
 import org.nd4j.linalg.factory.Nd4j;
 import shallow.Model;
 
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.net.URL;
-import java.util.Arrays;
-import java.util.Comparator;
 import java.util.ResourceBundle;
-import java.util.stream.IntStream;
 
 import static home.gui.EvaluationUtils.getTop3Probas;
 import static home.gui.EvaluationUtils.setProbabilityLabel;
 
-public class EvaluateController implements Initializable {
+public class CanvasController implements Initializable {
 
 
     @FXML
@@ -53,6 +37,9 @@ public class EvaluateController implements Initializable {
     private Button finishButton;
 
     @FXML
+    private Button clearButton;
+
+    @FXML
     private Label superAnswer; // our big label, on which we are displaying predicted answer
 
     @FXML
@@ -61,9 +48,9 @@ public class EvaluateController implements Initializable {
     @FXML
     private Label prediction2; // this is number 2 with probability "y"
 
-    public void refreshLabels() {
-        //TODO refresh labels about the calculation results here
-    }
+//    public void refreshLabels() {
+//
+//    }
 
     @FXML
     private AnchorPane innerAnchorPane;
@@ -72,13 +59,15 @@ public class EvaluateController implements Initializable {
     private Button Return;
 
     public void ReturnFunction() throws IOException {
-        MainController.getInstance().reset();
+        MainController.getInstance().setBorderPane("EvaluateMiddleClass.fxml");
     }
 
     private GraphicsContext graphicsContext;
     private boolean drawingEnabled = false;
 
     public double[][] matrix;
+
+
 
 
     private void startDrawing() {
@@ -91,13 +80,13 @@ public class EvaluateController implements Initializable {
     private void finishDrawing() throws IOException {
         drawingEnabled = false;
         processCanvasData();
-        refreshLabels();
         innerAnchorPane.setVisible(true); // showing additional information
         System.out.println("finish");
     }
 
-    private void clearCanvas() {
+    public void clearCanvas() {
         graphicsContext.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        innerAnchorPane.setVisible(false);
     }
 
     private void processCanvasData() throws IOException {
@@ -135,6 +124,8 @@ public class EvaluateController implements Initializable {
         setProbabilityLabel(superAnswer, sortedIndexes[0], probas[sortedIndexes[0]]);
         setProbabilityLabel(prediction1, sortedIndexes[1], probas[sortedIndexes[1]]);
         setProbabilityLabel(prediction2, sortedIndexes[2], probas[sortedIndexes[2]]);
+
+        innerAnchorPane.setVisible(true);
     }
 
     @Override
@@ -172,6 +163,6 @@ public class EvaluateController implements Initializable {
         clearCanvas();
         drawingEnabled = false;
 
-        //innerAnchorPane.setVisible(false); TODO should be uncommented
+        innerAnchorPane.setVisible(false);
     }
 }

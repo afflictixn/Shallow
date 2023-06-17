@@ -61,4 +61,18 @@ public class Conv2dConfig extends WeightedLayerConfig implements Config{
     public Conv2d buildLayer() {
         return new Conv2d(this);
     }
+
+    @Override
+    public String getDescription(){
+        return "Number of filters : " + filters + '\n' +
+                "Kernel height : " + kernelSize[0] + '\n' +
+                "Kernel width : " + kernelSize[1] + '\n' +
+                "Strides height : " + strides[0] + '\n' +
+                "Strides width : " + strides[1] + '\n' +
+                "Padding type : " + paddingType;
+    }
+    @Override
+    public String toString(){
+        return "Conv2d";
+    }
 }

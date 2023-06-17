@@ -7,13 +7,13 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="701.0" prefWidth="300.0" style="-fx-background-color: #52548e;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="home.gui.EvaluateController">
+<AnchorPane prefHeight="701.0" prefWidth="300.0" style="-fx-background-color: #52548e;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="home.gui.CanvasController">
    <children>
-      <Button fx:id="startButton" layoutX="71.0" layoutY="32.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="155.0" stylesheets="@css/StandardButton.css" text="Start">
+      <Button fx:id="startButton" layoutX="71.0" layoutY="14.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="155.0" stylesheets="@css/StandardButton.css" text="Start">
          <font>
             <Font size="14.0" />
          </font></Button>
-      <Button fx:id="finishButton" layoutX="71.0" layoutY="84.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="155.0" stylesheets="@css/StandardButton.css" text="Finish">
+      <Button fx:id="finishButton" layoutX="71.0" layoutY="61.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="155.0" stylesheets="@css/StandardButton.css" text="Finish">
          <font>
             <Font size="14.0" />
          </font></Button>
@@ -33,9 +33,9 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label fx:id="superAnswer" alignment="CENTER" layoutX="61.0" layoutY="40.0" prefHeight="70.0" prefWidth="178.0" style="-fx-text-fill: #dbdcf9;" text="-">
+            <Label fx:id="superAnswer" alignment="CENTER" layoutX="13.0" layoutY="40.0" prefHeight="70.0" prefWidth="273.0" style="-fx-text-fill: #dbdcf9;" text="-">
                <font>
-                  <Font size="30.0" />
+                  <Font size="17.0" />
                </font>
             </Label>
             <Label alignment="CENTER" layoutX="22.0" layoutY="120.0" prefHeight="20.0" prefWidth="256.0" stylesheets="@css/LabelName.css" text="Top 2 other predictions : ">
@@ -58,6 +58,11 @@
       <Button fx:id="Return" layoutX="109.0" layoutY="640.0" mnemonicParsing="false" onAction="#ReturnFunction" prefHeight="30.0" prefWidth="80.0" stylesheets="@css/StandardButton.css" text="Return">
          <font>
             <Font size="15.0" />
+         </font>
+      </Button>
+      <Button fx:id="clearButton" layoutX="72.0" layoutY="110.0" mnemonicParsing="false" onAction="#clearCanvas" prefHeight="26.0" prefWidth="155.0" stylesheets="@css/StandardButton.css" text="Clear">
+         <font>
+            <Font size="14.0" />
          </font>
       </Button>
    </children>
