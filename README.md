@@ -19,3 +19,6 @@ The JavaFX SDK library is used to import runtime dependencies of JavaFX, such as
 
 ```bash
 --module-path "${path_to_your_javafx_sdk}\javafx-sdk-20.0.1\lib" --add-modules javafx.controls,javafx.fxml,javafx.web
+```
+## Remarks
+Datasets from application are automatically loaded to your machine into folder \.deeplearning4j, Cifar10 dataset may take couple of minutes to be downloaded depending on your internet speed. Cifar10 dataset is much longer to train than MNIST, so take it into account. Moreover, canvas mode in evaluation only makes sense for MNIST dataset rather than Cifar10.
